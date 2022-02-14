@@ -23,6 +23,8 @@ const UserProfile = () => {
 
   const [userEmail, setUserEmail] = useState("");
 
+  const router = useRouter();
+
   const [
     updateUser,
     {
@@ -50,7 +52,10 @@ const UserProfile = () => {
 
   const [isChange, setIsChange] = useState(true);
 
-  const router = useRouter();
+const logOut = ()=>{
+  signOut({redirect: false, callbackUrl: 'http://localhost:3000/login'});
+  // window.location.href = '/login'
+}  
 
   const {
     error: passwordError,
@@ -130,7 +135,7 @@ const UserProfile = () => {
           userError: "",
         });
         setTimeout(() => {
-          signOut({redirect: false, callbackUrl: 'http://localhost:3000/login'});
+          logOut()
           setUserEstatus({
             passwordChanged: "",
             userError: "",

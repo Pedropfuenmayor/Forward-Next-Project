@@ -116,7 +116,7 @@ function AuthForm() {
               userError: "",
             });
             setIsLogin((prevState) => !prevState);
-          }, 2000);
+          }, 1000);
         }
       });
     } else {
@@ -140,7 +140,7 @@ function AuthForm() {
             });
             setIsLogin(true);
             reset();
-          }, 2000);
+          }, 1000);
         })
         .catch((err) => {
           reset();

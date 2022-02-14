@@ -57,8 +57,8 @@ export const CREATE_PROJECT = gql`
 `;
 
 export const GET_PROJECT_BY_ID = gql`
-query GetProjectById($getProjectByIdId: Int!) {
-  getProjectById(id: $getProjectByIdId) {
+query GetProjectById($projectId: Int!) {
+  getProjectById(id: $projectId) {
     id
     name
     user_id
@@ -74,15 +74,37 @@ query GetProjectById($getProjectByIdId: Int!) {
 `;
 
 export const CREATE_CHALLENGE = gql`
-mutation CreateChallenge($createChallengeId: Int!, $name: String!, $projectId: Int!, $challengeType: String!) {
-  createChallenge(id: $createChallengeId, name: $name, project_id: $projectId, challenge_type: $challengeType) {
-    name
+mutation CreateChallenge($challengeId: Int!, $name: String!, $projectId: Int!, $challengeType: String!) {
+  createChallenge(id: $challengeId, name: $name, project_id: $projectId, challenge_type: $challengeType) {
     id
-    project_id
-    challenge_type
     is_selected
+    name
+    challenge_type
+    project_id
   }
 }
 `;
 
+export const GET_CHALLENGES_BY_PROJECT = gql`
+query GetChallengesByProject($projectId: Int!) {
+  getChallengesByProject(project_id: $projectId) {
+    id
+    name
+    is_selected
+    challenge_type
+    project_id
+  }
+}
+`;
 
+export const DELETE_CHALLENGE_BY_ID = gql`
+mutation DeleteChallenge($challengeId: Int!) {
+  deleteChallenge(id: $challengeId) {
+    id
+    name
+    is_selected
+    project_id
+    challenge_type
+  }
+}
+`

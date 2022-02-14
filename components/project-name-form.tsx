@@ -29,6 +29,8 @@ const ProjectNameForm = () => {
   const [createProject, { loading, reset, error: mutationError }] =
     useMutation<any, createProjectVars>(CREATE_PROJECT);
 
+   
+
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -52,11 +54,12 @@ const ProjectNameForm = () => {
     });
     setTimeout(() => {
       router.push(`/${id}/collect`);
-    }, 1500);
+    }, 800);
     setIsProject(true);
   };
 
   const showIdeasExampleHandler = () => {
+
     setProjectNameExample({
       examples: [
         "Solve team biggest issues",

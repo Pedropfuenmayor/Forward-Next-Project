@@ -48,7 +48,7 @@ export type getProjectById = {
 };
 
 export type getProjectByIdVars = {
-  getProjectByIdId: number;
+  projectId: number;
 };
 
 export type isProjectVars = {
@@ -66,26 +66,42 @@ export type ProjectNameExample = {
 };
 
 export type ChallengeType = {
-  id: number|string;
+  id: number | string;
   name: string;
   is_selected?: boolean | null;
   project_id?: number | null;
-  challenge_type?:string| null;
+  challenge_type?: string | null;
   ideas?: IdeaType[];
   opportunity_questions?: OQType | null;
-  __typename?:"Challenge"
+  __typename?: "Challenge" | null;
 };
 
 export type createChallenge = {
   createChallenge: ChallengeType;
-}
+};
 
 export type createChallengeVars = {
-createChallengeId: number;
-name: string;
-projectId: number;
-challengeType: string;
-}
+  challengeId: number;
+  name: string;
+  projectId: number;
+  challengeType: string;
+};
+
+export type getChallengesByProject = {
+  getChallengesByProject: [ChallengeType];
+};
+
+export type getChallengesByProjectVars = {
+  projectId: number;
+};
+
+export type deleteChallengeById = {
+  deleteChallenge: ChallengeType;
+};
+
+export type deleteChallengeVars = {
+  challengeId: number;
+};
 
 export type IdeaType = {};
 

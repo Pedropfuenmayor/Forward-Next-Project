@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import PhaseIntro from "../../../components/phase-intro";
 
 
-const CollectIntroPage: NextPage = () => {
+const ChooseIntroPage: NextPage = () => {
 const { status } = useSession();
   const router = useRouter();
   const { projectId } = router.query;
@@ -17,19 +17,21 @@ const { status } = useSession();
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
   
-  const prevPage = `/new_project`;
+  const prevPage = `/${projectId}/collect/hold_back`;
 
-  const nextPage = `/${projectId}/collect/drive_forward`;
+  const nextPage = `/${projectId}/choose/rank`;
 
   return (
       <PhaseIntro
         prevPage={prevPage}
         nextPage={nextPage}
-        phaseName="Collect"
-        subTitle="What is the Collect Phase?"
-        descriptionText="The goal of the Collect phase is to collect challenges, and listing them so you can decide exactly what to work on, in a more organize way. Collect as much relevant information as possible."
+        phaseName="Choose"
+        subTitle="What is the Choose Phase?"
+        descriptionText="Now that you’ve collected the challenges and made them visual and easy to scan, it’s time choose what to work on, which problems to solve. And that’s really the simple
+        goal of the Choose phase: ​To help you choose what to work on, what to focus on and what to ignore for now.
+        "
       />
   );
 };
 
-export default CollectIntroPage;
+export default ChooseIntroPage;
