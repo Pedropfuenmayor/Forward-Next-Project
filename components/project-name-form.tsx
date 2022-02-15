@@ -93,7 +93,7 @@ const ProjectNameForm = () => {
     : "block w-full text-2xl p-2 rounded bg-gray-200 mb-2";
 
   if (isProject) {
-    return <PhaseClose text="Project was created" />;
+    return <PhaseClose text="Project created" />;
   }
 
   return (

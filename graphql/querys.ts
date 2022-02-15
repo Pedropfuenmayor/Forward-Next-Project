@@ -78,6 +78,7 @@ mutation CreateChallenge($challengeId: Int!, $name: String!, $projectId: Int!, $
   createChallenge(id: $challengeId, name: $name, project_id: $projectId, challenge_type: $challengeType) {
     id
     is_selected
+    index
     name
     challenge_type
     project_id
@@ -90,6 +91,7 @@ query GetChallengesByProject($projectId: Int!) {
   getChallengesByProject(project_id: $projectId) {
     id
     name
+    index
     is_selected
     challenge_type
     project_id
@@ -103,6 +105,7 @@ mutation DeleteChallenge($challengeId: Int!) {
     id
     name
     is_selected
+    index
     project_id
     challenge_type
   }

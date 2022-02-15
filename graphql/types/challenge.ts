@@ -13,6 +13,7 @@ export const Challenge = objectType({
     t.string("name");
     t.boolean("is_selected");
     t.int("project_id");
+    t.int("index");
     t.string("challenge_type");
     t.list.field("ideas", {
       type: Idea,
@@ -55,7 +56,7 @@ export const ChallengesQuery = extendType({
       args: {
         project_id: nonNull(intArg()),
       },
-      resolve(_parent, args, ctx) {
+      async resolve(_parent, args, ctx) {
         const { project_id } = args;
         // const { req } = ctx;
 
@@ -64,7 +65,15 @@ export const ChallengesQuery = extendType({
         // if (!session) {
         //   throw Error("Not authenticated!");
         // }
-        return ctx.prisma.challenges.findMany({ where: { project_id } });
+
+        const challenges = await ctx.prisma.challenges.findMany({
+          where: { project_id },
+        });
+
+
+        const organizedChallengesByIndex = challenges.sort((a,b)=>b.index - a.index)
+
+        return organizedChallengesByIndex;
       },
     });
   },
@@ -96,14 +105,41 @@ export const ChallengeMutation = extendType({
           throw Error("Empty challenge name.");
         }
 
-        const challenge: ChallengeType = {
-          name,
-          id,
-          project_id,
-          challenge_type,
-        };
+        return ctx.prisma.challenges.create({
+          data: {
+            id: +id,
+            name,
+            project_id,
+            challenge_type,
+          },
+        });
+      },
+    });
+    t.nonNull.field("updateChallenge", {
+      type: "Challenge",
+      args: {
+        id: nonNull(intArg()),
+        index: nonNull(intArg()),
+      },
+      async resolve(_root, args, ctx) {
+        // const { req } = ctx;
 
-        return ctx.prisma.challenges.create({ data: challenge });
+        // const session = await getSession({ req });
+
+        // if (!session) {
+        //   throw Error("Not authenticated!");
+        // }
+
+        const { id, index } = args;
+
+        return ctx.prisma.challenges.update({
+          where: {
+            id,
+          },
+          data: {
+            index,
+          },
+        });
       },
     });
     t.nonNull.field("deleteChallenge", {

@@ -30,6 +30,7 @@ import {
 import { useRouter } from "next/router";
 import PhaseClose from "./phase-close";
 
+
 const Challenges: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
@@ -89,24 +90,27 @@ const Challenges: React.FC<{}> = () => {
       reset: resetDeleteChallenge,
       error: deleteError,
     },
-  ] = useMutation<deleteChallengeById, deleteChallengeVars>(DELETE_CHALLENGE_BY_ID, 
+  ] = useMutation<deleteChallengeById, deleteChallengeVars>(
+    DELETE_CHALLENGE_BY_ID,
     {
-    update(cache, { data }) {
-      const { deleteChallenge } = data;
-      const { getChallengesByProject } = challengesData;
-      cache.writeQuery({
-        query: GET_CHALLENGES_BY_PROJECT,
-        data: {
-          getChallengesByProject: getChallengesByProject.filter((challenge) => {
-            return challenge.id !== deleteChallenge.id;
-          }),
-        },
-        variables: {
-          projectId: +projectId,
-        },
-      });
-    },
-  }
+      update(cache, { data }) {
+        const { deleteChallenge } = data;
+        const { getChallengesByProject } = challengesData;
+        cache.writeQuery({
+          query: GET_CHALLENGES_BY_PROJECT,
+          data: {
+            getChallengesByProject: getChallengesByProject.filter(
+              (challenge) => {
+                return challenge.id !== deleteChallenge.id;
+              }
+            ),
+          },
+          variables: {
+            projectId: +projectId,
+          },
+        });
+      },
+    }
   );
 
   if (loadingProject || loadingChallenges)
@@ -144,8 +148,9 @@ const Challenges: React.FC<{}> = () => {
           name: enteredText,
           challenge_type: challengeType as string,
           project_id: +projectId,
-          __typename: "Challenge",
+          index: null,
           is_selected: null,
+          __typename: "Challenge",
         },
       },
     });
@@ -204,10 +209,18 @@ const Challenges: React.FC<{}> = () => {
 
   const removeChallangeHandler = () => {
     if (isDeleteChallange) {
-      const deletedChallange = challengesList.find((challenge)=>{
-        return challenge.id === isDeleteChallange
-      })
-      const {id, name, project_id, is_selected, challenge_type, __typename} = deletedChallange;
+      const deletedChallange = challengesList.find((challenge) => {
+        return challenge.id === isDeleteChallange;
+      });
+      const {
+        id,
+        name,
+        project_id,
+        is_selected,
+        challenge_type,
+        index,
+        __typename,
+      } = deletedChallange;
 
       deleteChallenge({
         variables: {
@@ -215,13 +228,13 @@ const Challenges: React.FC<{}> = () => {
         },
         optimisticResponse: {
           deleteChallenge: {
-              id,
-              name,
-              project_id,
-              is_selected,
-              challenge_type,
-              __typename
-            
+            id,
+            name,
+            project_id,
+            is_selected,
+            challenge_type,
+            index,
+            __typename,
           },
         },
       });
@@ -230,7 +243,7 @@ const Challenges: React.FC<{}> = () => {
   };
 
   if (isDoneChallenges) {
-    return <PhaseClose text="Create Phase done!" />;
+    return <PhaseClose text="Create Phase done" />;
   }
 
   const nextPageHandler = () => {

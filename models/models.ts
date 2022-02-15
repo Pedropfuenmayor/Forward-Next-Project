@@ -70,11 +70,14 @@ export type ChallengeType = {
   name: string;
   is_selected?: boolean | null;
   project_id?: number | null;
+  index?: number | null;
   challenge_type?: string | null;
   ideas?: IdeaType[];
   opportunity_questions?: OQType | null;
   __typename?: "Challenge" | null;
 };
+
+
 
 export type createChallenge = {
   createChallenge: ChallengeType;

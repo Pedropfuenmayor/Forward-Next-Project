@@ -15,6 +15,7 @@ type Challenge {
   challenge_type: String
   id: Int
   ideas: [Idea]
+  index: Int
   is_selected: Boolean
   name: String
   opportunity_question: OQ
@@ -42,6 +43,7 @@ type Mutation {
   createUser(email: String!, id: Int!, password: String!): User!
   deleteChallenge(id: Int!): Challenge!
   deleteUser(email: String!, password: String!): User!
+  updateChallenge(id: Int!, index: Int!): Challenge!
   updateUser(email: String!, newPassword: String!, oldPassword: String!): User!
 }
 

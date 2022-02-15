@@ -29,6 +29,7 @@ import {
 } from "../graphql/querys";
 import { useRouter } from "next/router";
 import PhaseClose from "./phase-close";
+import DragAndDropList from "./ui/drag-drop-list";
 
 const ChallengesRank: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
@@ -309,7 +310,7 @@ const ChallengesRank: React.FC<{}> = () => {
             </a>
           </Link>
         </button>
-        {/* <ChallengesList list={challengesListByType} onOpen={opendModal} /> */}
+       <DragAndDropList challenges={challengesList} onOpen={opendModal} />
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
           <a onClick={nextPageHandler}>
             <BsArrowRightShort />

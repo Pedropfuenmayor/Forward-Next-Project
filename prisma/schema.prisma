@@ -22,16 +22,11 @@ model challenges {
   name                  String                 @db.VarChar(300)
   is_selected           Boolean?
   project_id            Int?
-  challenge_type        String?                @db.VarChar(100)
-  challenges_types      challenges_types?      @relation(fields: [challenge_type], references: [type], onDelete: Cascade)
+  index                 Int?
+  challenge_type        String?                 @db.VarChar(300)
   projects              projects?              @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   ideas                 ideas[]
   opportunity_questions opportunity_questions?
-}
-
-model challenges_types {
-  type       String       @id @db.VarChar(100)
-  challenges challenges[]
 }
 
 model ideas {
@@ -39,6 +34,7 @@ model ideas {
   name         String     @db.VarChar(300)
   is_selected  Boolean?
   challenge_id Int        @default(autoincrement())
+  index        Int?
   effort       Boolean?
   impact       Boolean?
   challenges   challenges @relation(fields: [challenge_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
