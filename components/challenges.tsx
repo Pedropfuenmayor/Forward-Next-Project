@@ -153,7 +153,7 @@ const Challenges: React.FC<{}> = () => {
           __typename: "Challenge",
         },
       },
-    });
+    }).then(re=>re).catch(err=>console.log(err.networkError.result.errors))
 
     challangeDescriptionInputRef.current!.value = "";
 

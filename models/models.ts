@@ -77,7 +77,14 @@ export type ChallengeType = {
   __typename?: "Challenge" | null;
 };
 
-
+export type ChallengeInputType = {
+  id: number | string;
+  name: string;
+  is_selected?: boolean | null;
+  project_id?: number | null;
+  index?: number | null;
+  challenge_type?: string | null;
+}
 
 export type createChallenge = {
   createChallenge: ChallengeType;
@@ -94,6 +101,13 @@ export type getChallengesByProject = {
   getChallengesByProject: [ChallengeType];
 };
 
+export type updateChallenges ={
+  updateChallenges: [ChallengeType]
+}
+
+export type updateChallengesVars = {
+  challenges: [ChallengeInputType]
+}
 export type getChallengesByProjectVars = {
   projectId: number;
 };
@@ -106,9 +120,33 @@ export type deleteChallengeVars = {
   challengeId: number;
 };
 
+export type OQType = {
+  challenge_id: number;
+  id: number | string;
+  name: string;
+  __typename:"OQ"
+}
+
+export type createOQ ={
+  createOQ: OQType
+}
+
+export type createOQVars= {
+  challengeId: number;
+  createOqId: number | string;
+  name: string;
+}
+
+export type getOQ= {
+  getOQ: OQType;
+}
+
+export type getOQVars= {
+  challengeId: number;
+}
+
 export type IdeaType = {};
 
-export type OQType = {};
 
 export type Error = {
   title: string;

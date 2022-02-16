@@ -1,4 +1,12 @@
-import { objectType, extendType } from 'nexus'
+import {
+  objectType,
+  extendType,
+  stringArg,
+  nonNull,
+  intArg,
+  list,
+  inputObjectType,
+} from "nexus";
 import { Action } from './action'
 
 export const Idea = objectType({
@@ -6,6 +14,7 @@ export const Idea = objectType({
   definition(t) {
     t.int('id')
     t.string('name')
+    t.int("index");
     t.boolean('is_selected')
     t.int('challenge_id')
     t.string('effort')
@@ -35,4 +44,4 @@ export const IdeasQuery = extendType({
         },
       })
     },
-  })
+  });

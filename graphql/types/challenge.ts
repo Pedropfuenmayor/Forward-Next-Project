@@ -1,10 +1,20 @@
 // /graphql/types/Link.ts
-import { objectType, extendType, stringArg, nonNull, intArg } from "nexus";
+import {
+  objectType,
+  extendType,
+  stringArg,
+  nonNull,
+  intArg,
+  list,
+  inputObjectType,
+} from "nexus";
 import { ChallengeType } from "../../models/models";
 import { Idea } from "./Idea";
 import { OQ } from "./oq";
 import { getSession } from "next-auth/react";
 import validator from "validator";
+import { sqlQuery } from "../../helper/functions";
+import {Prisma} from '@prisma/client'
 
 export const Challenge = objectType({
   name: "Challenge",
@@ -42,6 +52,18 @@ export const Challenge = objectType({
   },
 });
 
+export const ChallengeInputType = inputObjectType({
+  name: "ChallengeInputType",
+  definition(t) {
+    t.int("id");
+    t.string("name");
+    t.boolean("is_selected");
+    t.int("project_id");
+    t.int("index");
+    t.string("challenge_type");
+  },
+});
+
 export const ChallengesQuery = extendType({
   type: "Query",
   definition(t) {
@@ -70,8 +92,9 @@ export const ChallengesQuery = extendType({
           where: { project_id },
         });
 
-
-        const organizedChallengesByIndex = challenges.sort((a,b)=>b.index - a.index)
+        const organizedChallengesByIndex = challenges.sort(
+          (a, b) => a.index - b.index
+        );
 
         return organizedChallengesByIndex;
       },
@@ -115,11 +138,10 @@ export const ChallengeMutation = extendType({
         });
       },
     });
-    t.nonNull.field("updateChallenge", {
+    t.nonNull.list.field("updateChallenges", {
       type: "Challenge",
       args: {
-        id: nonNull(intArg()),
-        index: nonNull(intArg()),
+        challenges: list(nonNull("ChallengeInputType")),
       },
       async resolve(_root, args, ctx) {
         // const { req } = ctx;
@@ -130,15 +152,20 @@ export const ChallengeMutation = extendType({
         //   throw Error("Not authenticated!");
         // }
 
-        const { id, index } = args;
+        const { challenges } = args;
 
-        return ctx.prisma.challenges.update({
-          where: {
-            id,
-          },
-          data: {
-            index,
-          },
+        const conditions = sqlQuery(challenges);
+
+        await ctx.prisma.$executeRaw`
+        UPDATE challenges
+          SET index = (CASE
+            ${Prisma.raw(conditions)}
+          END)`;
+
+        const project_id = challenges[0].project_id;
+
+        return ctx.prisma.challenges.findMany({
+          where: { project_id },
         });
       },
     });

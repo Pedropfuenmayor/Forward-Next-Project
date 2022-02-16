@@ -13,13 +13,10 @@ import {
   deleteChallengeById,
 } from "../models/models";
 import HelpTextModal from "./ui/hepl-text-modal";
-import Button from "./ui/button";
 import IdeasExamplesModal from "./ui/ideas-example-modal";
 import Link from "next/link";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
-import ChallengesList from "./lists/challenge-list";
 import DeleteModal from "./ui/delete-modal";
-import { uid } from "../helper/functions";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   CREATE_CHALLENGE,
@@ -34,17 +31,14 @@ import DragAndDropList from "./ui/drag-drop-list";
 const ChallengesRank: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
-  const [error, setError] = useState<Error | false>(false);
   const [isDoneChallenges, setIsDoneChallenges] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteChallange, setDeleteChallange] = useState<
     number | string | false
   >(false);
-  const challangeDescriptionInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { projectId } = router.query;
-  const { challengeType } = router.query;
-  const isDriveforward = challengeType === "drive_forward";
+  
 
   const { loading: loadingChallenges, data: challengesData } = useQuery<
     getChallengesByProject,
@@ -61,25 +55,6 @@ const ChallengesRank: React.FC<{}> = () => {
   >(GET_PROJECT_BY_ID, {
     variables: {
       projectId: +projectId,
-    },
-  });
-
-  const [
-    createChallenge,
-    { loading: loadingCreatedChallenge, reset, error: createError },
-  ] = useMutation<createChallenge, createChallengeVars>(CREATE_CHALLENGE, {
-    update(cache, { data }) {
-      const { createChallenge } = data;
-      const { getChallengesByProject } = challengesData;
-      cache.writeQuery({
-        query: GET_CHALLENGES_BY_PROJECT,
-        data: {
-          getChallengesByProject: [...getChallengesByProject, createChallenge],
-        },
-        variables: {
-          projectId: +projectId,
-        },
-      });
     },
   });
 
@@ -122,71 +97,6 @@ const ChallengesRank: React.FC<{}> = () => {
     });
   };
 
-  const submitHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const enteredText = challangeDescriptionInputRef.current!.value;
-
-    if (enteredText.trim().length === 0) {
-      setError({
-        title: "Invalid  challenge name",
-        message: "Please fill the challenge name field",
-      });
-      return;
-    }
-
-    createChallenge({
-      variables: {
-        challengeId: uid(),
-        name: enteredText,
-        projectId: +projectId,
-        challengeType: challengeType as string,
-      },
-      optimisticResponse: {
-        createChallenge: {
-          id: "temp-id",
-          name: enteredText,
-          challenge_type: challengeType as string,
-          project_id: +projectId,
-          __typename: "Challenge",
-          is_selected: null,
-        },
-      },
-    });
-
-    challangeDescriptionInputRef.current!.value = "";
-
-    challangeDescriptionInputRef.current!.focus();
-  };
-
-  const showIdeasExampleHandler = () => {
-    if (isDriveforward) {
-      setIdeasExample({
-        sampleProjectName: "Solve team biggest issues.",
-        type: "Drive Forward Challenges",
-        examples: [
-          "Good comunication",
-          "Education program",
-          "State of the art tech stack",
-          "Free food 🤣",
-        ],
-      });
-    } else {
-      setIdeasExample({
-        sampleProjectName: "Solve team biggest issues.",
-        type: "Hold Back Challenges",
-        examples: [
-          "Office is to loud",
-          "Goals are not clear",
-          "The coffee doesn't come from Colombia ☕ ",
-        ],
-      });
-    }
-  };
-
-  const onFocus = () => {
-    setError(false);
-  };
 
   const hideHelpTextHandler = () => {
     setHelpText(false);
@@ -211,7 +121,7 @@ const ChallengesRank: React.FC<{}> = () => {
       const deletedChallange = challengesList.find((challenge)=>{
         return challenge.id === isDeleteChallange
       })
-      const {id, name, project_id, is_selected, challenge_type, __typename} = deletedChallange;
+      const {id, name, project_id, is_selected, challenge_type, __typename, index} = deletedChallange;
 
       deleteChallenge({
         variables: {
@@ -223,6 +133,7 @@ const ChallengesRank: React.FC<{}> = () => {
               name,
               project_id,
               is_selected,
+              index,
               challenge_type,
               __typename
             
@@ -234,27 +145,15 @@ const ChallengesRank: React.FC<{}> = () => {
   };
 
   if (isDoneChallenges) {
-    return <PhaseClose text="Create Phase done!" />;
+    return <PhaseClose text="Choose Phase done!" />;
   }
 
   const nextPageHandler = () => {
-    if (isDriveforward) {
-      router.push(`/${projectId}/collect/hold_back`);
-    } else {
       setIsDoneChallenges(true);
       setTimeout(() => {
-        router.push(`/${projectId}/choose`);
+        router.push(`/${projectId}/opportunity_question`);
       }, 1000);
     }
-  };
-
-  const previousPage = isDriveforward
-    ? `/${projectId}/collect`
-    : `/${projectId}/collect/drive_forward`;
-
-  const projectNameFieldClasses = error
-    ? "block w-full text-2xl p-2 mb-2 rounded border-red-300 bg-red-100"
-    : "block w-full text-2xl p-2 rounded bg-gray-200 mb-2";
 
   return (
     <section className="flex flex-col justify-center items-center">
@@ -304,7 +203,7 @@ const ChallengesRank: React.FC<{}> = () => {
       )}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={previousPage} passHref>
+          <Link href={`/${projectId}/collect/drive_forwar`} passHref>
             <a>
               <BsArrowLeftShort />
             </a>

@@ -22,6 +22,15 @@ type Challenge {
   project_id: Int
 }
 
+input ChallengeInputType {
+  challenge_type: String
+  id: Int
+  index: Int
+  is_selected: Boolean
+  name: String
+  project_id: Int
+}
+
 """
 A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -33,17 +42,21 @@ type Idea {
   effort: String
   id: Int
   impact: String
+  index: Int
   is_selected: Boolean
   name: String
 }
 
 type Mutation {
   createChallenge(challenge_type: String!, id: Int!, name: String!, project_id: Int!): Challenge!
+  createOQ(challenge_id: Int!, id: Int!, name: String!): OQ!
   createProject(id: Int!, name: String!, user_id: Int!): Project!
   createUser(email: String!, id: Int!, password: String!): User!
   deleteChallenge(id: Int!): Challenge!
+  deleteOQ(id: Int!): OQ!
   deleteUser(email: String!, password: String!): User!
-  updateChallenge(id: Int!, index: Int!): Challenge!
+  updateChallenges(challenges: [ChallengeInputType!]): [Challenge]!
+  updateOQ(id: Int!, name: String!): OQ!
   updateUser(email: String!, newPassword: String!, oldPassword: String!): User!
 }
 
@@ -64,10 +77,10 @@ type Query {
   action: [Action]!
   challenges: [Challenge]!
   getChallengesByProject(project_id: Int!): [Challenge]!
+  getOQ(challenge_id: Int!): OQ!
   getProjectById(id: Int!): Project
   ideas: [Idea]!
   isProject(userId: Int!): Project
-  opportunity_questions: [OQ]!
   projects: [Project]!
   users: [User]!
 }

@@ -99,6 +99,19 @@ query GetChallengesByProject($projectId: Int!) {
 }
 `;
 
+export const UPDATE_CHALLENGES_INDEXES = gql`
+mutation Mutation($challenges: [ChallengeInputType!]) {
+  updateChallenges(challenges: $challenges) {
+    id
+    name
+    index
+    is_selected
+    challenge_type
+    project_id
+  }
+}
+`
+
 export const DELETE_CHALLENGE_BY_ID = gql`
 mutation DeleteChallenge($challengeId: Int!) {
   deleteChallenge(id: $challengeId) {
@@ -111,3 +124,24 @@ mutation DeleteChallenge($challengeId: Int!) {
   }
 }
 `
+
+export const CREATE_OQ = gql`
+mutation CreateOQ($createOqId: Int!, $name: String!, $challengeId: Int!) {
+  createOQ(id: $createOqId, name: $name, challenge_id: $challengeId) {
+    id
+    name
+    challenge_id
+  }
+}
+`
+
+export const GET_OQ_BY_CHALLENGE_ID = gql`
+query Query($challengeId: Int!) {
+  getOQ(challenge_id: $challengeId) {
+    id
+    name
+    challenge_id
+  }
+}
+`
+
