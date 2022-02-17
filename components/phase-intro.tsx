@@ -23,7 +23,7 @@ const PhaseIntro: React.FC<{
             </a>
           </Link>
         </button>
-        <p className="text-lg w-2/4 text-center">{descriptionText}</p>
+        <p className="mt-8 text-lg w-2/4 text-center">{descriptionText}</p>
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
           <Link href={nextPage} passHref>
             <a>

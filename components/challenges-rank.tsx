@@ -90,6 +90,8 @@ const ChallengesRank: React.FC<{}> = () => {
 
   const challengesList = challengesData.getChallengesByProject;
 
+  const isChallenges = challengesData && (challengesData.getChallengesByProject.length > 0)
+
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Rank your challenges",
@@ -193,14 +195,14 @@ const ChallengesRank: React.FC<{}> = () => {
           onConfirm={hideHelpTextHandler}
         />
       )}
-      {ideasExample && (
+      {/* {ideasExample && (
         <IdeasExamplesModal
           sampleProjectName={ideasExample.sampleProjectName}
           type={ideasExample.type}
           examples={ideasExample.examples}
           onConfirm={hideIdeasExampleHandler}
         />
-      )}
+      )} */}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
           <Link href={`/${projectId}/collect/drive_forwar`} passHref>
@@ -209,7 +211,8 @@ const ChallengesRank: React.FC<{}> = () => {
             </a>
           </Link>
         </button>
-       <DragAndDropList challenges={challengesList} onOpen={opendModal} />
+       {isChallenges && <DragAndDropList challenges={challengesList} onOpen={opendModal} />}
+       {!isChallenges && <p className="text-center text-2xl">You need to write at least one challenge ❗️</p>}
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
           <a onClick={nextPageHandler}>
             <BsArrowRightShort />

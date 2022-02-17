@@ -10,6 +10,10 @@ import {
   createOQVars,
   getOQVars,
   getOQ,
+  updateOQ,
+  updateOQVars,
+  deleteOQ,
+  deleteOQVars,
 } from "../models/models";
 import HelpTextModal from "./ui/hepl-text-modal";
 import Button from "./ui/button";
@@ -22,8 +26,10 @@ import OpportunityList from "./lists/oq-list";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   CREATE_OQ,
+  DELETE_OQ_BY_ID,
   GET_CHALLENGES_BY_PROJECT,
   GET_OQ_BY_CHALLENGE_ID,
+  UPDATE_OQ_BY_ID,
 } from "../graphql/querys";
 import PhaseClose from "./phase-close";
 import { uid } from "../helper/functions";
@@ -34,7 +40,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const [error, setError] = useState<Error | false>(false);
   const [isDoneOQ, setIsDoneOQ] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteOQ, setDeleteOQ] = useState<number | false>(false);
+  const [deleteIdOQ, setDeleteIdOQ] = useState<number | false>(false);
   const OpportunityQuestionInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { projectId } = router.query;
@@ -61,21 +67,59 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const [
     createOQ,
     { loading: loadingCreatedChallenge, reset, error: createError },
-  ] = useMutation<createOQ, createOQVars>(
-    CREATE_OQ,
-    {update(cache, { data }) {
-          const { createOQ } = data;
-          cache.writeQuery({
-            query: GET_OQ_BY_CHALLENGE_ID,
-            data: {
-              getOQ:createOQ 
-            },
-            variables: {
-              challengeId: +challengeId,
-            },
-          });
+  ] = useMutation<createOQ, createOQVars>(CREATE_OQ, {
+    update(cache, { data }) {
+      const { createOQ } = data;
+      cache.writeQuery({
+        query: GET_OQ_BY_CHALLENGE_ID,
+        data: {
+          getOQ: createOQ,
+        },
+        variables: {
+          challengeId: +challengeId,
         },
       });
+    },
+  });
+
+  const [
+    updateOQ,
+    { loading: loadingUpdatedOQ, reset: resetUpdatedOQ, error: updateError },
+  ] = useMutation<updateOQ, updateOQVars>(UPDATE_OQ_BY_ID, {
+    update(cache, { data }) {
+      const { updateOQ } = data;
+      cache.writeQuery({
+        query: GET_OQ_BY_CHALLENGE_ID,
+        data: {
+          getOQ: updateOQ,
+        },
+        variables: {
+          challengeId: +challengeId,
+        },
+      });
+    },
+  });
+
+  const [
+    deleteOQ,
+    { loading: loadingDeletedOQ, reset: resetDeleteddOQ, error: deletedError },
+  ] = useMutation<deleteOQ, deleteOQVars>(DELETE_OQ_BY_ID, {
+    update(cache, { data }) {
+      cache.writeQuery({
+        query: GET_OQ_BY_CHALLENGE_ID,
+        data: {
+          getOQ: {
+            id: 0,
+            name: 'OQ for this challenges was deleted',
+            challenge_id:0
+          },
+        },
+        variables: {
+          challengeId: +challengeId,
+        },
+      });
+    },
+  });
 
   if (loadingOQ || loadingChallenges)
     return <p className="text-center">Loading...</p>;
@@ -84,6 +128,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     return challenge.id == challengeId;
   });
 
+  const isOQ = OQData && (OQData.getOQ.id !==0)
   
 
   const submitHandler = (event: React.FormEvent) => {
@@ -93,8 +138,8 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
 
     if (enteredText.trim().length === 0) {
       setError({
-        title: "Invalid Project Name",
-        message: "Please fill the project name field",
+        title: "Invalid OQ Name",
+        message: "Please fill the opportunity question field.",
       });
       return;
     }
@@ -103,24 +148,40 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
 
     OpportunityQuestionInputRef.current!.focus();
 
-    if (!OQData) {
+    if (!isOQ) {
       createOQ({
         variables: {
           challengeId: +challengeId,
           name: enteredText,
           createOqId: uid(),
-          
         },
         optimisticResponse: {
           createOQ: {
-           id: "temp-id",
-           name:enteredText,
-           challenge_id:+challengeId,
-           __typename: "OQ"
+            id: "temp-id",
+            name: enteredText,
+            challenge_id: +challengeId,
+            __typename: "OQ",
           },
         },
       })
-        .then((res) => console.log(res))
+        .then((res) => res)
+        .catch((err) => console.log(err.networkError.result.errors));
+    } else {
+      updateOQ({
+        variables: {
+          name: enteredText,
+          updateOqId: OQData.getOQ.id as number,
+        },
+        optimisticResponse: {
+          updateOQ: {
+            id: OQData.getOQ.id,
+            name: enteredText,
+            challenge_id: +challengeId,
+            __typename: "OQ",
+          },
+        },
+      })
+        .then((res) => res)
         .catch((err) => console.log(err.networkError.result.errors));
     }
   };
@@ -134,12 +195,13 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
 
   const showIdeasExampleHandler = () => {
     setIdeasExample({
-      sampleProjectName: "Solve team biggest issues.",
+      sampleItem: "Solve team biggest issues.",
+      ItemName: 'Sample Project Name',
       type: "Opportunity Question",
       examples: [
-        "How Might We reduce noise in the office for those who need quiet?",
-        "How we state up to date with our tech stack?",
-        "How we can have a McDonals in the officce? 🍔 🍟",
+        "How ight we reduce noise in the office for those who need quiet?",
+        "How stay we up to date with our tech stack?",
+        "How can we communicate  better?",
       ],
     });
   };
@@ -158,19 +220,33 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
 
   const closeModal = () => {
     setIsOpen(false);
-    setDeleteOQ(false);
+    setDeleteIdOQ(false);
   };
 
   const opendModal = (id) => {
     setIsOpen(true);
-    setDeleteOQ(id);
+    setDeleteIdOQ(id);
   };
 
   const removeChallangeHandler = () => {
-    if (deleteOQ === false) {
+    if (deleteIdOQ === false) {
       return;
     } else {
-      //delete
+      deleteOQ({
+        variables: {
+          deleteOqId: OQData.getOQ.id as number,
+        },
+        // optimisticResponse: {
+        //   deleteOQ: {
+        //     id: OQData.getOQ.id,
+        //     name: OQData.getOQ.name,
+        //     challenge_id: +challengeId,
+        //     __typename: "OQ",
+        //   },
+        // },
+      })
+        .then((res) => res)
+        .catch((err) => console.log(err));
       setIsOpen(false);
     }
   };
@@ -179,9 +255,16 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   }
 
   const nextPageHandler = () => {
+    if(!isOQ){
+      setError({
+        title: "Invalid OQ Name",
+        message: "Please fill the opportunity question field.",
+      });
+      return;
+    }
     setIsDoneOQ(true);
     setTimeout(() => {
-      router.push(`/${projectId}/ideas`);
+      router.push(`/${projectId}/opportunity_question/${challengeId}/ideas`);
     }, 1000);
   };
 
@@ -191,7 +274,10 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Write a opportunity question</h1>
+      <h1 className="text-6xl text-center">
+        Write a opportunity question{" "}
+        <span className="text-gray-400 text-2xl">(only one)</span>
+      </h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
         Challenge: {challenge.name}
       </p>
@@ -220,11 +306,12 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
       )}
       {ideasExample && (
         <IdeasExamplesModal
-          sampleProjectName={ideasExample.sampleProjectName}
-          type={ideasExample.type}
-          examples={ideasExample.examples}
-          onConfirm={hideIdeasExampleHandler}
-        />
+        sampleItem={ideasExample.sampleItem}
+        ItemName={ideasExample.ItemName}
+        type={ideasExample.type}
+        examples={ideasExample.examples}
+        onConfirm={hideIdeasExampleHandler}
+      />
       )}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
@@ -261,7 +348,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
           </a>
         </button>
       </div>
-      {OQData && (
+      {isOQ && (
         <OpportunityList
           opportunityQuestion={OQData.getOQ}
           onOpen={opendModal}

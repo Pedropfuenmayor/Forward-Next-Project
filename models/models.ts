@@ -84,7 +84,7 @@ export type ChallengeInputType = {
   project_id?: number | null;
   index?: number | null;
   challenge_type?: string | null;
-}
+};
 
 export type createChallenge = {
   createChallenge: ChallengeType;
@@ -101,13 +101,13 @@ export type getChallengesByProject = {
   getChallengesByProject: [ChallengeType];
 };
 
-export type updateChallenges ={
-  updateChallenges: [ChallengeType]
-}
+export type updateChallenges = {
+  updateChallenges: [ChallengeType];
+};
 
 export type updateChallengesVars = {
-  challenges: [ChallengeInputType]
-}
+  challenges: [ChallengeInputType];
+};
 export type getChallengesByProjectVars = {
   projectId: number;
 };
@@ -124,29 +124,80 @@ export type OQType = {
   challenge_id: number;
   id: number | string;
   name: string;
-  __typename:"OQ"
-}
+  __typename: "OQ";
+};
 
-export type createOQ ={
-  createOQ: OQType
-}
+export type createOQ = {
+  createOQ: OQType;
+};
 
-export type createOQVars= {
+export type createOQVars = {
   challengeId: number;
   createOqId: number | string;
   name: string;
-}
+};
 
-export type getOQ= {
+export type getOQ = {
   getOQ: OQType;
-}
+};
 
-export type getOQVars= {
+export type getOQVars = {
   challengeId: number;
+};
+
+export type updateOQ = {
+  updateOQ: OQType;
+};
+
+export type updateOQVars = {
+  updateOqId: number;
+  name: string;
+};
+
+export type deleteOQ = {
+  deleteOQ: OQType;
+};
+
+export type deleteOQVars = {
+  deleteOqId: number;
+};
+
+export type IdeaType = {
+  id: number | string;
+  name: string;
+  index: number;
+  is_selected: boolean;
+  challenge_id: number;
+  effort: boolean;
+  impact: boolean;
+  __typename: "Idea"
+};
+
+export type getIdeasByChallenge = {
+  getIdeasByChallenge: [IdeaType];
+};
+
+export type getIdeasByChallengeVars = {
+  challengeId: number;
+};
+
+export type createIdea = {
+  createIdea: IdeaType
 }
 
-export type IdeaType = {};
+export type createIdeaVars = {
+  createIdeaId: number,
+  name: string,
+  challengeId: number
+}
 
+export type deleteIdea = {
+  deleteIdea: IdeaType
+}
+
+export type deleteIdeaVars = {
+  deleteIdeaId: number;
+};
 
 export type Error = {
   title: string;
@@ -166,7 +217,8 @@ export type HelpText = {
 };
 
 export type IdeasExample = {
-  sampleProjectName: string;
+  sampleItem: string;
+  ItemName: string;
   type: string;
   examples: string[];
 };

@@ -145,3 +145,64 @@ query Query($challengeId: Int!) {
 }
 `
 
+export const UPDATE_OQ_BY_ID = gql`
+mutation UpdateOQ($updateOqId: Int!, $name: String!) {
+  updateOQ(id: $updateOqId, name: $name) {
+    id
+    name
+    challenge_id
+  }
+}
+`
+
+export const DELETE_OQ_BY_ID = gql`
+mutation DeleteOQ($deleteOqId: Int!) {
+  deleteOQ(id: $deleteOqId) {
+    id
+    name
+    challenge_id
+  }
+}
+`
+
+export const GET_IDEAS_BY_CHALLENGE_ID = gql`
+query GetIdeasByChallenge($challengeId: Int!) {
+  getIdeasByChallenge(challenge_id: $challengeId) {
+    id
+    name
+    index
+    is_selected
+    challenge_id
+    effort
+    impact
+  }
+}
+`
+
+export const CREATE_IDEA = gql`
+mutation CreateIdea($createIdeaId: Int!, $name: String!, $challengeId: Int!) {
+  createIdea(id: $createIdeaId, name: $name, challenge_id: $challengeId) {
+    id
+    name
+    index
+    is_selected
+    challenge_id
+    effort
+    impact
+  }
+}
+`
+
+export const DELETE_IDEA = gql`
+mutation DeleteIdea($deleteIdeaId: Int!) {
+  deleteIdea(id: $deleteIdeaId) {
+    id
+    name
+    index
+    is_selected
+    challenge_id
+    effort
+    impact
+  }
+}
+`

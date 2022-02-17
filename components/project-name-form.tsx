@@ -40,7 +40,7 @@ const ProjectNameForm = () => {
     if (name.trim().length === 0) {
       setError({
         title: "Invalid Project Name",
-        message: "Please enter a project name",
+        message: "Please enter a project.",
       });
       return;
     }

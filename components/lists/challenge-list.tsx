@@ -1,9 +1,9 @@
-import { ChallengeType} from "../../models/models";
+import { ChallengeType, IdeaType} from "../../models/models";
 import ListButton from "../ui/list-button";
 import { BsX } from "react-icons/bs";
 
 const ChallengesList: React.FC<{
-  list: ChallengeType[];
+  list: ChallengeType[]| IdeaType [];
   onOpen: (id:number) => void | undefined;
 }> = ({list, onOpen}) => {
   const removeChallengeHandler = (id:number) => {

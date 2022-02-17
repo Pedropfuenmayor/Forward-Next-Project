@@ -5,12 +5,18 @@ import {
   IdeasExample,
   getProjectById,
   getProjectByIdVars,
-  createChallengeVars,
-  createChallenge,
   getChallengesByProject,
   getChallengesByProjectVars,
   deleteChallengeVars,
   deleteChallengeById,
+  getOQ,
+  getOQVars,
+  getIdeasByChallenge,
+  getIdeasByChallengeVars,
+  createIdea,
+  createIdeaVars,
+  deleteIdea,
+  deleteIdeaVars,
 } from "../models/models";
 import HelpTextModal from "./ui/hepl-text-modal";
 import Button from "./ui/button";
@@ -23,15 +29,18 @@ import { uid } from "../helper/functions";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   CREATE_CHALLENGE,
+  CREATE_IDEA,
   DELETE_CHALLENGE_BY_ID,
+  DELETE_IDEA,
   GET_CHALLENGES_BY_PROJECT,
+  GET_IDEAS_BY_CHALLENGE_ID,
+  GET_OQ_BY_CHALLENGE_ID,
   GET_PROJECT_BY_ID,
 } from "../graphql/querys";
 import { useRouter } from "next/router";
 import PhaseClose from "./phase-close";
 
-
-const Challenges: React.FC<{}> = () => {
+const Ideas: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [error, setError] = useState<Error | false>(false);
@@ -43,8 +52,7 @@ const Challenges: React.FC<{}> = () => {
   const challangeDescriptionInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { projectId } = router.query;
-  const { challengeType } = router.query;
-  const isDriveforward = challengeType === "drive_forward";
+  const { challengeId } = router.query;
 
   const { loading: loadingChallenges, data: challengesData } = useQuery<
     getChallengesByProject,
@@ -64,65 +72,72 @@ const Challenges: React.FC<{}> = () => {
     },
   });
 
+  const { loading: loadingIdeas, data: IdeasData } = useQuery<
+    getIdeasByChallenge,
+    getIdeasByChallengeVars
+  >(GET_IDEAS_BY_CHALLENGE_ID, {
+    variables: {
+      challengeId: +challengeId,
+    },
+  });
+
+  const { loading: loadingOQ, data: OQData } = useQuery<getOQ, getOQVars>(
+    GET_OQ_BY_CHALLENGE_ID,
+    {
+      variables: {
+        challengeId: +challengeId,
+      },
+    }
+  );
+
   const [
-    createChallenge,
+    createIdea,
     { loading: loadingCreatedChallenge, reset, error: createError },
-  ] = useMutation<createChallenge, createChallengeVars>(CREATE_CHALLENGE, {
+  ] = useMutation<createIdea, createIdeaVars>(CREATE_IDEA, {
     update(cache, { data }) {
-      const { createChallenge } = data;
-      const { getChallengesByProject } = challengesData;
+      const { createIdea } = data;
+      const { getIdeasByChallenge } = IdeasData;
       cache.writeQuery({
-        query: GET_CHALLENGES_BY_PROJECT,
+        query: GET_IDEAS_BY_CHALLENGE_ID,
         data: {
-          getChallengesByProject: [...getChallengesByProject, createChallenge],
+          getIdeasByChallenge: [...getIdeasByChallenge, createIdea],
         },
         variables: {
-          projectId: +projectId,
+          challengeId: +challengeId,
         },
       });
     },
   });
 
   const [
-    deleteChallenge,
+    deleteIdea,
     {
       loading: loadingdeleteChallenge,
       reset: resetDeleteChallenge,
       error: deleteError,
     },
-  ] = useMutation<deleteChallengeById, deleteChallengeVars>(
-    DELETE_CHALLENGE_BY_ID,
-    {
-      update(cache, { data }) {
-        const { deleteChallenge } = data;
-        const { getChallengesByProject } = challengesData;
-        cache.writeQuery({
-          query: GET_CHALLENGES_BY_PROJECT,
-          data: {
-            getChallengesByProject: getChallengesByProject.filter(
-              (challenge) => {
-                return challenge.id !== deleteChallenge.id;
-              }
-            ),
-          },
-          variables: {
-            projectId: +projectId,
-          },
-        });
-      },
-    }
-  );
+  ] = useMutation<deleteIdea, deleteIdeaVars>(DELETE_IDEA, {
+    update(cache, { data }) {
+      const { deleteIdea } = data;
+      const { getIdeasByChallenge } = IdeasData;
+      cache.writeQuery({
+        query: GET_IDEAS_BY_CHALLENGE_ID,
+        data: {
+          getIdeasByChallenge: getIdeasByChallenge.filter((idea) => {
+            return idea.id !== deleteIdea.id;
+          }),
+        },
+        variables: {
+          challengeId: +challengeId,
+        },
+      });
+    },
+  });
 
-  if (loadingProject || loadingChallenges)
+  if (loadingOQ && loadingIdeas)
     return <p className="text-center">Loading...</p>;
 
-  const challengesList = challengesData.getChallengesByProject;
-
-  console.log(challengesData)
-
-  const challengesListByType = challengesList.filter(
-    (challenge) => challenge.challenge_type === challengeType
-  );
+  const isOQ = OQData && OQData.getOQ.id !== 0;
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -131,31 +146,33 @@ const Challenges: React.FC<{}> = () => {
 
     if (enteredText.trim().length === 0) {
       setError({
-        title: "Invalid  challenge name",
-        message: "Please fill the challenge field.",
+        title: "Invalid idea name",
+        message: "Please fill the idea name field",
       });
       return;
     }
 
-    createChallenge({
+    createIdea({
       variables: {
-        challengeId: uid(),
+        challengeId: +challengeId,
         name: enteredText,
-        projectId: +projectId,
-        challengeType: challengeType as string,
+        createIdeaId: uid(),
       },
       optimisticResponse: {
-        createChallenge: {
+        createIdea: {
           id: "temp-id",
           name: enteredText,
-          challenge_type: challengeType as string,
-          project_id: +projectId,
+          challenge_id: +challengeId,
           index: null,
           is_selected: null,
-          __typename: "Challenge",
+          effort: null,
+          impact: null,
+          __typename: "Idea",
         },
       },
-    }).then(re=>re).catch(err=>console.log(err.networkError.result.errors))
+    })
+      .then((re) => re)
+      .catch((err) => console.log(err.networkError.result.errors));
 
     challangeDescriptionInputRef.current!.value = "";
 
@@ -163,30 +180,25 @@ const Challenges: React.FC<{}> = () => {
   };
 
   const showIdeasExampleHandler = () => {
-    if (isDriveforward) {
-      setIdeasExample({
-        sampleItem: "Solve team biggest issues.",
-        ItemName: 'Sample Project Name',
-        type: "Drive Forward Challenges",
-        examples: [
-          "Good comunication",
-          "Education program",
-          "State of the art tech stack",
-          "Free food 🤣",
-        ],
-      });
-    } else {
-      setIdeasExample({
-        sampleItem: "Solve team biggest issues.",
-        ItemName: 'Sample Project Name',
-        type: "Hold Back Challenges",
-        examples: [
-          "Office is to loud",
-          "Goals are not clear",
-          "The coffee doesn't come from Colombia ☕ ",
-        ],
-      });
-    }
+    setIdeasExample({
+      sampleItem:
+        "How might We reduce noise in the office for those who need quiet?",
+      ItemName: "Sample Challenge",
+      type: "Ideas Creation",
+      examples: [
+        "Sound Proofing",
+        "Quiet Rooms",
+        "No talk days",
+        "Noise Cancelling Headphones",
+      ],
+    });
+  };
+
+  const showHelpTextHandler = () => {
+    setHelpText({
+      title: "Ideas Creation",
+      text: "“The best way to have a good idea is to have lots of ideas.” Putting Linus Pauling, American chemist, biochemist, peace activist, author, educator and Novel Prize in Chemistry.",
+    });
   };
 
   const onFocus = () => {
@@ -213,35 +225,38 @@ const Challenges: React.FC<{}> = () => {
 
   const removeChallangeHandler = () => {
     if (isDeleteChallange) {
-      const deletedChallange = challengesList.find((challenge) => {
+      const deletedIdea = IdeasData.getIdeasByChallenge.find((challenge) => {
         return challenge.id === isDeleteChallange;
       });
       const {
         id,
         name,
-        project_id,
+        challenge_id,
         is_selected,
-        challenge_type,
+        effort,
+        impact,
         index,
         __typename,
-      } = deletedChallange;
+      } = deletedIdea;
 
-      deleteChallenge({
+      deleteIdea({
         variables: {
-          challengeId: id as number,
+            deleteIdeaId: id as number,
         },
         optimisticResponse: {
-          deleteChallenge: {
+          deleteIdea: {
             id,
             name,
-            project_id,
             is_selected,
-            challenge_type,
+            challenge_id,
             index,
+            effort,
+            impact,
             __typename,
           },
         },
-      });
+      }).then((re) => re)
+      .catch((err) => console.log(err.networkError.result.errors))
       setIsOpen(false);
     }
   };
@@ -251,19 +266,15 @@ const Challenges: React.FC<{}> = () => {
   }
 
   const nextPageHandler = () => {
-    if (isDriveforward) {
-      router.push(`/${projectId}/collect/hold_back`);
-    } else {
-      setIsDoneChallenges(true);
-      setTimeout(() => {
-        router.push(`/${projectId}/choose`);
-      }, 1000);
-    }
+    router.push(`/${projectId}/collect/hold_back`);
+
+    setIsDoneChallenges(true);
+    setTimeout(() => {
+      router.push(`/${projectId}/choose`);
+    }, 1000);
   };
 
-  const previousPage = isDriveforward
-    ? `/${projectId}/collect`
-    : `/${projectId}/collect/drive_forward`;
+  const previousPage = `/${projectId}/opportunity_question/${challengeId}/ideas/`;
 
   const projectNameFieldClasses = error
     ? "block w-full text-2xl p-2 mb-2 rounded border-red-300 bg-red-100"
@@ -271,35 +282,20 @@ const Challenges: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      {isDriveforward && (
-        <h1 className="text-4xl w-8/12 text-center">
-          What will drive the project{" "}
-          <span className="text-blue-600">
-            {projectData.getProjectById.name}
-          </span>{" "}
-          forward?
-        </h1>
-      )}
-      {!isDriveforward && (
-        <h1 className="text-4xl w-8/12 text-center">
-          What is holding the project{" "}
-          <span className="text-blue-600">
-            {projectData.getProjectById.name}
-          </span>{" "}
-          back?
-        </h1>
+      {isOQ && (
+        <h1 className="text-4xl w-8/12 text-center">{OQData.getOQ.name}</h1>
       )}
       {/* <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
         {props.subTitle}
       </p> */}
-      <div className="mt-3 text-gray-200 w-44 flex justify-center">
-        {/* <button
+      <div className="mt-3 text-gray-200 w-44 flex justify-between">
+        <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
           onClick={showHelpTextHandler}
         >
           Help Text
-        </button> */}
+        </button>
         <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
@@ -359,14 +355,22 @@ const Challenges: React.FC<{}> = () => {
           </a>
         </button>
       </div>
-      <ChallengesList list={challengesListByType} onOpen={opendModal} />
+      <ChallengesList
+        list={IdeasData.getIdeasByChallenge}
+        onOpen={opendModal}
+      />
       <DeleteModal
         onClose={closeModal}
         onRemove={removeChallangeHandler}
         isOpen={isOpen}
       />
+      {!isOQ && (
+        <p className="text-center text-2xl">
+          You need to write a opportunity question for this Challenge ❗️
+        </p>
+      )}
     </section>
   );
 };
 
-export default Challenges;
+export default Ideas;

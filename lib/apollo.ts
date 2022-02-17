@@ -11,6 +11,11 @@ export const client = new ApolloClient({
               return incoming;
             },
           },
+          getIdeasByChallenge:{
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
         },
       },
     },
