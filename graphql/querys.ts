@@ -206,3 +206,31 @@ mutation DeleteIdea($deleteIdeaId: Int!) {
   }
 }
 `
+
+export const UPDATE_IDEAS_INDEXES = gql`
+mutation UpdateIdeas($ideas: [IdeaInputType!]) {
+  updateIdeas(ideas: $ideas) {
+    id
+    challenge_id
+    index
+    name
+    impact
+    effort
+    is_selected
+  }
+}
+`
+
+export const UPDATE_IDEA_BY_ID = gql`
+mutation Mutation($updateIdeaId: Int!, $name: String!, $index: String!, $isSelected: Boolean!, $effort: Boolean!, $impact: Boolean!) {
+  updateIdea(id: $updateIdeaId, name: $name, index: $index, is_selected: $isSelected, effort: $effort, impact: $impact) {
+    id
+    name
+    index
+    is_selected
+    challenge_id
+    effort
+    impact
+  }
+}
+`

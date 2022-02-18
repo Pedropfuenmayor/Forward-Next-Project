@@ -7,8 +7,6 @@ import {
   getProjectByIdVars,
   getChallengesByProject,
   getChallengesByProjectVars,
-  deleteChallengeVars,
-  deleteChallengeById,
   getOQ,
   getOQVars,
   getIdeasByChallenge,
@@ -28,9 +26,9 @@ import DeleteModal from "./ui/delete-modal";
 import { uid } from "../helper/functions";
 import { useMutation, useQuery } from "@apollo/client";
 import {
-  CREATE_CHALLENGE,
+  
   CREATE_IDEA,
-  DELETE_CHALLENGE_BY_ID,
+  
   DELETE_IDEA,
   GET_CHALLENGES_BY_PROJECT,
   GET_IDEAS_BY_CHALLENGE_ID,
@@ -44,7 +42,6 @@ const Ideas: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [error, setError] = useState<Error | false>(false);
-  const [isDoneChallenges, setIsDoneChallenges] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteChallange, setDeleteChallange] = useState<
     number | string | false
@@ -134,7 +131,7 @@ const Ideas: React.FC<{}> = () => {
     },
   });
 
-  if (loadingOQ && loadingIdeas)
+  if (loadingOQ || loadingIdeas)
     return <p className="text-center">Loading...</p>;
 
   const isOQ = OQData && OQData.getOQ.id !== 0;
@@ -261,21 +258,6 @@ const Ideas: React.FC<{}> = () => {
     }
   };
 
-  if (isDoneChallenges) {
-    return <PhaseClose text="Create Phase done" />;
-  }
-
-  const nextPageHandler = () => {
-    router.push(`/${projectId}/collect/hold_back`);
-
-    setIsDoneChallenges(true);
-    setTimeout(() => {
-      router.push(`/${projectId}/choose`);
-    }, 1000);
-  };
-
-  const previousPage = `/${projectId}/opportunity_question/${challengeId}/ideas/`;
-
   const projectNameFieldClasses = error
     ? "block w-full text-2xl p-2 mb-2 rounded border-red-300 bg-red-100"
     : "block w-full text-2xl p-2 rounded bg-gray-200 mb-2";
@@ -322,7 +304,7 @@ const Ideas: React.FC<{}> = () => {
       )}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={previousPage} passHref>
+          <Link href={`/${projectId}/opportunity_question/${challengeId}/ideas`} passHref>
             <a>
               <BsArrowLeftShort />
             </a>
@@ -350,9 +332,11 @@ const Ideas: React.FC<{}> = () => {
           </div>
         </form>
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <a onClick={nextPageHandler}>
+        <Link href={`/${projectId}/opportunity_question/${challengeId}/ideas/rank`} passHref>
+          <a>
             <BsArrowRightShort />
           </a>
+          </Link>
         </button>
       </div>
       <ChallengesList

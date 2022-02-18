@@ -170,7 +170,17 @@ export type IdeaType = {
   challenge_id: number;
   effort: boolean;
   impact: boolean;
-  __typename: "Idea"
+  __typename: "Idea";
+};
+
+export type IdeaInputType = {
+  id: number | string;
+  name: string;
+  is_selected?: boolean | null;
+  challenge_id?: number | null;
+  index?: number | null;
+  effort?: boolean | null;
+  impact?: boolean | null;
 };
 
 export type getIdeasByChallenge = {
@@ -182,26 +192,47 @@ export type getIdeasByChallengeVars = {
 };
 
 export type createIdea = {
-  createIdea: IdeaType
-}
+  createIdea: IdeaType;
+};
 
 export type createIdeaVars = {
-  createIdeaId: number,
-  name: string,
-  challengeId: number
-}
+  createIdeaId: number;
+  name: string;
+  challengeId: number;
+};
 
 export type deleteIdea = {
-  deleteIdea: IdeaType
-}
+  deleteIdea: IdeaType;
+};
 
 export type deleteIdeaVars = {
   deleteIdeaId: number;
 };
 
+export type updateIdea = {
+  updateIdea: IdeaType;
+};
+
+export type updateIdeaVars = {
+  updateIdeaId: number;
+  name: string;
+  index: number;
+  isSelected: boolean;
+  effort: boolean;
+  impact: boolean;
+};
+
 export type Error = {
   title: string;
   message: string;
+};
+
+export type updateIdeas = {
+  updateIdeas: [IdeaType];
+};
+
+export type updateIdeasVars = {
+  ideas: [IdeaInputType];
 };
 
 export type Props = {

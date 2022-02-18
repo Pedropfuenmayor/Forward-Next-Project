@@ -5,11 +5,13 @@ import { BsX } from "react-icons/bs";
 const ListItem: React.FC<{
   id: number | string;
   name: string;
+  index: number;
   onRemoveHandler: (id: number) => void | undefined;
-}> = ({name, id, onRemoveHandler}) => {
+}> = ({name, id, onRemoveHandler, index}) => {
+
   return (
     <li
-    className="my-4 mx-0 bg-gray-100 rounded p-3 shadow hover:shadow-md transition duration-300"
+    className={`my-4 mx-0 bg-gray-100 ${index <= 3?'border border-blue-600':''} rounded p-3 shadow hover:shadow-md transition duration-300`}
     key={id}
   >
     <div className="flex justify-between">

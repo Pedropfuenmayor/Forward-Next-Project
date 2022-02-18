@@ -22,7 +22,7 @@ import {
 
 const SelectChallange: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
-  const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
+  // const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [selectedChallangeId, setSelectedChallangeId] = useState<string>("");
   const router = useRouter();
   const { projectId } = router.query;
@@ -61,21 +61,21 @@ const SelectChallange: React.FC<{}> = () => {
     });
   };
 
-  const showIdeasExampleHandler = () => {
-    setIdeasExample({
-      sampleProjectName: "Limpiar La Casa",
-      type: "Drive Forward Ideas",
-      examples: ["test", "test2", "Yajuuuuuuuu"],
-    });
-  };
+  // const showIdeasExampleHandler = () => {
+  //   setIdeasExample({
+  //     sampleProjectName: "Limpiar La Casa",
+  //     type: "Drive Forward Ideas",
+  //     examples: ["test", "test2", "Yajuuuuuuuu"],
+  //   });
+  // };
 
   const hideHelpTextHandler = () => {
     setHelpText(false);
   };
 
-  const hideIdeasExampleHandler = () => {
-    setIdeasExample(false);
-  };
+  // const hideIdeasExampleHandler = () => {
+  //   setIdeasExample(false);
+  // };
 
   const selectChallangeHandler = (challangeId) => {
     setSelectedChallangeId(challangeId);
@@ -110,14 +110,14 @@ const SelectChallange: React.FC<{}> = () => {
           onConfirm={hideHelpTextHandler}
         />
       )}
-      {ideasExample && (
+      {/* {ideasExample && (
         <IdeasExamplesModal
           sampleProjectName={ideasExample.sampleProjectName}
           type={ideasExample.type}
           examples={ideasExample.examples}
           onConfirm={hideIdeasExampleHandler}
         />
-      )}
+      )} */}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
           <Link href={`/${projectId}/opportunity_question`} passHref>
@@ -132,7 +132,7 @@ const SelectChallange: React.FC<{}> = () => {
         />
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
           <Link
-            href={`/${projectId}/opportunity_question/${selectedChallangeId}/create`}
+            href={selectedChallangeId?`/${projectId}/opportunity_question/${selectedChallangeId}/create`: '/dashboard'}
             passHref
           >
             <a>

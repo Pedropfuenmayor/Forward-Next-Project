@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   ChallengeInputType,
   ChallengeType,
+  IdeaType,
   updateChallenges,
   updateChallengesVars,
 } from "../../models/models";
@@ -16,7 +17,7 @@ import { useMutation } from "@apollo/client";
 
 import ListItem from "./drag-list-item";
 
-const DragAndDropList: React.FC<{
+const ChallengesDragAndDropList: React.FC<{
   challenges: ChallengeType[];
   onOpen: (id: number) => void | undefined;
 }> = ({ challenges, onOpen }) => {
@@ -96,6 +97,7 @@ const DragAndDropList: React.FC<{
                           name={name}
                           id={id}
                           onRemoveHandler={removeChallengeHandler}
+                          index={i}
                         />
                       </div>
                     );
@@ -111,4 +113,4 @@ const DragAndDropList: React.FC<{
   );
 };
 
-export default DragAndDropList;
+export default ChallengesDragAndDropList;

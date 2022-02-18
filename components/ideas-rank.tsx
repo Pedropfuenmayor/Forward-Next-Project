@@ -1,16 +1,13 @@
 import { useRef, useState } from "react";
 import {
-  Error,
   HelpText,
   IdeasExample,
-  getProjectById,
-  getProjectByIdVars,
-  createChallengeVars,
-  createChallenge,
-  getChallengesByProject,
-  getChallengesByProjectVars,
-  deleteChallengeVars,
-  deleteChallengeById,
+  getIdeasByChallenge,
+  getIdeasByChallengeVars,
+  getOQ,
+  getOQVars,
+  deleteIdea,
+  deleteIdeaVars,
 } from "../models/models";
 import HelpTextModal from "./ui/hepl-text-modal";
 import IdeasExamplesModal from "./ui/ideas-example-modal";
@@ -21,14 +18,17 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   CREATE_CHALLENGE,
   DELETE_CHALLENGE_BY_ID,
+  DELETE_IDEA,
   GET_CHALLENGES_BY_PROJECT,
+  GET_IDEAS_BY_CHALLENGE_ID,
+  GET_OQ_BY_CHALLENGE_ID,
   GET_PROJECT_BY_ID,
 } from "../graphql/querys";
 import { useRouter } from "next/router";
 import PhaseClose from "./phase-close";
-import ChallengesDragAndDropList from "./ui/challenges-drag-drop-list";
+import IdeasDragAndDropList from "./ui/ideas-drag-droo-list";
 
-const ChallengesRank: React.FC<{}> = () => {
+const IdeasRank: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [isDoneChallenges, setIsDoneChallenges] = useState(false);
@@ -38,67 +38,63 @@ const ChallengesRank: React.FC<{}> = () => {
   >(false);
   const router = useRouter();
   const { projectId } = router.query;
-  
+  const { challengeId } = router.query;
 
-  const { loading: loadingChallenges, data: challengesData } = useQuery<
-    getChallengesByProject,
-    getChallengesByProjectVars
-  >(GET_CHALLENGES_BY_PROJECT, {
+  const { loading: loadingIdeas, data: ideasData } = useQuery<
+    getIdeasByChallenge,
+    getIdeasByChallengeVars
+  >(GET_IDEAS_BY_CHALLENGE_ID, {
     variables: {
-      projectId: +projectId,
+      challengeId: +challengeId,
     },
   });
 
-  const { loading: loadingProject, data: projectData } = useQuery<
-    getProjectById,
-    getProjectByIdVars
-  >(GET_PROJECT_BY_ID, {
-    variables: {
-      projectId: +projectId,
-    },
-  });
+  const { loading: loadingOQ, data: OQData } = useQuery<getOQ, getOQVars>(
+    GET_OQ_BY_CHALLENGE_ID,
+    {
+      variables: {
+        challengeId: +challengeId,
+      },
+    }
+  );
 
   const [
-    deleteChallenge,
+    deleteIdea,
     {
       loading: loadingdeleteChallenge,
       reset: resetDeleteChallenge,
       error: deleteError,
     },
-  ] = useMutation<deleteChallengeById, deleteChallengeVars>(DELETE_CHALLENGE_BY_ID, 
-    {
+  ] = useMutation<deleteIdea, deleteIdeaVars>(DELETE_IDEA, {
     update(cache, { data }) {
-      const { deleteChallenge } = data;
-      const { getChallengesByProject } = challengesData;
+      const { deleteIdea } = data;
+      const { getIdeasByChallenge } = ideasData;
       cache.writeQuery({
-        query: GET_CHALLENGES_BY_PROJECT,
+        query: GET_IDEAS_BY_CHALLENGE_ID,
         data: {
-          getChallengesByProject: getChallengesByProject.filter((challenge) => {
-            return challenge.id !== deleteChallenge.id;
+          getIdeasByChallenge: getIdeasByChallenge.filter((idea) => {
+            return idea.id !== deleteIdea.id;
           }),
         },
         variables: {
-          projectId: +projectId,
+          challengeId: +challengeId,
         },
       });
     },
-  }
-  );
+  });
 
-  if (loadingProject || loadingChallenges)
-    return <p className="text-center">Loading...</p>;
+  if (loadingIdeas) return <p className="text-center">Loading...</p>;
 
-  const challengesList = challengesData.getChallengesByProject;
+  const ideasList = ideasData.getIdeasByChallenge;
 
-  const isChallenges = challengesData && (challengesData.getChallengesByProject.length > 0)
+  const isIdeas = ideasData && ideasData.getIdeasByChallenge.length > 0;
 
   const showHelpTextHandler = () => {
     setHelpText({
-      title: "Rank your challenges",
-      text: "Once you finish we will go to the next phase with the top 4 challanges. The most importat point of this phase is to be relatively fast in choosing what to work on, you can always come back and iterate with a different rank constellation, but the most important is you go forward.",
+      title: "Rank your ideas",
+      text: "Once you finish we will go to the next phase with the top 4 ideas. The most importat point of this phase is to be relatively fast in choosing what to work on, you can always come back and iterate with a different rank constellation, but the most important is you go forward.",
     });
   };
-
 
   const hideHelpTextHandler = () => {
     setHelpText(false);
@@ -120,25 +116,34 @@ const ChallengesRank: React.FC<{}> = () => {
 
   const removeChallangeHandler = () => {
     if (isDeleteChallange) {
-      const deletedChallange = challengesList.find((challenge)=>{
-        return challenge.id === isDeleteChallange
-      })
-      const {id, name, project_id, is_selected, challenge_type, __typename, index} = deletedChallange;
+      const deletedIdea = ideasList.find((idea) => {
+        return idea.id === isDeleteChallange;
+      });
+      const {
+        id,
+        name,
+        challenge_id,
+        is_selected,
+        __typename,
+        index,
+        effort,
+        impact,
+      } = deletedIdea;
 
-      deleteChallenge({
+      deleteIdea({
         variables: {
-          challengeId: id as number,
+          deleteIdeaId: id as number,
         },
         optimisticResponse: {
-          deleteChallenge: {
-              id,
-              name,
-              project_id,
-              is_selected,
-              index,
-              challenge_type,
-              __typename
-            
+          deleteIdea: {
+            id,
+            name,
+            challenge_id,
+            is_selected,
+            index,
+            effort,
+            impact,
+            __typename,
           },
         },
       });
@@ -147,21 +152,21 @@ const ChallengesRank: React.FC<{}> = () => {
   };
 
   if (isDoneChallenges) {
-    return <PhaseClose text="Choose Phase done!" />;
+    return <PhaseClose text="Idea Creation Phase done!" />;
   }
 
   const nextPageHandler = () => {
-      setIsDoneChallenges(true);
-      setTimeout(() => {
-        router.push(`/${projectId}/opportunity_question`);
-      }, 1000);
-    }
+    setIsDoneChallenges(true);
+    setTimeout(() => {
+      router.push(`/${projectId}/opportunity_question/${challengeId}/actions`);
+    }, 1000);
+  };
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Rank your Challenges</h1>
+      <h1 className="text-6xl text-center">Rank your Ideas</h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
-        {projectData.getProjectById.name} Project
+        {OQData.getOQ.name}
       </p>
       <div className="mt-3 text-gray-200 w-44 flex justify-center">
         <button
@@ -205,19 +210,26 @@ const ChallengesRank: React.FC<{}> = () => {
       )} */}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={`/${projectId}/collect/drive_forwar`} passHref>
+          <Link href={`/${projectId}/opportunity_question/${challengeId}/ideas/create`} passHref>
             <a>
               <BsArrowLeftShort />
             </a>
           </Link>
         </button>
-        
-       {isChallenges && <ChallengesDragAndDropList challenges={challengesList} onOpen={opendModal}/>}
-       {!isChallenges && <p className="text-center text-2xl">You need to write at least one challenge ❗️</p>}
+        {isIdeas && (
+          <IdeasDragAndDropList ideas={ideasList} onOpen={opendModal} />
+        )}
+        {!isIdeas && (
+          <p className="text-center text-2xl">
+            You need to write at least one idea ❗️
+          </p>
+        )}
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
+       
           <a onClick={nextPageHandler}>
             <BsArrowRightShort />
           </a>
+        
         </button>
       </div>
       <DeleteModal
@@ -229,4 +241,4 @@ const ChallengesRank: React.FC<{}> = () => {
   );
 };
 
-export default ChallengesRank;
+export default IdeasRank;
