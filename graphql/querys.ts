@@ -222,7 +222,7 @@ mutation UpdateIdeas($ideas: [IdeaInputType!]) {
 `
 
 export const UPDATE_IDEA_BY_ID = gql`
-mutation Mutation($updateIdeaId: Int!, $name: String!, $index: String!, $isSelected: Boolean!, $effort: Boolean!, $impact: Boolean!) {
+mutation Mutation($updateIdeaId: Int!, $name: String!, $index: Int, $isSelected: Boolean, $effort: Boolean, $impact: Boolean) {
   updateIdea(id: $updateIdeaId, name: $name, index: $index, is_selected: $isSelected, effort: $effort, impact: $impact) {
     id
     name

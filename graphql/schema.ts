@@ -1,5 +1,5 @@
 // /graphql/schema.ts
-import { makeSchema } from 'nexus'
+import { makeSchema, declarativeWrappingPlugin } from 'nexus'
 import { join } from 'path'
 import * as types from './types'
 

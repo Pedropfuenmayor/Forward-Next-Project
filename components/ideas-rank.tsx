@@ -83,7 +83,7 @@ const IdeasRank: React.FC<{}> = () => {
     },
   });
 
-  if (loadingIdeas) return <p className="text-center">Loading...</p>;
+  if (loadingIdeas || loadingOQ) return <p className="text-center">Loading...</p>;
 
   const ideasList = ideasData.getIdeasByChallenge;
 

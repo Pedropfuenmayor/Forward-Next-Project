@@ -1,12 +1,17 @@
 import { OQType } from "../../models/models";
 import ListButton from "../ui/list-button";
 import { BsX } from "react-icons/bs";
-import { idArg } from "nexus";
+
 
 const OpportunityList: React.FC<{
+
   opportunityQuestion: OQType;
+
   onOpen: (id) => void | undefined;
+  
 }> = ({ onOpen, opportunityQuestion }) => {
+
+
   const removeChallengeHandler = (id) => {
     onOpen(id);
   };

@@ -38,11 +38,12 @@ import {
 import { useRouter } from "next/router";
 import PhaseClose from "./phase-close";
 
-const Ideas: React.FC<{}> = () => {
+const CreateIdeas: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [error, setError] = useState<Error | false>(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDoneIdeas, setIsDoneIdeas] = useState(false);
   const [isDeleteChallange, setDeleteChallange] = useState<
     number | string | false
   >(false);
@@ -69,7 +70,7 @@ const Ideas: React.FC<{}> = () => {
     },
   });
 
-  const { loading: loadingIdeas, data: IdeasData } = useQuery<
+  const { loading: loadingIdeas, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
@@ -93,7 +94,7 @@ const Ideas: React.FC<{}> = () => {
   ] = useMutation<createIdea, createIdeaVars>(CREATE_IDEA, {
     update(cache, { data }) {
       const { createIdea } = data;
-      const { getIdeasByChallenge } = IdeasData;
+      const { getIdeasByChallenge } = ideasData;
       cache.writeQuery({
         query: GET_IDEAS_BY_CHALLENGE_ID,
         data: {
@@ -116,7 +117,7 @@ const Ideas: React.FC<{}> = () => {
   ] = useMutation<deleteIdea, deleteIdeaVars>(DELETE_IDEA, {
     update(cache, { data }) {
       const { deleteIdea } = data;
-      const { getIdeasByChallenge } = IdeasData;
+      const { getIdeasByChallenge } = ideasData;
       cache.writeQuery({
         query: GET_IDEAS_BY_CHALLENGE_ID,
         data: {
@@ -135,6 +136,8 @@ const Ideas: React.FC<{}> = () => {
     return <p className="text-center">Loading...</p>;
 
   const isOQ = OQData && OQData.getOQ.id !== 0;
+
+  const isIdeas = ideasData && ideasData.getIdeasByChallenge.length > 0;
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -222,7 +225,7 @@ const Ideas: React.FC<{}> = () => {
 
   const removeChallangeHandler = () => {
     if (isDeleteChallange) {
-      const deletedIdea = IdeasData.getIdeasByChallenge.find((challenge) => {
+      const deletedIdea = ideasData.getIdeasByChallenge.find((challenge) => {
         return challenge.id === isDeleteChallange;
       });
       const {
@@ -256,6 +259,20 @@ const Ideas: React.FC<{}> = () => {
       .catch((err) => console.log(err.networkError.result.errors))
       setIsOpen(false);
     }
+  };
+
+  const nextPageHandler = () => {
+    if(!isIdeas){
+      setError({
+        title: "Invalid OQ Name",
+        message: "Please fill the ideas field.",
+      });
+      return;
+    }
+    setIsDoneIdeas(true);
+    setTimeout(() => {
+      router.push(`/${projectId}/opportunity_question/${challengeId}/ideas/rank`);
+    }, 1000);
   };
 
   const projectNameFieldClasses = error
@@ -332,15 +349,13 @@ const Ideas: React.FC<{}> = () => {
           </div>
         </form>
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-        <Link href={`/${projectId}/opportunity_question/${challengeId}/ideas/rank`} passHref>
-          <a>
+          <a onClick={nextPageHandler}>
             <BsArrowRightShort />
           </a>
-          </Link>
         </button>
       </div>
       <ChallengesList
-        list={IdeasData.getIdeasByChallenge}
+        list={ideasData.getIdeasByChallenge}
         onOpen={opendModal}
       />
       <DeleteModal
@@ -357,4 +372,4 @@ const Ideas: React.FC<{}> = () => {
   );
 };
 
-export default Ideas;
+export default CreateIdeas;

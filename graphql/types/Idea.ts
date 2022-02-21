@@ -79,9 +79,9 @@ export const IdeasQuery = extendType({
           where: { challenge_id },
         });
 
-        const organizedIdeasByIndex = ideas.sort((a, b) => a.index - b.index);
+        ideas.sort((a, b) => a.index - b.index);
 
-        return organizedIdeasByIndex;
+        return ideas;
       },
     });
   },
@@ -126,10 +126,10 @@ export const ideasMutation = extendType({
       args: {
         id: nonNull(intArg()),
         name: nonNull(stringArg()),
-        index: nonNull(stringArg()),
-        is_selected: nonNull(booleanArg()),
-        effort: nonNull(booleanArg()),
-        impact: nonNull(booleanArg()),
+        index: intArg(),
+        is_selected: booleanArg(),
+        effort: booleanArg(),
+        impact: booleanArg(),
       },
       async resolve(_root, args, ctx) {
         // const { req } = ctx;

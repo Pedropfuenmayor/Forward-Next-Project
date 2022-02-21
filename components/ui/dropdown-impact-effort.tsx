@@ -3,9 +3,10 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { BiMenu } from "react-icons/bi";
 import { useRouter } from "next/router";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   getIdeasByChallenge,
+  getIdeasByChallengeVars,
   IdeaType,
   updateIdea,
   updateIdeaVars,
@@ -20,15 +21,20 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const DropdownImpactEffort: React.FC<{ id: number | string; type: string }> = ({
-  id,
-  type,
-}) => {
+const DropdownImpactEffort: React.FC<{
+  ideaId: number | string;
+  type: string;
+}> = ({ ideaId, type }) => {
   const router = useRouter();
   const { challengeId } = router.query;
 
-  const ideasData: getIdeasByChallenge = client.readQuery({
-    query: GET_IDEAS_BY_CHALLENGE_ID,
+  const { loading: loadingIdeas, data: ideasData } = useQuery<
+    getIdeasByChallenge,
+    getIdeasByChallengeVars
+  >(GET_IDEAS_BY_CHALLENGE_ID, {
+    variables: {
+      challengeId: +challengeId,
+    },
   });
 
   const [
@@ -38,30 +44,21 @@ const DropdownImpactEffort: React.FC<{ id: number | string; type: string }> = ({
       reset: resetDeleteChallenge,
       error: deleteError,
     },
-  ] = useMutation<updateIdea, updateIdeaVars>(UPDATE_IDEA_BY_ID, {
-    update(cache, { data }) {
-      const { updateIdea } = data;
-      const { getIdeasByChallenge } = ideasData;
-      getIdeasByChallenge.filter((idea) => {
-        return idea.id !== updateIdea.id;
-      });
-      getIdeasByChallenge.push(updateIdea);
+  ] = useMutation<updateIdea, updateIdeaVars>(UPDATE_IDEA_BY_ID);
 
-      cache.writeQuery({
-        query: GET_IDEAS_BY_CHALLENGE_ID,
-        data: {
-          getIdeasByChallenge: getIdeasByChallenge,
-        },
-        variables: {
-          challengeId: +challengeId,
-        },
-      });
-    },
-  });
+  const impactEffortUpdateFunction = (event) => {
+    if (event.target.innerHTML.includes("High")) {
+      return true;
+    } else if (event.target.innerHTML.includes("Low")) {
+      return false;
+    } else {
+      return null;
+    }
+  };
 
   const impactEffortLevelHandler = (event) => {
-    const deletedIdea: IdeaType = ideasData.getIdeasByChallenge.find((idea) => {
-      return idea.id === id;
+    const updatedIdea: IdeaType = ideasData.getIdeasByChallenge.find((idea) => {
+      return idea.id === ideaId;
     });
     const {
       id,
@@ -72,15 +69,15 @@ const DropdownImpactEffort: React.FC<{ id: number | string; type: string }> = ({
       impact,
       is_selected,
       __typename,
-    } = deletedIdea;
+    } = updatedIdea;
     updateIdea({
       variables: {
         updateIdeaId: +id,
         index,
         name,
         isSelected: is_selected,
-        effort: type === "effort" ? event.target.innerHTML : effort,
-        impact: type === "impact" ? event.target.innerHTML : impact,
+        effort: type === "effort" ? impactEffortUpdateFunction(event) : effort,
+        impact: type === "impact" ? impactEffortUpdateFunction(event) : impact,
       },
       optimisticResponse: {
         updateIdea: {
@@ -89,12 +86,16 @@ const DropdownImpactEffort: React.FC<{ id: number | string; type: string }> = ({
           name,
           challenge_id,
           is_selected,
-          effort: type === "effort" ? event.target.innerHTML : effort,
-          impact: "impact" ? event.target.innerHTML : impact,
+          effort:
+            type === "effort" ? impactEffortUpdateFunction(event) : effort,
+          impact:
+            type === "impact" ? impactEffortUpdateFunction(event) : impact,
           __typename,
         },
       },
-    });
+    })
+      .then((re) => re)
+      .catch((err) => console.log(err.networkError.result.errors));
   };
 
   //   const impactLevelNoneHandler = (event) => {

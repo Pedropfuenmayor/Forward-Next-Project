@@ -21,9 +21,10 @@ const UserProfile = () => {
 
   const newPasswordInputRef = useRef<HTMLInputElement>();
 
+  const [isChange, setIsChange] = useState(true);
+
   const [userEmail, setUserEmail] = useState("");
 
-  const router = useRouter();
 
   const [
     updateUser,
@@ -49,8 +50,6 @@ const UserProfile = () => {
     passwordChanged: "",
     userError: "",
   });
-
-  const [isChange, setIsChange] = useState(true);
 
 const logOut = ()=>{
   signOut({redirect: false, callbackUrl: 'http://localhost:3000/login'});

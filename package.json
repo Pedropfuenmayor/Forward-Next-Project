@@ -11,6 +11,7 @@
     "@apollo/client": "^3.5.8",
     "@headlessui/react": "^1.4.3",
     "@prisma/client": "^3.9.2",
+    "@tippyjs/react": "^4.2.6",
     "@types/bcrypt": "^5.0.0",
     "@types/validator": "^13.7.1",
     "apollo-server-micro": "^3.6.2",

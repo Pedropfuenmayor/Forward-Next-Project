@@ -18,7 +18,7 @@ const ActionsIntroPage: NextPage = () => {
 
   const prevPage = `/${projectId}/opportunity_question/${challengeId}/ideas/rank`;
 
-  const nextPage = `/${projectId}/opportunity_question/${challengeId}/ideas/impact`;
+  const nextPage = `/${projectId}/opportunity_question/${challengeId}/actions/impact`;
 
   return (
     <PhaseIntro

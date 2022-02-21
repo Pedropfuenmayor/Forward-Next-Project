@@ -85,20 +85,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const [
     updateOQ,
     { loading: loadingUpdatedOQ, reset: resetUpdatedOQ, error: updateError },
-  ] = useMutation<updateOQ, updateOQVars>(UPDATE_OQ_BY_ID, {
-    update(cache, { data }) {
-      const { updateOQ } = data;
-      cache.writeQuery({
-        query: GET_OQ_BY_CHALLENGE_ID,
-        data: {
-          getOQ: updateOQ,
-        },
-        variables: {
-          challengeId: +challengeId,
-        },
-      });
-    },
-  });
+  ] = useMutation<updateOQ, updateOQVars>(UPDATE_OQ_BY_ID);
 
   const [
     deleteOQ,

@@ -91,8 +91,8 @@ const Challenges: React.FC<{}> = () => {
       error: deleteError,
     },
   ] = useMutation<deleteChallengeById, deleteChallengeVars>(
-    DELETE_CHALLENGE_BY_ID,
-    {
+    DELETE_CHALLENGE_BY_ID
+    ,{
       update(cache, { data }) {
         const { deleteChallenge } = data;
         const { getChallengesByProject } = challengesData;
