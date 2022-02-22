@@ -14,14 +14,14 @@ export function uid() {
   return Math.floor(Math.random() * (1000000000 - 1) + 1);
 }
 
- export const sqlQuery = (challenges) => {
-  let sql = '';
+export const sqlQuery = (challenges) => {
+  let sql = "";
 
   for (let i = 0; i < challenges.length; i++) {
-    
-    sql += `when id = ${challenges[i].id} then ${challenges.indexOf(challenges[i])} `;
-    }
-    return sql
+    sql += `when id = ${challenges[i].id} then ${challenges.indexOf(
+      challenges[i]
+    )} `;
   }
- 
+  return sql;
+};
 

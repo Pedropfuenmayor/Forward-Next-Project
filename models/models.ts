@@ -222,17 +222,64 @@ export type updateIdeaVars = {
   impact: boolean;
 };
 
-export type Error = {
-  title: string;
-  message: string;
-};
-
 export type updateIdeas = {
   updateIdeas: [IdeaType];
 };
 
 export type updateIdeasVars = {
   ideas: [IdeaInputType];
+};
+
+export type ActionType = {
+  id: number | string;
+  what: string;
+  due_date: Date | string;
+  succes_criteria: string;
+  idea_id: string;
+  __typename: "Action"
+};
+
+export type getActionByIdeaId = {
+  getActionByIdeaId: ActionType;
+};
+
+export type getActionByIdeaIdVars = {
+  ideaId: number;
+};
+export type createAction = {
+  createAction: ActionType;
+};
+
+export type createActionVars = {
+  createActionId: number | string;
+  what: string;
+  dueDate: Date | string;
+  succesCriteria: string;
+  ideaId: number;
+};
+
+export type updateAction = {
+  updateAction: ActionType;
+};
+
+export type updateActionVars = {
+  updateActionId: number;
+  what: string;
+  dueDate: Date | String;
+  succesCriteria: string;
+};
+
+export type deleteAction = {
+  deeteAction: ActionType;
+};
+
+export type deleteActionVars = {
+  deleteActionId: number;
+};
+
+export type Error = {
+  title: string;
+  message: string;
 };
 
 export type Props = {

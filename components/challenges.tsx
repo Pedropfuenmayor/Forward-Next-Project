@@ -118,8 +118,6 @@ const Challenges: React.FC<{}> = () => {
 
   const challengesList = challengesData.getChallengesByProject;
 
-  console.log(challengesData)
-
   const challengesListByType = challengesList.filter(
     (challenge) => challenge.challenge_type === challengeType
   );

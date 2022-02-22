@@ -43,8 +43,8 @@ const IdeasImpactEffort: React.FC<{}> = () => {
     return <p className="text-center">Loading...</p>;
 
     const selectedIdea = ideasData.getIdeasByChallenge.filter(
-      (challenge) => {
-        return challenge.index <= 3;
+      (_, index) => {
+        return index <= 3;
       }
     );
 

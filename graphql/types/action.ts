@@ -32,7 +32,7 @@ export const ActionsQuery = extendType({
         return ctx.prisma.actions.findMany();
       },
     });
-    t.nonNull.field("getActionByIdeaId", {
+    t.field("getActionByIdeaId", {
       type: "Action",
       args: {
         idea_id: nonNull(intArg()),
@@ -42,7 +42,7 @@ export const ActionsQuery = extendType({
 
         return ctx.prisma.actions.findUnique({
           where: {
-            id: idea_id,
+            idea_id,
           },
         });
       },
@@ -50,8 +50,8 @@ export const ActionsQuery = extendType({
   },
 });
 
-const dateArg = (opts: core.NexusArgConfig<"date">) =>
-  arg({ ...opts, type: "date" });
+const dateArg = (opts: core.NexusArgConfig<"Date">) =>
+  arg({ ...opts, type: "Date" });
 
 export const actionsMutation = extendType({
   type: "Mutation",
@@ -76,9 +76,7 @@ export const actionsMutation = extendType({
 
         const { id, what, idea_id, due_date, succes_criteria } = args;
 
-        const dateTime = new Date(due_date);
-
-        console.log(dateTime)
+        const date = new Date(due_date)
 
 
         if (validator.isEmpty(what)) {
@@ -90,7 +88,7 @@ export const actionsMutation = extendType({
             id: +id,
             what,
             idea_id: +idea_id,
-            due_date: dateTime,
+            due_date: date,
             succes_criteria
           },
         });
@@ -103,15 +101,16 @@ export const actionsMutation = extendType({
         what: nonNull(stringArg()),
         due_date: nonNull(stringArg()),
         succes_criteria: nonNull(stringArg()),
-        idea_id: nonNull(intArg()),
       },
       async resolve(_root, args, ctx) {
 
-        const { id, what, idea_id, due_date, succes_criteria } = args;
+        const { id, what, due_date, succes_criteria } = args;
 
         if (validator.isEmpty(what)) {
           throw Error("Empty Action.");
         }
+
+        const date = new Date(due_date)
 
         return ctx.prisma.actions.update({
           where: {
@@ -119,8 +118,7 @@ export const actionsMutation = extendType({
           },
           data: {
             what,
-            idea_id: +idea_id,
-            due_date,
+            due_date: date,
             succes_criteria
           },
         });

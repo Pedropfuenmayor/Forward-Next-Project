@@ -1,16 +1,29 @@
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { BsCheck } from "react-icons/bs";
-import { useRouter } from "next/router";
+import { useQuery } from "@apollo/client";
+import { GET_ACTION_BY_IDEA_ID } from "../../graphql/querys";
+import { getActionByIdeaId, getActionByIdeaIdVars } from "../../models/models";
 
 
 const AlreadyHaveAction: React.FC<{
-}> = () => {
-  const router = useRouter();
-  const { projectId, challangeId, ideaId} = router.query;
+    ideaId: number;
+}> = ({ideaId}) => {
+ 
 
+  const { loading: loadingAction, data: actionData, error } = useQuery<
+    getActionByIdeaId,
+    getActionByIdeaIdVars
+  >(GET_ACTION_BY_IDEA_ID, {
+    variables: {
+      ideaId: +ideaId,
+    },
+  });
 
-  const isAction = true
+  if (loadingAction)
+    return null;
+
+  const isAction = actionData.getActionByIdeaId? true: false;
 
   return (
       <>

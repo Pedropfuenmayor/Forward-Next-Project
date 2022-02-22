@@ -234,3 +234,51 @@ mutation Mutation($updateIdeaId: Int!, $name: String!, $index: Int, $isSelected:
   }
 }
 `
+
+export const GET_ACTION_BY_IDEA_ID = gql`
+query GetActionByIdeaId($ideaId: Int!) {
+  getActionByIdeaId(idea_id: $ideaId) {
+    id
+    due_date
+    what
+    succes_criteria
+    idea_id
+  }
+}
+`
+
+export const CREATE_ACTION = gql`
+mutation CreateAction($createActionId: Int!, $what: String!, $dueDate: String!, $succesCriteria: String!, $ideaId: Int!) {
+  createAction(id: $createActionId, what: $what, due_date: $dueDate, succes_criteria: $succesCriteria, idea_id: $ideaId) {
+    id
+    what
+    due_date
+    succes_criteria
+    idea_id
+  }
+}
+`
+
+export const UPDATE_ACTION =gql`
+mutation Mutation($updateActionId: Int!, $what: String!, $dueDate: String!, $succesCriteria: String!) {
+  updateAction(id: $updateActionId, what: $what, due_date: $dueDate, succes_criteria: $succesCriteria) {
+    id
+    what
+    due_date
+    succes_criteria
+    idea_id
+  }
+}
+`
+
+export const DELETE_ACTION= gql `
+mutation DeleteAction($deleteActionId: Int!) {
+  deleteAction(id: $deleteActionId) {
+    id
+    what
+    due_date
+    succes_criteria
+    idea_id
+  }
+}
+`

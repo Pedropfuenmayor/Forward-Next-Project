@@ -1,10 +1,9 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import CreateIdeas from "../../../../../../components/creat-ideas";
-import CreateAction from "../../../../../../components/create-action";
+import ActionCreated from "../../../../../../../components/created-action";
 
-const ImpactEffortScalePage: NextPage = () => {
+const ActionCreatedPage: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
@@ -15,7 +14,7 @@ const ImpactEffortScalePage: NextPage = () => {
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
 
-  return <CreateAction />
+  return <ActionCreated />
 };
 
-export default ImpactEffortScalePage;
+export default ActionCreatedPage;

@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import PhaseIntro from "../../../components/phase-intro";
+import { useEffect } from "react";
 
 
 const CollectIntroPage: NextPage = () => {
@@ -14,6 +15,12 @@ const { status } = useSession();
     router.push("./login");
     return <p className="text-center">unauthenticated</p>;
   }
+
+  useEffect(() => {
+    
+    router.prefetch(`/${projectId}/collect/drive_forward`)
+    
+  }, [])
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
   

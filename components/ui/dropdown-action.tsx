@@ -8,11 +8,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const DropdownAction: React.FC<{ ideaId: number }> = (props) => {
+const DropdownAction: React.FC<{ ideaId: number }> = ({ideaId}) => {
   const router = useRouter();
-  const { projectId, challangeId, ideaId} = router.query;
+  const { projectId, challengeId } = router.query;
 
-  const nextPage = `/${projectId}/opportunity_question/${challangeId}/action/create/${ideaId}`;
+  const nextPage = `/${projectId}/opportunity_question/${challengeId}/actions/create/${ideaId}`;
 
   const createActionHandler = () => {
     router.push(nextPage);
