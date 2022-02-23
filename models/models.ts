@@ -40,7 +40,7 @@ export type ProjectType = {
 };
 
 export type isProject = {
-  isProject: ProjectType;
+  getProjectByUserId: ProjectType;
 };
 
 export type getProjectById = {
@@ -49,6 +49,14 @@ export type getProjectById = {
 
 export type getProjectByIdVars = {
   projectId: number;
+};
+
+export type getProjectByUserId = {
+  getProjectByUserId: [ProjectType];
+};
+
+export type getProjectByUserIdVars = {
+  userId: number;
 };
 
 export type isProjectVars = {
@@ -60,6 +68,14 @@ export type createProjectVars = {
   name: string;
   userId: number;
 };
+
+export type deleteProject = {
+  deleteProject: ProjectType
+}
+
+export type deleteProjectVars = {
+  projectId: number;
+}
 
 export type ProjectNameExample = {
   examples: string[];
@@ -73,7 +89,7 @@ export type ChallengeType = {
   index?: number | null;
   challenge_type?: string | null;
   ideas?: IdeaType[];
-  opportunity_questions?: OQType | null;
+  opportunity_question?: OQType | null;
   __typename?: "Challenge" | null;
 };
 
@@ -235,8 +251,9 @@ export type ActionType = {
   what: string;
   due_date: Date | string;
   succes_criteria: string;
-  idea_id: string;
-  __typename: "Action"
+  idea_id: number;
+  user_id: number;
+  __typename: "Action";
 };
 
 export type getActionByIdeaId = {
@@ -245,6 +262,14 @@ export type getActionByIdeaId = {
 
 export type getActionByIdeaIdVars = {
   ideaId: number;
+};
+
+export type getActionsByUserId = {
+  getActionsByUserId: [ActionType];
+};
+
+export type getActionsByUserIdVars = {
+  userId: number;
 };
 export type createAction = {
   createAction: ActionType;
@@ -256,6 +281,7 @@ export type createActionVars = {
   dueDate: Date | string;
   succesCriteria: string;
   ideaId: number;
+  userId: number;
 };
 
 export type updateAction = {
@@ -270,7 +296,7 @@ export type updateActionVars = {
 };
 
 export type deleteAction = {
-  deeteAction: ActionType;
+  deleteAction: ActionType;
 };
 
 export type deleteActionVars = {

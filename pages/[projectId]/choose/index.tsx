@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import PhaseIntro from "../../../components/phase-intro";
+import { useEffect } from "react";
 
 
 const ChooseIntroPage: NextPage = () => {
@@ -20,6 +21,11 @@ const { status } = useSession();
   const prevPage = `/${projectId}/collect/hold_back`;
 
   const nextPage = `/${projectId}/choose/rank`;
+
+  useEffect(() => {
+    
+    router.prefetch('/')
+  }, [])
 
   return (
       <PhaseIntro

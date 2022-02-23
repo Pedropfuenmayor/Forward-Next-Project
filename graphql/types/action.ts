@@ -5,8 +5,6 @@ import {
   stringArg,
   nonNull,
   intArg,
-  booleanArg,
-  list,
   arg,
   core,
 } from "nexus";
@@ -20,6 +18,7 @@ export const Action = objectType({
     t.date("due_date");
     t.string("succes_criteria");
     t.int("idea_id");
+    t.int("user_id");
   },
 });
 
@@ -30,6 +29,24 @@ export const ActionsQuery = extendType({
       type: "Action",
       resolve(_parent, _args, ctx) {
         return ctx.prisma.actions.findMany();
+      },
+    });
+    t.nonNull.list.field("getActionsByUserId", {
+      type: "Action",
+      args: {
+        user_id: nonNull(intArg()),
+      },
+      resolve(_parent, args, ctx) {
+
+        const { user_id } = args;
+
+        return ctx.prisma.actions.findMany({
+
+          where: {
+
+            user_id,
+          },
+        });
       },
     });
     t.field("getActionByIdeaId", {
@@ -64,6 +81,7 @@ export const actionsMutation = extendType({
         due_date: nonNull(stringArg()),
         succes_criteria: nonNull(stringArg()),
         idea_id: nonNull(intArg()),
+        user_id: nonNull(intArg()),
       },
       async resolve(_root, args, ctx) {
         // const { req } = ctx;
@@ -74,10 +92,9 @@ export const actionsMutation = extendType({
         //   throw Error("Not authenticated!");
         // }
 
-        const { id, what, idea_id, due_date, succes_criteria } = args;
+        const { id, what, idea_id, due_date, succes_criteria, user_id } = args;
 
-        const date = new Date(due_date)
-
+        const date = new Date(due_date);
 
         if (validator.isEmpty(what)) {
           throw Error("Empty Action.");
@@ -89,7 +106,8 @@ export const actionsMutation = extendType({
             what,
             idea_id: +idea_id,
             due_date: date,
-            succes_criteria
+            succes_criteria,
+            user_id,
           },
         });
       },
@@ -103,14 +121,13 @@ export const actionsMutation = extendType({
         succes_criteria: nonNull(stringArg()),
       },
       async resolve(_root, args, ctx) {
-
         const { id, what, due_date, succes_criteria } = args;
 
         if (validator.isEmpty(what)) {
           throw Error("Empty Action.");
         }
 
-        const date = new Date(due_date)
+        const date = new Date(due_date);
 
         return ctx.prisma.actions.update({
           where: {
@@ -119,11 +136,11 @@ export const actionsMutation = extendType({
           data: {
             what,
             due_date: date,
-            succes_criteria
+            succes_criteria,
           },
         });
       },
-    });  
+    });
     t.nonNull.field("deleteAction", {
       type: "Action",
       args: {

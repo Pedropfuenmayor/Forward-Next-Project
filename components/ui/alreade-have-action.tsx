@@ -29,7 +29,7 @@ const AlreadyHaveAction: React.FC<{
       <>
     {isAction && <Tippy
       arrow={false}
-      content="Already have action"
+      content="Already have an action"
       className="bg-gray-500 text-white rounded px-2 py-0.5"
     >
       <div className="text-1xl text-green-600">

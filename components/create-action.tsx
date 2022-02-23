@@ -22,6 +22,7 @@ import {
   GET_IDEAS_BY_CHALLENGE_ID,
   UPDATE_ACTION,
 } from "../graphql/querys";
+import { useSession } from "next-auth/react";
 
 const textValidation = (text) => {
   if (text.trim().length === 0) {
@@ -42,6 +43,8 @@ const dateValidation = (date) => {
 };
 
 const CreateAction: React.FC<{}> = () => {
+  const { data: session, status } = useSession();
+  const { id: userId } = session;
   const router = useRouter();
   const { projectId, challengeId, ideaId } = router.query;
   const taskInputRef = useRef<HTMLInputElement>(null);
@@ -112,19 +115,17 @@ const CreateAction: React.FC<{}> = () => {
     { loading: loadingUpdateAction, reset: resetUpdate, error: updateError },
   ] = useMutation<updateAction, updateActionVars>(UPDATE_ACTION);
 
-
   if (loadingIdeas || loadingAction)
     return <p className="text-center">Loading...</p>;
 
-    useEffect(() => {
-          if (actionData.getActionByIdeaId) {
-            const { what, due_date, succes_criteria } =
-              actionData.getActionByIdeaId;
-            taskInputRef.current.value = what;
-            dateInputRef.current.value = due_date as string;
-            succesCriteriaInputRef.current.value = succes_criteria;
-          }
-      }, [actionData]);
+  useEffect(() => {
+    if (actionData.getActionByIdeaId) {
+      const { what, due_date, succes_criteria } = actionData.getActionByIdeaId;
+      taskInputRef.current.value = what;
+      dateInputRef.current.value = due_date as string;
+      succesCriteriaInputRef.current.value = succes_criteria;
+    }
+  }, [actionData]);
 
   const idea = ideasData.getIdeasByChallenge.find(
     (idea) => idea.id === +ideaId
@@ -156,6 +157,7 @@ const CreateAction: React.FC<{}> = () => {
         variables: {
           createActionId: id,
           ideaId: +ideaId,
+          userId: +userId,
           what,
           succesCriteria,
           dueDate,
@@ -163,7 +165,8 @@ const CreateAction: React.FC<{}> = () => {
         optimisticResponse: {
           createAction: {
             id: "temp-id",
-            idea_id: ideaId as string,
+            idea_id: +ideaId,
+            user_id: +userId,
             what,
             succes_criteria: succesCriteria,
             due_date: dueDate,
@@ -190,7 +193,8 @@ const CreateAction: React.FC<{}> = () => {
             what,
             succes_criteria: succesCriteria,
             due_date: dueDate,
-            idea_id: ideaId as string,
+            idea_id: +ideaId,
+            user_id: +userId,
             __typename: "Action",
           },
         },

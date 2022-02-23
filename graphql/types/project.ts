@@ -35,24 +35,23 @@ export const ProjectsQuery = extendType({
         return ctx.prisma.projects.findMany();
       },
     });
-    t.field("isProject", {
+    t.list.field("getProjectByUserId", {
       type: "Project",
       args: {
         userId: nonNull(intArg()),
       },
       async resolve(_parent, args, ctx) {
+        // const { req } = ctx;
 
-        const { req } = ctx;
+        // const session = await getSession({ req });
 
-        const session = await getSession({ req });
-
-        if (!session) {
-          throw Error("Not authenticated!");
-        }
+        // if (!session) {
+        //   throw Error("Not authenticated!");
+        // }
 
         const { userId } = args;
 
-        return ctx.prisma.projects.findFirst({where:{user_id:userId}});
+        return ctx.prisma.projects.findMany({ where: { user_id: userId } });
       },
     });
     t.field("getProjectById", {
@@ -61,7 +60,6 @@ export const ProjectsQuery = extendType({
         id: nonNull(intArg()),
       },
       async resolve(_parent, args, ctx) {
-
         // const { req } = ctx;
 
         // const session = await getSession({ req });
@@ -72,7 +70,7 @@ export const ProjectsQuery = extendType({
 
         const { id } = args;
 
-        return ctx.prisma.projects.findUnique({where:{id}});
+        return ctx.prisma.projects.findUnique({ where: { id } });
       },
     });
   },
@@ -89,7 +87,6 @@ export const ProjectMutation = extendType({
         user_id: nonNull(intArg()),
       },
       async resolve(_root, args: ProjectType, ctx) {
-
         const { req } = ctx;
 
         const session = await getSession({ req });
@@ -106,7 +103,7 @@ export const ProjectMutation = extendType({
 
         const existingProject = await ctx.prisma.projects.findFirst({
           where: {
-            name
+            name,
           },
         });
 
@@ -116,9 +113,9 @@ export const ProjectMutation = extendType({
 
         const project: ProjectType = {
           name,
-           id,
-           user_id
-         };
+          id,
+          user_id,
+        };
 
         return ctx.prisma.projects.create({ data: project });
       },
@@ -175,44 +172,28 @@ export const ProjectMutation = extendType({
     //     return updatedUser;
     //   },
     // });
-    // t.nonNull.field("deleteUser", {
-    //   type: "User",
-    //   args: {
-    //     password: nonNull(stringArg()),
-    //     email: nonNull(stringArg()),
-    //   },
-    //   async resolve(_root, args: DeleteUserType, ctx) {
+    t.nonNull.field("deleteProject", {
+      type: "Project",
+      args: {
+        project_id: nonNull(intArg()),
+      },
+      async resolve(_root, args, ctx) {
+        // const { req } = ctx;
 
-    //     const { req } = ctx;
+        // const session = await getSession({ req });
 
-    //     const session = await getSession({ req });
+        // if (!session) {
+        //   throw Error("Not authenticated!");
+        // }
 
-    //     if (!session) {
-    //       throw Error("Not authenticated!");
-    //     }
+        const { project_id } = args;
 
-    //     const { email, password } = args;
+        const deletedUser = await ctx.prisma.projects.delete({
+          where: { id: project_id },
+        });
 
-    //     const existingUser = await ctx.prisma.users.findFirst({
-    //       where: { email },
-    //     });
-
-    //     if (!existingUser) {
-    //       throw new Error("No user found");
-    //     }
-
-    //     const isValid = await verifyPassword(password, existingUser.password);
-
-    //     if (!isValid) {
-    //       throw new Error("Invalid password");
-    //     }
-
-    //     const deletedUser = await ctx.prisma.users.delete({
-    //       where: { id: existingUser.id },
-    //     });
-
-    //     return deletedUser;
-    //   },
-    // });
+        return deletedUser;
+      },
+    });
   },
 });

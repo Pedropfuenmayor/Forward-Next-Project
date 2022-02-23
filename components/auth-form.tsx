@@ -63,9 +63,9 @@ function AuthForm() {
 
   if (data) {
 
-    const { isProject } = data;
+    const { getProjectByUserId} = data;
 
-    if (isProject) {
+    if (getProjectByUserId) {
   
         router.push("/dashboard");
       

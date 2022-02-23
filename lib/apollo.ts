@@ -16,6 +16,16 @@ export const client = new ApolloClient({
               return incoming;
             },
           },
+          getActionsByUserId:{
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+          getProjectByUserId:{
+            merge(existing, incoming) {
+              return incoming;
+            },
+          }
         },
       },
     },

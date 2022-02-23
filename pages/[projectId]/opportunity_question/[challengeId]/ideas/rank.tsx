@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Ideas from "../../../../../components/ideas";
+import Ideas from "../../../../../components/creat-ideas";
 import IdeasRank from "../../../../../components/ideas-rank";
 
 const IdeasRankPage: NextPage = () => {

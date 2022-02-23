@@ -39,8 +39,30 @@ export const DELETE_USER = gql`
 
 export const IS_PROJECT = gql`
 query Query($userId: Int!) {
-  isProject(userId: $userId) {
+  getProjectByUserId(userId: $userId) {
     id
+  }
+}
+`;
+
+export const GET_PROJECT_BY_USER_ID = gql`
+query Query($userId: Int!) {
+  getProjectByUserId(userId: $userId) {
+    name
+    id
+    user_id
+    challenges {
+      id
+      project_id
+      opportunity_question {
+        name
+      }
+      ideas {
+        id
+        challenge_id
+        name
+      }
+    }
   }
 }
 `;
@@ -72,6 +94,17 @@ query GetProjectById($projectId: Int!) {
   }
 }
 `;
+
+export const DELETE_PROJECT = gql`
+mutation DeleteProject($projectId: Int!) {
+  deleteProject(project_id: $projectId) {
+    id
+    name
+    user_id
+  }
+}
+`
+
 
 export const CREATE_CHALLENGE = gql`
 mutation CreateChallenge($challengeId: Int!, $name: String!, $projectId: Int!, $challengeType: String!) {
@@ -248,13 +281,14 @@ query GetActionByIdeaId($ideaId: Int!) {
 `
 
 export const CREATE_ACTION = gql`
-mutation CreateAction($createActionId: Int!, $what: String!, $dueDate: String!, $succesCriteria: String!, $ideaId: Int!) {
-  createAction(id: $createActionId, what: $what, due_date: $dueDate, succes_criteria: $succesCriteria, idea_id: $ideaId) {
+mutation CreateAction($createActionId: Int!, $what: String!, $dueDate: String!, $succesCriteria: String!, $ideaId: Int!, $userId: Int!) {
+  createAction(id: $createActionId, what: $what, due_date: $dueDate, succes_criteria: $succesCriteria, idea_id: $ideaId, user_id: $userId) {
     id
     what
     due_date
     succes_criteria
     idea_id
+    user_id
   }
 }
 `
@@ -267,6 +301,20 @@ mutation Mutation($updateActionId: Int!, $what: String!, $dueDate: String!, $suc
     due_date
     succes_criteria
     idea_id
+    user_id
+  }
+}
+`
+
+export const GET_ACTIONS_BY_USER_ID = gql`
+query ActionsByUserId($userId: Int!) {
+  getActionsByUserId(user_id: $userId) {
+    id
+    what
+    due_date
+    succes_criteria
+    idea_id
+    user_id
   }
 }
 `
@@ -279,6 +327,7 @@ mutation DeleteAction($deleteActionId: Int!) {
     due_date
     succes_criteria
     idea_id
+    user_id
   }
 }
 `

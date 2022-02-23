@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import IdeasImpactEffort from "../../../../../components/ideas-impact-effort";
 import ImpactEffortScale from "../../../../../components/impact-effort-scale";
 
 const ImpactEffortScalePage: NextPage = () => {

@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-
+import Dashboard from "../components/dashboard";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 
-const Dashboard: NextPage = (props) => {
+const DashboardPage: NextPage = (props) => {
   const { status } = useSession();
   const router = useRouter();
 
@@ -15,7 +15,9 @@ const Dashboard: NextPage = (props) => {
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
 
-  if (status === "authenticated") return <p className="text-center">Dashboard</p>
+ return (
+   <Dashboard />
+ )
 };
 
-export default Dashboard;
+export default DashboardPage;

@@ -7,6 +7,7 @@ type Action {
   id: Int
   idea_id: Int
   succes_criteria: String
+  user_id: Int
   what: String
 }
 
@@ -57,7 +58,7 @@ input IdeaInputType {
 }
 
 type Mutation {
-  createAction(due_date: String!, id: Int!, idea_id: Int!, succes_criteria: String!, what: String!): Action!
+  createAction(due_date: String!, id: Int!, idea_id: Int!, succes_criteria: String!, user_id: Int!, what: String!): Action!
   createChallenge(challenge_type: String!, id: Int!, name: String!, project_id: Int!): Challenge!
   createIdea(challenge_id: Int!, id: Int!, name: String!): Idea!
   createOQ(challenge_id: Int!, id: Int!, name: String!): OQ!
@@ -67,6 +68,7 @@ type Mutation {
   deleteChallenge(id: Int!): Challenge!
   deleteIdea(id: Int!): Idea!
   deleteOQ(id: Int!): OQ!
+  deleteProject(project_id: Int!): Project!
   deleteUser(email: String!, password: String!): User!
   updateAction(due_date: String!, id: Int!, succes_criteria: String!, what: String!): Action!
   updateChallenges(challenges: [ChallengeInputType!]): [Challenge]!
@@ -93,12 +95,13 @@ type Query {
   action: [Action]!
   challenges: [Challenge]!
   getActionByIdeaId(idea_id: Int!): Action
+  getActionsByUserId(user_id: Int!): [Action]!
   getChallengesByProject(project_id: Int!): [Challenge]!
   getIdeasByChallenge(challenge_id: Int!): [Idea]!
   getOQ(challenge_id: Int!): OQ!
   getProjectById(id: Int!): Project
+  getProjectByUserId(userId: Int!): [Project]
   ideas: [Idea]!
-  isProject(userId: Int!): Project
   projects: [Project]!
   users: [User]!
 }
