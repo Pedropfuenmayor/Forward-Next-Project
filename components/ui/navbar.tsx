@@ -10,9 +10,8 @@ const Navbar = () => {
   const router = useRouter()
 
   function logoutHandler() {
-    signOut();
-    // {redirect: false, callbackUrl: 'http://localhost:3000/login'}
-    window.location.href = `${process.env.URI}/login`
+    signOut({redirect: false, callbackUrl: 'http://localhost:3000/login'});
+    // window.location.href = `${process.env.URI}/login`
   }
   
 

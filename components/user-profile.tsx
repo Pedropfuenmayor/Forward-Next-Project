@@ -51,9 +51,8 @@ const UserProfile = () => {
   });
 
 const logOut = ()=>{
-  signOut();
-  // {redirect: false, callbackUrl: 'http://localhost:3000/login'}
-  window.location.href =  window.location.href = `${process.env.URI}/login`
+  signOut({redirect: false, callbackUrl: 'http://localhost:3000/login'});
+  // window.location.href =  window.location.href = `${process.env.URI}/login`
 }  
 
   const {
