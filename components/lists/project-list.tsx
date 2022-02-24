@@ -1,13 +1,7 @@
 import { BiChevronUp } from "react-icons/bi";
 import { Disclosure } from "@headlessui/react";
 import ProjectPanel from "../ui/project-panel";
-import useSWR from "swr";
-import { fetcher } from "../../helper/functions";
-import { useQuery } from "@apollo/client";
-import { GET_PROJECT_BY_USER_ID } from "../../graphql/querys";
 import {
-  getProjectByUserId,
-  getProjectByUserIdVars,
   ProjectType,
 } from "../../models/models";
 import { useSession } from "next-auth/react";
@@ -19,7 +13,7 @@ const ProjectList: React.FC<{
   const { id: userId } = session;
 
 
-    if (!projects || projects.length ===0)
+    if (!projects || projects.length < 1)
 return <p className="mt-4 text-center">No Projects.</p>;
 
   return (

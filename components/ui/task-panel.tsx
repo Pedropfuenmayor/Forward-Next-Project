@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DELETE_ACTION, GET_ACTIONS_BY_USER_ID } from "../../graphql/querys";
 import DeleteModal from "./delete-modal";
 import {
+  ActionType,
   deleteAction,
   deleteActionVars,
   getActionsByUserId,
@@ -14,6 +15,7 @@ import { useSession } from "next-auth/react";
 const TaskPanel: React.FC<{
   id: number;
   projects: [ProjectType];
+  action: ActionType;
 }> = ({ id, projects }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [deleteAction, setDeleteAction] = useState<true | false>(false);
@@ -54,6 +56,8 @@ const TaskPanel: React.FC<{
     return action.id === id;
   });
 
+  if(!action) return null;
+
   const ideaId = action.idea_id;
 
   const project = projects.find((project) => {
@@ -63,6 +67,8 @@ const TaskPanel: React.FC<{
       });
     });
   });
+
+  if(!project) return null;
 
   const challenge = project.challenges.find((challenge) => {
     return challenge.ideas.some((idea) => {

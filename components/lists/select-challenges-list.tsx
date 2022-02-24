@@ -13,7 +13,7 @@ const SelectChallangeList: React.FC<{
       const { id } = selected;
       onSelectChallanges(id as number);
     }
-  }, [selected]);
+  }, [selected, onSelectChallanges]);
 
   return (
     <div className="w-full px-4 py-16">

@@ -70,14 +70,14 @@ const ProjectPanel: React.FC<{
   return (
     <div className="bg-gray-100 p-3 rounded-lg">
       <div className="text-black mt-2">
-        <Link href={collectLink}>
+        <Link href={collectLink} passHref>
           <button className="hover:text-blue-600 transition duration-300">
             Collect
           </button>
         </Link>
       </div>
       <div className="text-black mt-2">
-        <Link href={chooseLink}>
+        <Link href={chooseLink} passHref>
           <button
             className={
               isChallenge

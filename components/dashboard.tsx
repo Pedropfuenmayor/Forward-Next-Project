@@ -51,7 +51,7 @@ const Dashboard: React.FC<{}> = (props) => {
       <Tippy
         arrow={false}
         content="New project"
-        className="bg-gray-500 text-center text-white rounded px-1 py-0.5"
+        className="bg-gray-500 text-center text-white rounded px-4 py-1"
       >
         <div className="mt-2 m-auto text-center">
           <Link href="/new_project" passHref>

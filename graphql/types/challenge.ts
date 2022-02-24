@@ -124,10 +124,6 @@ export const ChallengeMutation = extendType({
 
         const { id, name, project_id, challenge_type } = args;
 
-        if (validator.isEmpty(name)) {
-          throw Error("Empty challenge name.");
-        }
-
         return ctx.prisma.challenges.create({
           data: {
             id: +id,

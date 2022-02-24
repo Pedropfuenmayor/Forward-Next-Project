@@ -10,17 +10,16 @@ const { status } = useSession();
   const router = useRouter();
   const { projectId } = router.query;
 
+  useEffect(() => {
+    
+    router.prefetch(`/${projectId}/collect/drive_forward`)
+    
+  }, [router,projectId])
 
   if (status === "unauthenticated") {
     router.push("./login");
     return <p className="text-center">unauthenticated</p>;
   }
-
-  useEffect(() => {
-    
-    router.prefetch(`/${projectId}/collect/drive_forward`)
-    
-  }, [])
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
   

@@ -57,9 +57,9 @@ export default NextAuth({
       return session;
     },
   },
-  secret: 'supersecret',
+  secret: process.env.JWT_SECRET,
 
   jwt: {
-    secret:'supersecret' ,
+    secret: process.env.JWT_SECRET ,
   },
 });

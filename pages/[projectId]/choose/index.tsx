@@ -10,6 +10,10 @@ const { status } = useSession();
   const router = useRouter();
   const { projectId } = router.query;
 
+  useEffect(() => {
+    
+    router.prefetch('/')
+  }, [router])
 
   if (status === "unauthenticated") {
     router.push("./login");
@@ -22,10 +26,6 @@ const { status } = useSession();
 
   const nextPage = `/${projectId}/choose/rank`;
 
-  useEffect(() => {
-    
-    router.prefetch('/')
-  }, [])
 
   return (
       <PhaseIntro

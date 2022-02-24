@@ -40,7 +40,7 @@ export type ProjectType = {
 };
 
 export type isProject = {
-  getProjectByUserId: ProjectType;
+  getProjectByUserId: [ProjectType];
 };
 
 export type getProjectById = {

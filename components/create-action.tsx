@@ -114,10 +114,7 @@ const CreateAction: React.FC<{}> = () => {
     updateAction,
     { loading: loadingUpdateAction, reset: resetUpdate, error: updateError },
   ] = useMutation<updateAction, updateActionVars>(UPDATE_ACTION);
-
-  if (loadingIdeas || loadingAction)
-    return <p className="text-center">Loading...</p>;
-
+  
   useEffect(() => {
     if (actionData.getActionByIdeaId) {
       const { what, due_date, succes_criteria } = actionData.getActionByIdeaId;
@@ -126,6 +123,10 @@ const CreateAction: React.FC<{}> = () => {
       succesCriteriaInputRef.current.value = succes_criteria;
     }
   }, [actionData]);
+
+  if (loadingIdeas || loadingAction)
+    return <p className="text-center">Loading...</p>;
+
 
   const idea = ideasData.getIdeasByChallenge.find(
     (idea) => idea.id === +ideaId

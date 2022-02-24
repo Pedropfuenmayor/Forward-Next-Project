@@ -7,7 +7,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_USER, IS_PROJECT } from "../graphql/querys";
 import { createUserVars, isProject, isProjectVars } from "../models/models";
 
-
 const emailValidation = (email) => {
   if (!email.includes("@") || email.trim().length === 0) {
     return false;
@@ -36,11 +35,16 @@ function AuthForm() {
     userError: "",
   });
 
-  const [createUser, { loading, reset }] = useMutation<any, createUserVars>(CREATE_USER);
+  const [createUser, { loading, reset }] = useMutation<any, createUserVars>(
+    CREATE_USER
+  );
 
-  const { loading: isLoadingUserProjects, data } = useQuery<isProject, isProjectVars>(IS_PROJECT, {
+  const { loading: isLoadingUserProjects, data } = useQuery<
+    isProject,
+    isProjectVars
+  >(IS_PROJECT, {
     variables: {
-      userId: session ? session.id as number : 0,
+      userId: session ? (session.id as number) : 0,
     },
     skip: session ? false : true,
   });
@@ -62,19 +66,13 @@ function AuthForm() {
   if (isLoadingUserProjects) return <p className="text-center">Loading...</p>;
 
   if (data) {
+    const { getProjectByUserId } = data;
 
-    const { getProjectByUserId} = data;
-
-    if (getProjectByUserId) {
-  
-        router.push("/dashboard");
-      
-    }else{
-
+    if (getProjectByUserId.length > 0) {
+      router.push("/dashboard");
+    } else {
       router.push("/new_project");
-
     }
-
   }
 
   function switchAuthModeHandler() {
@@ -230,8 +228,7 @@ function AuthForm() {
       {userStatus.userCreated && (
         <div className="w-4/12 bg-gradient-to-r from-green-400 to-blue-400 rounded m-auto ">
           <p className="m-auto mt-6 text-center text-white text-base">
-            User created, you can login.{" "}
-            <span className="pl-5 text-base">🚀</span>
+            You can login. <span className="pl-5 text-base">🚀</span>
           </p>
         </div>
       )}
