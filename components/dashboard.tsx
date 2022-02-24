@@ -1,16 +1,10 @@
-import { useRef, useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import {
-  Error,
   getProjectByUserId,
   getProjectByUserIdVars,
-  HelpText,
-  IdeasExample,
+ 
 } from "../models/models";
-import HelpTextModal from "./ui/hepl-text-modal";
-import IdeasExamplesModal from "./ui/ideas-example-modal";
 import TaskList from "./lists/task-list";
-import { AiOutlinePlusCircle } from "react-icons/Ai";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import ProjectsList from "./lists/project-list";
 import Link from "next/link";
 import Tippy from "@tippyjs/react";
