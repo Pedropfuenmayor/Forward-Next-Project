@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import useInput from "../hooks/useInput";
-import { useRouter } from "next/router";
 import { getSession, signOut } from "next-auth/react";
 import { useMutation } from "@apollo/client";
 import { DELETE_USER, UPDATE_USER} from "../graphql/querys";

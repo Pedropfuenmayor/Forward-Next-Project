@@ -120,58 +120,6 @@ export const ProjectMutation = extendType({
         return ctx.prisma.projects.create({ data: project });
       },
     });
-    // t.nonNull.field("updateUser", {
-    //   type: "User",
-    //   args: {
-    //     oldPassword: nonNull(stringArg()),
-    //     newPassword: nonNull(stringArg()),
-    //     email: nonNull(stringArg()),
-    //   },
-    //   async resolve(_root, args: UpdateUserType, ctx) {
-
-    //     const { req } = ctx;
-
-    //     const session = await getSession({ req });
-
-    //     if (!session) {
-    //       throw Error("Not authenticated!");
-    //     }
-
-    //     const { email, oldPassword, newPassword } = args;
-
-    //     const existingUser = await ctx.prisma.users.findFirst({
-    //       where: { email },
-    //     });
-
-    //     if (!existingUser) {
-    //       throw new Error("No user found");
-    //     }
-
-    //     if (!validator.isLength(newPassword, { min: 7 })) {
-    //       throw Error("Password must be 7 caracters long");
-    //     }
-
-    //     const isValid = await verifyPassword(
-    //       oldPassword,
-    //       existingUser.password
-    //     );
-
-    //     if (!isValid) {
-    //       throw new Error("Invalid password");
-    //     }
-
-    //     const hashedPassword = await hashPassword(newPassword);
-
-    //     const updatedUser = await ctx.prisma.users.update({
-    //       where: { id: existingUser.id },
-    //       data: {
-    //         password: hashedPassword,
-    //       },
-    //     });
-
-    //     return updatedUser;
-    //   },
-    // });
     t.nonNull.field("deleteProject", {
       type: "Project",
       args: {

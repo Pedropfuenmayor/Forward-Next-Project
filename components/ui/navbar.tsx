@@ -1,9 +1,9 @@
 import Link from "next/dist/client/link";
 import { useSession, signOut } from "next-auth/react";
-import { CgProfile } from "react-icons/Cg";
+import { CgProfile } from "react-icons/cg";
 import { useRouter } from "next/router";
 import React from "react";
-import { RefType, Props } from "../../models/models";
+
 
 const Navbar = () => {
   const {data:session} = useSession();
