@@ -39,12 +39,13 @@ const IdeasImpactEffort: React.FC<{}> = () => {
       },
     }
   );
+  
   useEffect(() => {
     
     router.prefetch(`/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`)
     
   }, [router,projectId,challengeId ]);
-  
+
 
   if (loadingOQ || loadingIdeas)
     return <p className="text-center">Loading...</p>;
