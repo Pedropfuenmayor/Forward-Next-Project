@@ -28,14 +28,11 @@ import {
   GET_PROJECT_BY_ID,
 } from "../graphql/querys";
 import { useRouter } from "next/router";
-import PhaseClose from "./phase-close";
-
 
 const Challenges: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
   const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [error, setError] = useState<Error | false>(false);
-  const [isDoneChallenges, setIsDoneChallenges] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteChallange, setDeleteChallange] = useState<
     number | string | false
@@ -244,17 +241,12 @@ const Challenges: React.FC<{}> = () => {
     }
   };
 
-  if (isDoneChallenges) {
-    return <PhaseClose text="Create Phase done" />;
-  }
-
   const nextPageHandler = () => {
     if (isDriveforward) {
       router.push(`/${projectId}/collect/hold_back`);
     } else {
-      setIsDoneChallenges(true);
       setTimeout(() => {
-        router.push(`/${projectId}/choose`);
+        router.push(`/${projectId}/collect/rank`);
       }, 1000);
     }
   };

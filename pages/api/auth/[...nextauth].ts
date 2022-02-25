@@ -21,13 +21,13 @@ export default NextAuth({
 
 
         if (!user) {
-          throw new Error("No user found");
+          throw new Error("No user found!");
         }
 
         const isValid = await verifyPassword(password, user.password);
 
         if (!isValid) {
-          throw new Error("Invalid password");
+          throw new Error("Invalid password!");
         }
 
 

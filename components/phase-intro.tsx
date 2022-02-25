@@ -12,7 +12,7 @@ const PhaseIntro: React.FC<{
   return (
     <section className="flex flex-col justify-center items-center">
       <h1 className="text-6xl text-center">
-        <span className="text-blue-600">{phaseName}</span> Phase{" "}
+        <span className="text-blue-600">{phaseName}</span> Phase<span className="text-blue-600">.</span>{" "}
       </h1>
       {/* <h2 className="text-4xl text-center mt-4">{props.subTitle}</h2> */}
       <div className="flex justify-between items-center w-full">

@@ -114,7 +114,7 @@ const CreateAction: React.FC<{}> = () => {
     updateAction,
     { loading: loadingUpdateAction, reset: resetUpdate, error: updateError },
   ] = useMutation<updateAction, updateActionVars>(UPDATE_ACTION);
-  
+
   useEffect(() => {
     if (actionData.getActionByIdeaId) {
       const { what, due_date, succes_criteria } = actionData.getActionByIdeaId;
@@ -210,8 +210,8 @@ const CreateAction: React.FC<{}> = () => {
 
   return (
     <section className="flex mb-10 flex-col justify-center items-center">
-      <h1 className="text-4xl text-center">
-        Action <span className="text-blue-600">Creation</span>
+      <h1 className="text-5xl text-center">
+        Action <span className="text-blue-600">Creation</span>.
       </h1>
       <p className="text-2xl mt-4 text-gray-200 hover:text-black transition duration-300">
         {idea.name}

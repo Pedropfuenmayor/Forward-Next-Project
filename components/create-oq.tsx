@@ -238,7 +238,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     }
   };
   if (isDoneOQ) {
-    return <PhaseClose text="Oppportunity Question Phase done!" />;
+    return <PhaseClose text="Oppportunity Question Phase done" />;
   }
 
   const nextPageHandler = () => {
@@ -262,7 +262,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   return (
     <section className="flex flex-col justify-center items-center">
       <h1 className="text-6xl text-center">
-        Write a opportunity question{" "}
+        Write a opportunity question<span className="text-blue-600">.</span>{" "}
         <span className="text-gray-400 text-2xl">(only one)</span>
       </h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">

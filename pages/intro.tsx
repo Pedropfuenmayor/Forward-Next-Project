@@ -1,10 +1,13 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import ChallengesRank from "../../../components/challenges-rank";
+import React from "react";
+import { BsArrowRightShort } from "react-icons/bs";
+import Intro from "../components/intro";
 
-const ChallengesRankPage: NextPage = () => {
-const { status } = useSession();
+const IntroPage: NextPage = () => {
+  const { status } = useSession();
   const router = useRouter();
 
   if (status === "unauthenticated") {
@@ -13,11 +16,7 @@ const { status } = useSession();
   }
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
-
-  
-  return (
-     <ChallengesRank />
-  );
+  return <Intro />;
 };
 
-export default ChallengesRankPage;
+export default IntroPage;

@@ -14,12 +14,13 @@ import {
   GET_IDEAS_BY_CHALLENGE_ID,
   GET_OQ_BY_CHALLENGE_ID,
 } from "../graphql/querys";
+import { useEffect } from "react";
 
 const IdeasImpactEffort: React.FC<{}> = () => {
   const router = useRouter();
-  const { projectId } = router.query;
-  const { challengeId } = router.query;
-  const { ideaType } = router.query;
+  const { projectId, challengeId, ideaType} = router.query;
+  
+
 
   const { loading: loadingIdeas, data: ideasData } = useQuery<
     getIdeasByChallenge,
@@ -38,6 +39,12 @@ const IdeasImpactEffort: React.FC<{}> = () => {
       },
     }
   );
+  useEffect(() => {
+    
+    router.prefetch(`/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`)
+    
+  }, [router,projectId,challengeId ]);
+  
 
   if (loadingOQ || loadingIdeas)
     return <p className="text-center">Loading...</p>;

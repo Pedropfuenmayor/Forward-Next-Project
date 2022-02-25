@@ -65,7 +65,7 @@ const ImpactEffortScale: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Create Actions</h1>
+      <h1 className="text-6xl text-center">Create Actions<span className="text-blue-600">.</span></h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>

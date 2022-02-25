@@ -1,13 +1,20 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import PhaseIntro from "../../../../../components/phase-intro";
 
 const IdeasIntroPage: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
-  const { projectId } = router.query;
-  const { challengeId } = router.query;
+  const { projectId, challengeId  } = router.query;
+  
+
+  useEffect(() => {
+    
+    router.prefetch(`/${projectId}/opportunity_question/${challengeId}/ideas/create`)
+    
+  }, [router,projectId,challengeId ])
 
   if (status === "unauthenticated") {
     router.push("./login");

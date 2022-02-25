@@ -21,8 +21,8 @@ const ImpactEffortIdeaList: React.FC<{
                   className={
                     (impact === true && type === "impact") ||
                     (effort === true && type === "effort")
-                      ? "my-0 mx-4 text-1xl text-green-600 flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
-                      : "my-0 mx-4 text-1xl text-red-500 flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
+                      ? "my-0 mx-4 text-1xl text-blue-600 flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
+                      : "my-0 mx-4 text-1xl text-black flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
                   }
                 >
                   {type === "impact"

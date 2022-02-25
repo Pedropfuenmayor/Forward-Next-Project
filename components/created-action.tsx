@@ -5,6 +5,7 @@ import { BsArrowRightShort } from "react-icons/bs";
 import Link from "next/dist/client/link";
 import { useQuery } from "@apollo/client";
 import { GET_ACTION_BY_IDEA_ID, GET_IDEAS_BY_CHALLENGE_ID } from "../graphql/querys";
+import { useEffect } from "react";
 
 const ActionCreated: React.FC<{}> = (props) => {
   const router = useRouter();
@@ -28,6 +29,12 @@ const ActionCreated: React.FC<{}> = (props) => {
     },
   });
 
+  useEffect(() => {
+    
+    router.prefetch(`/dashboard`)
+    
+  }, [router])
+
 if (loadingIdeas || loadingAction)
 return <p className="text-center">Loading...</p>;
 
@@ -42,7 +49,7 @@ const idea = ideasData.getIdeasByChallenge.find(
       <header className="text-center">
         <div className="flex items-center">
           <h1 className="text-4xl text-center">
-            Action <span className="text-blue-600">Created</span>
+            Action <span className="text-blue-600">Created</span>!
           </h1>
           <span className="text-3xl pl-7">🚀</span>
         </div>
@@ -57,13 +64,13 @@ const idea = ideasData.getIdeasByChallenge.find(
         <p className="my-2 pl-10 text-1xl">{actionData.getActionByIdeaId.due_date}</p>
         <p className="font-bold m2-2 text-1xl">Succes Criteria</p>
         <p className="my-2 pl-10 text-1xl">{actionData.getActionByIdeaId.succes_criteria}</p>
-        <div className="flex items-center text-blue-600">
+        <div className="text-blue-600 mt-2 w-68 flex items-center transition ease-in-out delay-15 hover:translate-x-2 duration-300">
           <Link href={nextPage} passHref>
-            <a className="text-2xl hover:text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 transition duration-300">
+            <a className="text-2xl">
               Create More Actions
             </a>
           </Link>
-          <BsArrowRightShort className="pl-3 text-6xl cursor-pointer" />
+          <BsArrowRightShort className="pl-3 text-5xl" />
         </div>
       </section>
     </section>

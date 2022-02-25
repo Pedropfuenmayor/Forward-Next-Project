@@ -4,7 +4,6 @@ import {
   Error,
   ProjectNameExample,
   HelpText,
-  createUserVars,
   createProjectVars,
 } from "../models/models";
 import ProjectNameExampleModal from "../components/ui/project-name-example-modal";
@@ -99,7 +98,7 @@ const ProjectNameForm = () => {
   return (
     <section className="flex flex-col justify-center items-center">
       <h1 className="text-6xl text-center">
-        Name your <span className="text-blue-600">Project</span>
+        Name your <span className="text-blue-600">Project</span>.
       </h1>
       <div className="mt-7 text-gray-200 w-44 flex justify-between">
         <button

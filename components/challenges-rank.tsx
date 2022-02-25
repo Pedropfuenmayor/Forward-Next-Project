@@ -147,7 +147,7 @@ const ChallengesRank: React.FC<{}> = () => {
   };
 
   if (isDoneChallenges) {
-    return <PhaseClose text="Choose Phase done!" />;
+    return <PhaseClose text="Collect Phase done" />;
   }
 
   const nextPageHandler = () => {
@@ -159,7 +159,7 @@ const ChallengesRank: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Rank your Challenges</h1>
+      <h1 className="text-6xl text-center">Rank your Challenges<span className="text-blue-600">.</span></h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
         {projectData.getProjectById.name} Project
       </p>
@@ -205,7 +205,7 @@ const ChallengesRank: React.FC<{}> = () => {
       )} */}
       <div className="flex justify-around items-center w-full">
         <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={`/${projectId}/collect/drive_forwar`} passHref>
+          <Link href={`/${projectId}/collect/hold_back`} passHref>
             <a>
               <BsArrowLeftShort />
             </a>

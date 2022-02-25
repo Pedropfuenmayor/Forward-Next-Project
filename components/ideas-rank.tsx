@@ -152,7 +152,7 @@ const IdeasRank: React.FC<{}> = () => {
   };
 
   if (isDoneChallenges) {
-    return <PhaseClose text="Idea Creation Phase done!" />;
+    return <PhaseClose text="Idea Creation Phase done" />;
   }
 
   const nextPageHandler = () => {
@@ -164,7 +164,7 @@ const IdeasRank: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Rank your Ideas</h1>
+      <h1 className="text-6xl text-center">Rank your Ideas<span className="text-blue-600">.</span></h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>

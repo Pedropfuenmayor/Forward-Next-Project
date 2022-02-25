@@ -83,7 +83,7 @@ const SelectChallange: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Select a Challenge</h1>
+      <h1 className="text-6xl text-center">Select a Challenge<span className="text-blue-600">.</span></h1>
       <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
         {projectData.getProjectById.name} Project
       </p>

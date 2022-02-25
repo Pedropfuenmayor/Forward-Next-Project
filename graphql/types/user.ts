@@ -102,11 +102,11 @@ export const UserMutation = extendType({
         });
 
         if (!existingUser) {
-          throw new Error("No user found");
+          throw new Error("No user found!");
         }
 
         if (!validator.isLength(newPassword, { min: 7 })) {
-          throw Error("Password must be 7 caracters long");
+          throw Error("Password must be 7 caracters long!");
         }
 
         const isValid = await verifyPassword(
@@ -115,7 +115,7 @@ export const UserMutation = extendType({
         );
 
         if (!isValid) {
-          throw new Error("Invalid password");
+          throw new Error("Invalid password!");
         }
 
         const hashedPassword = await hashPassword(newPassword);

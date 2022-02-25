@@ -1,19 +1,22 @@
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
+import React from "react";
 import { useState } from "react";
+import { BsArrowRightShort } from "react-icons/bs";
 import { DELETE_PROJECT, GET_PROJECT_BY_USER_ID } from "../../graphql/querys";
-import { deleteProject, deleteProjectVars, ProjectType } from "../../models/models";
+import {
+  deleteProject,
+  deleteProjectVars,
+  ProjectType,
+} from "../../models/models";
 import DeleteModal from "./delete-modal";
 
-
 const ProjectPanel: React.FC<{
-    project:ProjectType;
-    projects: [ProjectType];
-}> = ({project, projects}) => {
+  project: ProjectType;
+  projects: [ProjectType];
+}> = ({ project, projects }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteProject, setDeleteProject] = useState<boolean>(
-    false
-  );
+  const [deleteProject, setDeleteProject] = useState<boolean>(false);
 
   const [
     deleteProjectFunction,
@@ -23,7 +26,7 @@ const ProjectPanel: React.FC<{
       cache.writeQuery({
         query: GET_PROJECT_BY_USER_ID,
         data: {
-            getProjectByUserId: projects.filter((pro) => {
+          getProjectByUserId: projects.filter((pro) => {
             return pro.id !== project.id;
           }),
         },
@@ -33,7 +36,6 @@ const ProjectPanel: React.FC<{
       });
     },
   });
-
 
   const opendModal = () => {
     setIsOpen(true);
@@ -48,20 +50,17 @@ const ProjectPanel: React.FC<{
   const removeChallangeHandler = () => {
     if (deleteProject) {
       deleteProjectFunction({
-          variables:{
-              projectId: project.id
-          }
-      })
+        variables: {
+          projectId: project.id,
+        },
+      });
       setIsOpen(false);
     } else {
-    return;
+      return;
     }
   };
 
-
   const collectLink = `/${project.id}/collect`;
-
-  const chooseLink = `/${project.id}/choose`;
 
   const opportunityLink = `/${project.id}/opportunity_question`;
 
@@ -69,40 +68,25 @@ const ProjectPanel: React.FC<{
 
   return (
     <div className="bg-gray-100 p-3 rounded-lg">
-      <div className="text-black mt-2">
+      <div className="text-blue-600 mt-2 w-44 flex items-center transition ease-in-out delay-15 hover:translate-x-1 duration-300">
         <Link href={collectLink} passHref>
-          <button className="hover:text-blue-600 transition duration-300">
-            Collect
-          </button>
+          <button className="">Collect</button>
         </Link>
+        <BsArrowRightShort className="text-xl" />
       </div>
-      <div className="text-black mt-2">
-        <Link href={chooseLink} passHref>
-          <button
-            className={
-              isChallenge
-                ? "hover:text-blue-600 transition duration-300"
-                : "text-gray-300"
-            }
-            disabled={!isChallenge}
-          >
-            Choose{isChallenge ? "" : "    (No Challenges yet)"}
-          </button>
-        </Link>
-      </div>
-      <div className="text-black mt-2">
+      <div className={`text-blue-600 mt-2 flex items-center transition ease-in-out delay-15 hover:translate-x-1 duration-300 ${isChallenge? 'w-44':''}`}>
         <Link href={opportunityLink} passHref>
           <button
-            className={
-              isChallenge
-                ? "hover:text-blue-600 transition duration-300"
-                : "text-gray-300"
-            }
+            className={isChallenge ? "" : "text-gray-300"}
             disabled={!isChallenge}
           >
             Opportunity Questions{isChallenge ? "" : "    (No Challenges yet)"}
           </button>
         </Link>
+        {isChallenge && <BsArrowRightShort
+          className={`text-xl ${isChallenge ? "" : "text-gray-300"}
+            `}
+        />}
       </div>
       <div className="mt-4 text-right">
         <DeleteModal
