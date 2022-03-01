@@ -3,6 +3,7 @@ import { useSession, signOut } from "next-auth/react";
 import { CgProfile } from "react-icons/cg";
 import { useRouter } from "next/router";
 import React from "react";
+import Image from "next/image";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -17,6 +18,7 @@ const Navbar = () => {
 
   return (
     <header className="w-full h-20 bg-white flex items-center justify-center">
+      <Image  src='/../public/Forward-logos_white.png' alt='Forward Logo' width={200} height={200} />
       {(session && !isIndex) && <nav>
         <ul className="list-none text-gray-200 m-0 p-0 flex justify-center">
           <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
