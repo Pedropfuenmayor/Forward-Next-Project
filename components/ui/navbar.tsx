@@ -17,33 +17,44 @@ const Navbar = () => {
   }
 
   return (
-    <header className="w-full h-20 bg-white flex items-center justify-center">
-      <Image  src='/../public/Forward-logos_white.png' alt='Forward Logo' width={200} height={200} />
-      {(session && !isIndex) && <nav>
-        <ul className="list-none text-gray-200 m-0 p-0 flex justify-center">
-          <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
-            <Link href="/intro"> Intro </Link>
-          </li>
-          <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
-            <Link href="/new_project"> New Project </Link>
-          </li>
-          <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
-            <Link href="/dashboard"> Dashboard </Link>
-          </li>
-          <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
-            <button onClick={logoutHandler} className="bg-transparent">
-              Logout
-            </button>
-          </li>
-          <li className="text-2xl flex mx-4 hover:text-black cursor-pointer transition duration-300">
-            <Link href="/profile" passHref>
-              <a>
-                <CgProfile />
-              </a>
-            </Link>
-          </li>
-        </ul>
-      </nav>}
+    <header className={`w-full h-20 bg-white flex items-center ${session?'justify-center':''}`}>
+      {isIndex &&
+      <div className='ml-11 mt-10 lg:ml-32 '>
+      <Image
+        src="/../public/Forward-logos_black.png"
+        alt="Forward Logo"
+        width={150}
+        height={150}
+        priority
+      />
+      </div>}
+      {session && !isIndex && (
+        <nav>
+          <ul className="list-none text-gray-200 m-0 p-0 flex justify-center">
+            <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
+              <Link href="/intro"> Intro </Link>
+            </li>
+            <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
+              <Link href="/new_project"> New Project </Link>
+            </li>
+            <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
+              <Link href="/dashboard"> Dashboard </Link>
+            </li>
+            <li className="mx-4 hover:text-black cursor-pointer transition duration-300">
+              <button onClick={logoutHandler} className="bg-transparent">
+                Logout
+              </button>
+            </li>
+            <li className="text-2xl flex mx-4 hover:text-black cursor-pointer transition duration-300">
+              <Link href="/profile" passHref>
+                <a>
+                  <CgProfile />
+                </a>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 };
