@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <header className={`w-full h-20 bg-white flex items-center ${session?'justify-center':''}`}>
-      {isIndex &&
+      {/* {isIndex &&
       <div className='ml-11 mt-10 lg:ml-32 '>
       <Image
         src="/../public/Forward-logos_black.png"
@@ -27,7 +27,7 @@ const Navbar = () => {
         height={150}
         priority
       />
-      </div>}
+      </div>} */}
       {session && !isIndex && (
         <nav>
           <ul className="list-none text-gray-200 m-0 p-0 flex justify-center">
