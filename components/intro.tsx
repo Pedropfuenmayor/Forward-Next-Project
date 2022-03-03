@@ -12,7 +12,7 @@ const Intro: React.FC = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div>
             <h1 className="mt-4 text-xl font-semibold text-gray-800">
-              Name your project.
+            <span className="text-blue-600">1.</span> Name your project.
             </h1>
 
             <p className="mt-2 text-gray-500">
@@ -22,7 +22,7 @@ const Intro: React.FC = () => {
 
           <div>
             <h1 className="mt-4 text-xl font-semibold text-gray-800">
-              Collect.
+            <span className="text-blue-600">2.</span> Collect.
             </h1>
 
             <p className="mt-2 text-gray-500">
@@ -31,7 +31,7 @@ const Intro: React.FC = () => {
           </div>
           <div>
             <h1 className="mt-4 text-xl font-semibold text-gray-800">
-              Opportunity question.
+            <span className="text-blue-600">3.</span> Opportunity question.
             </h1>
 
             <p className="mt-2 text-gray-500">
@@ -40,7 +40,7 @@ const Intro: React.FC = () => {
           </div>
           <div>
             <h1 className="mt-4 text-xl font-semibold text-gray-800">
-              Idea generation.
+            <span className="text-blue-600">4.</span> Idea generation.
             </h1>
 
             <p className="mt-2 text-gray-500">
@@ -49,7 +49,7 @@ const Intro: React.FC = () => {
           </div>
           <div>
             <h1 className="mt-4 text-xl font-semibold text-gray-800">
-              Action.
+            <span className="text-blue-600">5.</span> Action.
             </h1>
 
             <p className="mt-2 text-gray-500">
