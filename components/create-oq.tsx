@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-
 import {
   Error,
   HelpText,
@@ -176,7 +175,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Opportunity Question",
-      text: "Take your selected challenge and reframe it, use questions like: How that can be done? How it can be imporve? What can improve it? Use what ever other question that makes you think in terms of solutions.",
+      text: "Take your selected challenge and reframe it, use questions like: How that can be done? How it can be imporve? What can improve it? What is important for...? Use what ever other question that makes you think in terms of solutions.",
     });
   };
 
