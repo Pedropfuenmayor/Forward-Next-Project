@@ -13,11 +13,16 @@ const Navbar = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
+  function logoutHandler() {
+    signOut({ redirect: false, callbackUrl: "/" });
+    // window.location.href = `${process.env.URI}/login`
+  }
+
   const navigation = [
     { name: "Intro", href: "/intro" },
     { name: "New Project", href: "/new_project" },
     { name: "Projects-Actions", href: "projects_actions" },
-    { name: "Logout", href: "/logout" },
+    { name: "Logout", href: "#", handler:logoutHandler},
     { name: "Profile", href: "/profile" },
   ];
 
@@ -26,11 +31,6 @@ const Navbar = () => {
   }
 
   const isIndex = router.pathname === "/";
-
-  function logoutHandler() {
-    signOut({ redirect: false, callbackUrl: "/" });
-    // window.location.href = `${process.env.URI}/login`
-  }
 
   return (
     <header
@@ -70,15 +70,16 @@ const Navbar = () => {
                   <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="hidden sm:block sm:ml-6">
                       <div className="flex space-x-4">
-                        {navigation.map((item, i) => (
-                          <Link key={i} href={item.href}>
+                        {navigation.map(({name, href, handler}, i) => (
+                          <Link key={i} href={href}>
                             <a
+                            onClick={handler? handler: null}
                               className={classNames(
                                 "text-gray-300 hover:text-black transition duration-300",
                                 "px-3 py-2 "
                               )}
                             >
-                              {item.name}
+                              {name}
                             </a>
                           </Link>
                         ))}
