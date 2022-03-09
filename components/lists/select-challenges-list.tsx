@@ -16,7 +16,7 @@ const SelectChallangeList: React.FC<{
   }, [selected, onSelectChallanges]);
 
   return (
-    <div className="w-full px-4 py-16">
+    <div className="w-full px-4 py-8">
       <div className="w-full max-w-md mx-auto">
         <RadioGroup value={selected} onChange={setSelected}>
           <RadioGroup.Label className="sr-only">
@@ -38,7 +38,7 @@ const SelectChallangeList: React.FC<{
                       ? "bg-gray-400 text-white"
                       : "bg-gray-200"
                   }
-                    relative rounded-lg shadow-md px-5 py-4 cursor-pointer flex focus:outline-none`
+                    relative rounded-lg shadow-md p-2 cursor-pointer flex focus:outline-none sm:px-5 sm:py-4`
                 }
               >
                 {({ active, checked }) => (

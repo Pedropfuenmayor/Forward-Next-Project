@@ -169,7 +169,7 @@ function AuthForm() {
 
   return (
     <section>
-      <div className="m-auto text-center w-80 border rounded-md shadow-sm md:w-[28rem]">
+      <div className="m-auto text-center w-80 border rounded-md shadow-sm md:w-[25rem]">
         <h1 className="mt-4">{isLogin ? "Login" : "Sign Up"}</h1>
         <form onSubmit={submitHandler}>
           <div className="w-10/12 m-auto mt-4 text-left text-sm">

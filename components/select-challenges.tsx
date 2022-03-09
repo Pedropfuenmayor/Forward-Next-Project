@@ -83,63 +83,33 @@ const SelectChallange: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Select a Challenge<span className="text-blue-600">.</span></h1>
-      <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
+      <h1 className="text-4xl text-center sm:text-5xl">Select a Challenge<span className="text-blue-600">.</span></h1>
+      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
         {projectData.getProjectById.name} Project
       </p>
-      <div className=" text-gray-200 w-44 flex justify-between">
-        {/* <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showHelpTextHandler}
-        >
-          Help Text
-        </button>
-        <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showIdeasExampleHandler}
-        >
-          Examples
-        </button> */}
-      </div>
-      {helpText && (
-        <HelpTextModal
-          title={helpText.title}
-          text={helpText.text}
-          onConfirm={hideHelpTextHandler}
-        />
-      )}
-      {/* {ideasExample && (
-        <IdeasExamplesModal
-          sampleProjectName={ideasExample.sampleProjectName}
-          type={ideasExample.type}
-          examples={ideasExample.examples}
-          onConfirm={hideIdeasExampleHandler}
-        />
-      )} */}
-      <div className="flex justify-around items-center w-full">
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={`/${projectId}/opportunity_question`} passHref>
-            <a>
-              <BsArrowLeftShort />
-            </a>
-          </Link>
-        </button>
+      <div className="flex justify-center">
+          <div className="pr-8 sm:pr-10">
+            <div className="flex items-center mt-6 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+              <BsArrowLeftShort className="text-3xl" />
+              <Link href={`/${projectId}/opportunity_question`} passHref>
+                <a className="text-xl">Prev</a>
+              </Link>
+            </div>
+          </div>
+          <div className="pl-8 sm:pl-10">
+            <div className="flex items-center mt-6 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+              <Link href={selectedChallangeId?`/${projectId}/opportunity_question/${selectedChallangeId}/create`: '/projects_actions'} passHref>
+                <a className="text-xl">Next</a>
+              </Link>
+              <BsArrowRightShort className="text-3xl" />
+            </div>
+          </div>
+        </div>
+      <div className="w-full">   
         <SelectChallangeList
           onSelectChallanges={selectChallangeHandler}
           challenges={selectedChallenges}
         />
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link
-            href={selectedChallangeId?`/${projectId}/opportunity_question/${selectedChallangeId}/create`: '/dashboard'}
-            passHref
-          >
-            <a>
-              <BsArrowRightShort />
-            </a>
-          </Link>
-        </button>
       </div>
     </section>
   );

@@ -48,10 +48,10 @@ const idea = ideasData.getIdeasByChallenge.find(
     <section className="flex flex-col justify-center items-center">
       <header className="text-center">
         <div className="flex items-center">
-          <h1 className="text-4xl text-center">
+          <h1 className="text-4xl text-center sm:text-5xl">
             Action <span className="text-blue-600">Created</span>!
           </h1>
-          <span className="text-3xl pl-7">🚀</span>
+          <span className="text-2xl pl-7 sm:text-3xl">🚀</span>
         </div>
         <p className="text-2xl mt-4 text-gray-200 hover:text-black transition duration-300">
           {idea.name}

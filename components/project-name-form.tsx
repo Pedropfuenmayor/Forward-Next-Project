@@ -53,7 +53,7 @@ const ProjectNameForm = () => {
     });
     setTimeout(() => {
       router.push(`/${id}/collect`);
-    }, 800);
+    }, 1000);
     setIsProject(true);
   };
 
@@ -88,8 +88,8 @@ const ProjectNameForm = () => {
   };
 
   const projectNameFieldClasses = error
-    ? "block w-full text-2xl p-2 mb-2 rounded border-red-300 bg-red-100"
-    : "block w-full text-2xl p-2 rounded bg-gray-200 mb-2";
+    ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
+    : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
 
   if (isProject) {
     return <PhaseClose text="Project created" />;
@@ -97,10 +97,10 @@ const ProjectNameForm = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">
+      <h1 className="text-4xl text-center sm:text-6xl w-11/12">
         Name your <span className="text-blue-600">Project</span>.
       </h1>
-      <div className="mt-7 text-gray-200 w-44 flex justify-between">
+      <div className="mt-7 text-gray-300 w-44 flex justify-between">
         <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
@@ -128,7 +128,7 @@ const ProjectNameForm = () => {
           onConfirm={hideHelpTextHandler}
         />
       )}
-      <form onSubmit={submitHandler} className="max-w-full w-7/12 my-8 mx-auto">
+      <form onSubmit={submitHandler} className="max-w-full w-9/12 my-8 mx-auto sm:w-7/12">
         <label className="hidden" htmlFor="text">
           Project Name
         </label>
@@ -143,7 +143,7 @@ const ProjectNameForm = () => {
           <Button type="submit" onClick={undefined}>
             Create Project
           </Button>
-          {error && <p className="text-red-500">{error.message}</p>}
+          {error && <p className="text-red-500 text-sm sm:text-base">{error.message}</p>}
         </div>
       </form>
     </section>

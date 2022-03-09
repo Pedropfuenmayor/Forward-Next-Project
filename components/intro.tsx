@@ -8,51 +8,51 @@ const Intro: React.FC = () => {
       <h1 className="text-5xl text-center md:text-6xl">
         Phases<span className="text-blue-600">.</span>
       </h1>
-      <div className="container w-6/12 py-12 mx-auto">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="container w-6/12 py-6 mx-auto md:py-10">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-7">
           <div>
-            <h1 className="mt-4 text-xl font-semibold text-gray-800">
+            <h1 className="mt-4 text-lg font-semibold text-gray-800 md:text-xl">
             <span className="text-blue-600">1.</span> Name your project.
             </h1>
 
-            <p className="mt-2 text-gray-500">
+            <p className="mt-1 text-gray-500 md:mt-2">
               Short definition of the problem.
             </p>
           </div>
 
-          <div>
-            <h1 className="mt-4 text-xl font-semibold text-gray-800">
+          <div >
+            <h1 className="mt-4 text-lg font-semibold text-gray-800 md:text-xl">
             <span className="text-blue-600">2.</span> Collect.
             </h1>
 
-            <p className="mt-2 text-gray-500">
+            <p className="mt-1 text-gray-500 md:mt-2">
             Identify Challenges
             </p>
           </div>
-          <div>
-            <h1 className="mt-4 text-xl font-semibold text-gray-800">
+          <div >
+            <h1 className="mt-4 text-lg font-semibold text-gray-800 md:text-xl">
             <span className="text-blue-600">3.</span> Opportunity question.
             </h1>
 
-            <p className="mt-2 text-gray-500">
+            <p className="mt-1 text-gray-500 md:mt-2">
               Reframe challenges.
             </p>
           </div>
-          <div>
-            <h1 className="mt-4 text-xl font-semibold text-gray-800">
+          <div >
+            <h1 className="mt-4 text-lg font-semibold text-gray-800 md:text-xl">
             <span className="text-blue-600">4.</span> Idea generation.
             </h1>
 
-            <p className="mt-2 text-gray-500">
+            <p className="mt-1 text-gray-500 md:mt-2">
               Overcome challenges.
             </p>
           </div>
           <div>
-            <h1 className="mt-4 text-xl font-semibold text-gray-800">
+            <h1 className="mt-4 text-lg font-semibold text-gray-800 md:text-xl">
             <span className="text-blue-600">5.</span> Action.
             </h1>
 
-            <p className="mt-2 text-gray-500">
+            <p className="mt-1 text-gray-500 md:mt-2">
               Work on what matters.
             </p>
           </div>

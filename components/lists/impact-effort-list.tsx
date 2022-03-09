@@ -7,11 +7,11 @@ const ImpactEffortIdeaList: React.FC<{
 }> = ({ ideas, type }) => {
 
   return (
-    <ul className="list-none w-7/12 my-8 mx-auto p-0 max-w-12/12">
+    <ul className="list-none w-10/12 my-8 mx-auto p-0 max-w-12/12 sm:w-7/12">
       {ideas.map(({ id, name, impact, effort }, index) => {
         return (
           <li
-            className="my-4 mx-0 bg-gray-100 rounded p-3 shadow hover:shadow-md transition duration-300"
+            className="my-4 mx-0 bg-gray-100 rounded p-1 shadow hover:shadow-md transition duration-300 sm:p-2"
             key={Math.random()}
           >
             <div className="flex justify-between items-center">
@@ -21,8 +21,8 @@ const ImpactEffortIdeaList: React.FC<{
                   className={
                     (impact === true && type === "impact") ||
                     (effort === true && type === "effort")
-                      ? "my-0 mx-4 text-1xl text-blue-600 flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
-                      : "my-0 mx-4 text-1xl text-black flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
+                      ? "my-0 mx-4 text-sm text-blue-600 flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
+                      : "my-0 mx-4 text-sm text-black flex items-center hover:text-blue-600 cursor-pointer transition duration-300"
                   }
                 >
                   {type === "impact"

@@ -76,7 +76,7 @@ const ChallengesDragAndDropList: React.FC<{
         }
       }}
     >
-      <ul className="list-none w-7/12 my-8 mx-auto p-0 max-w-12/12">
+      <ul className="list-none w-10/12 my-8 mx-auto p-0 max-w-12/12 sm:w-7/12">
         <Droppable droppableId="droppable-1">
           {(provided, _) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>

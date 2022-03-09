@@ -1,6 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   GET_IDEAS_BY_CHALLENGE_ID,
   GET_OQ_BY_CHALLENGE_ID,
@@ -15,7 +17,7 @@ import ScaleList from "./lists/scale-list";
 
 const ImpactEffortScale: React.FC<{}> = () => {
   const router = useRouter();
-  const { challengeId } = router.query;
+  const { projectId, challengeId } = router.query;
 
   const { loading: loadingIdeas, data: ideasData } = useQuery<
     getIdeasByChallenge,
@@ -65,18 +67,21 @@ const ImpactEffortScale: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Create Actions<span className="text-blue-600">.</span></h1>
-      <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
+      <h1 className="text-4xl text-center w-11/12 sm:text-5xl">Create Actions<span className="text-blue-600">.</span></h1>
+      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>
-      <div className="mt-3 text-gray-200 w-44 flex justify-center"></div>
+      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+            <BsArrowLeftShort className="text-3xl" />
+            <Link
+              href={`/${projectId}/opportunity_question/${challengeId}/actions/effort`}
+              passHref
+            >
+              <a className="text-xl">Prev</a>
+            </Link>
+          </div>
       <div className="flex justify-around items-center w-full">
-        {/* <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={props.prevPage}>
-            <BsArrowLeftShort />
-          </Link>
-        </button> */}
-        <div className="flex flex-col w-3/6">
+        <div className="flex flex-col w-5/6 sm:w-3/6">
           {isHighImpactLowEffort && (
             <div className="my-7 pb-6 rounded-lg bg-gray-200 shadow-md">
               <p className="mt-8 text-2xl text-gray-600 text-center">
@@ -110,11 +115,6 @@ const ImpactEffortScale: React.FC<{}> = () => {
             </div>
           )}
         </div>
-        {/* <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={props.nextPage}>
-            <BsArrowRightShort />
-          </Link>
-        </button> */}
       </div>
     </section>
   );

@@ -210,14 +210,14 @@ const CreateAction: React.FC<{}> = () => {
 
   return (
     <section className="flex mb-10 flex-col justify-center items-center">
-      <h1 className="text-5xl text-center">
+      <h1 className="text-4xl text-center sm:text-5xl">
         Action <span className="text-blue-600">Creation</span>.
       </h1>
-      <p className="text-2xl mt-4 text-gray-200 hover:text-black transition duration-300">
+      <p className="text-2xl mt-4 text-gray-300 hover:text-black transition duration-300">
         {idea.name}
       </p>
-      <div className=" text-gray-200 w-44 flex justify-between"></div>
-      <form onSubmit={submitHandler} className="max-w-full w-5/12 mx-auto">
+      
+      <form onSubmit={submitHandler} className="max-w-full w-10/12 mx-auto sm:w-6/12">
         <div className="flex justify-between">
           <label className="block font-bold mb-2" htmlFor="text">
             Action

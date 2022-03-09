@@ -11,15 +11,15 @@ const ChallengesList: React.FC<{
   };
 
   return (
-    <ul className="list-none w-7/12 my-8 mx-auto p-0 max-w-12/12">
+    <ul className="list-none w-10/12 mx-auto mb-8 p-0 max-w-12/12 sm:w-7/12">
       {list.map(({id, name}) => (
         <li
-          className="my-4 mx-0 bg-gray-100 rounded p-3 shadow hover:shadow-md transition duration-300"
+          className="my-4 mx-0 bg-gray-100 rounded p-1 shadow hover:shadow-md transition duration-300 sm:p-2"
           key={id}
         >
           <div className="flex justify-between">
-            <div className="pl-4">{name}</div>
-            <div className="my-0 mx-4 flex items-center text-2xl text-gray-300 hover:text-red-600 cursor-pointer transition duration-300">
+            <div className="pl-4 text-sm sm:text-base">{name}</div>
+            <div className="my-0 mx-4 flex items-center text-lg text-gray-300 hover:text-red-600 cursor-pointer transition duration-300 sm:text-xl">
               <ListButton
                 onRemoveHandler={removeChallengeHandler}
                 type="button"

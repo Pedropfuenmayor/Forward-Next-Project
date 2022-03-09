@@ -83,7 +83,8 @@ const IdeasRank: React.FC<{}> = () => {
     },
   });
 
-  if (loadingIdeas || loadingOQ) return <p className="text-center">Loading...</p>;
+  if (loadingIdeas || loadingOQ)
+    return <p className="text-center">Loading...</p>;
 
   const ideasList = ideasData.getIdeasByChallenge;
 
@@ -164,11 +165,13 @@ const IdeasRank: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Rank your Ideas<span className="text-blue-600">.</span></h1>
-      <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
+      <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
+        Rank your Ideas<span className="text-blue-600">.</span>
+      </h1>
+      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>
-      <div className="mt-3 text-gray-200 w-44 flex justify-center">
+      <div className="mt-3 text-gray-300 w-44 flex justify-center">
         <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
@@ -176,22 +179,6 @@ const IdeasRank: React.FC<{}> = () => {
         >
           Help Text
         </button>
-        {/* <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showIdeasExampleHandler}
-        >
-          Examples
-        </button> */}
-      </div>
-      <div className="mt-3 text-gray-200 w-44 flex justify-center">
-        {/* <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showHelpTextHandler}
-        >
-          Help Text
-        </button> */}
       </div>
       {helpText && (
         <HelpTextModal
@@ -200,22 +187,28 @@ const IdeasRank: React.FC<{}> = () => {
           onConfirm={hideHelpTextHandler}
         />
       )}
-      {/* {ideasExample && (
-        <IdeasExamplesModal
-          sampleProjectName={ideasExample.sampleProjectName}
-          type={ideasExample.type}
-          examples={ideasExample.examples}
-          onConfirm={hideIdeasExampleHandler}
-        />
-      )} */}
-      <div className="flex justify-around items-center w-full">
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={`/${projectId}/opportunity_question/${challengeId}/ideas/create`} passHref>
-            <a>
-              <BsArrowLeftShort />
+      <div className="flex justify-center">
+        <div className="pr-8 sm:pr-10">
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+            <BsArrowLeftShort className="text-3xl" />
+            <Link
+              href={`/${projectId}/opportunity_question/${challengeId}/ideas/create`}
+              passHref
+            >
+              <a className="text-xl">Prev</a>
+            </Link>
+          </div>
+        </div>
+        <div className="pl-8 sm:pl-10">
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+            <a onClick={nextPageHandler} className="text-xl cursor-pointer">
+              Next
             </a>
-          </Link>
-        </button>
+            <BsArrowRightShort className="text-3xl" />
+          </div>
+        </div>
+      </div>
+      <div className="w-full">
         {isIdeas && (
           <IdeasDragAndDropList ideas={ideasList} onOpen={opendModal} />
         )}
@@ -224,13 +217,6 @@ const IdeasRank: React.FC<{}> = () => {
             You need to write at least one idea ❗️
           </p>
         )}
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-       
-          <a onClick={nextPageHandler}>
-            <BsArrowRightShort />
-          </a>
-        
-        </button>
       </div>
       <DeleteModal
         onClose={closeModal}

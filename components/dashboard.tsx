@@ -30,14 +30,14 @@ const Dashboard: React.FC<{}> = (props) => {
 
   return (
     <section className="flex flex-col items-center mb-40">
-      <div className="w-3/6 rounded-lg">
-        <p className="mt-8 text-2xl m-auto text-gray-600 border-b-2 w-10/12">
+      <div className="w-5/6 rounded-lg sm:w-3/6">
+        <p className="mt-8 text-2xl m-auto text-gray-600 border-b-2 w-full">
           Actions
         </p>
         <TaskList projects={projectsData.getProjectByUserId}/>
       </div>
-      <div className="w-3/6 rounded-lg">
-        <p className="mt-8 text-2xl m-auto text-gray-600 border-b-2 w-10/12">
+      <div className="w-5/6 rounded-lg sm:w-3/6">
+        <p className="mt-8 text-2xl m-auto text-gray-600 border-b-2 w-full">
           Projects
         </p>
         <ProjectsList projects={projectsData.getProjectByUserId} />

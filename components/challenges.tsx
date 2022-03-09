@@ -167,7 +167,6 @@ const Challenges: React.FC<{}> = () => {
           "Good comunication",
           "Education program",
           "State of the art tech stack",
-          "Free food 🤣",
         ],
       });
     } else {
@@ -256,8 +255,8 @@ const Challenges: React.FC<{}> = () => {
     : `/${projectId}/collect/drive_forward`;
 
   const projectNameFieldClasses = error
-    ? "block w-full text-2xl p-2 mb-2 rounded border-red-300 bg-red-100"
-    : "block w-full text-2xl p-2 rounded bg-gray-200 mb-2";
+  ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
+  : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
 
   return (
     <section className="flex flex-col justify-center items-center">
@@ -279,17 +278,7 @@ const Challenges: React.FC<{}> = () => {
           back?
         </h1>
       )}
-      {/* <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
-        {props.subTitle}
-      </p> */}
-      <div className="mt-3 text-gray-200 w-44 flex justify-center">
-        {/* <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showHelpTextHandler}
-        >
-          Help Text
-        </button> */}
+      <div className="mt-3 text-gray-300 w-44 flex justify-center">
         <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
@@ -314,17 +303,28 @@ const Challenges: React.FC<{}> = () => {
           onConfirm={hideIdeasExampleHandler}
         />
       )}
-      <div className="flex justify-around items-center w-full">
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
+      <div className='flex justify-center'>
+      <div className="pr-8 sm:pr-10">
+      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+        <BsArrowLeftShort className="text-3xl" />
           <Link href={previousPage} passHref>
-            <a>
-              <BsArrowLeftShort />
+            <a className="text-xl">
+              Prev
             </a>
           </Link>
-        </button>
+        </div>
+        </div>
+        <div className="pl-8 sm:pl-10">
+            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+                <a onClick={nextPageHandler} className="text-xl cursor-pointer">Next</a>
+              <BsArrowRightShort className="text-3xl" />
+            </div>
+          </div>
+      </div>
+      <div className=" w-full">
         <form
           onSubmit={submitHandler}
-          className="max-w-full w-7/12 my-8 mx-auto"
+          className="max-w-full w-10/12 mt-8 mb-4 mx-auto sm:w-7/12 sm:mb-8"
         >
           {/* <label className="block font-bold mb-2" htmlFor="text">
               Project Name
@@ -343,11 +343,6 @@ const Challenges: React.FC<{}> = () => {
             {error && <p className="text-red-500">{error.message}</p>}
           </div>
         </form>
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <a onClick={nextPageHandler}>
-            <BsArrowRightShort />
-          </a>
-        </button>
       </div>
       <ChallengesList list={challengesListByType} onOpen={opendModal} />
       <DeleteModal

@@ -255,19 +255,19 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   };
 
   const projectNameFieldClasses = error
-    ? "block w-full text-2xl p-2 mb-2 rounded border-red-300 bg-red-100"
-    : "block w-full text-2xl p-2 rounded bg-gray-200 mb-2";
+  ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
+  : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">
+      <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
         Write a opportunity question<span className="text-blue-600">.</span>{" "}
         <span className="text-gray-400 text-2xl">(only one)</span>
       </h1>
-      <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
         Challenge: {challenge.name}
       </p>
-      <div className="mt-3 text-gray-200 w-44 flex justify-between">
+      <div className="mt-3 text-gray-300 w-44 flex justify-between">
         <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
@@ -299,17 +299,28 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
         onConfirm={hideIdeasExampleHandler}
       />
       )}
-      <div className="flex justify-around items-center w-full">
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={`/${projectId}/opportunity_question/select`} passHref>
-            <a>
-              <BsArrowLeftShort />
+       <div className='flex justify-center'>
+      <div className="pr-8 sm:pr-10">
+      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+        <BsArrowLeftShort className="text-3xl" />
+          <Link href={`/${projectId}/opportunity_question/select`}  passHref>
+            <a className="text-xl">
+              Prev
             </a>
           </Link>
-        </button>
+        </div>
+        </div>
+        <div className="pl-8 sm:pl-10">
+            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+                <a onClick={nextPageHandler} className="text-xl cursor-pointer">Next</a>
+              <BsArrowRightShort className="text-3xl" />
+            </div>
+          </div>
+      </div>
+      <div className="w-full">
         <form
           onSubmit={submitHandler}
-          className="max-w-full w-7/12 my-8 mx-auto"
+          className="max-w-full w-10/12 my-8 mx-auto sm:w-7/12"
         >
           <label className="hidden font-bold mb-2" htmlFor="text">
             Project Name
@@ -328,11 +339,6 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
             {error && <p className="text-red-500">{error.message}</p>}
           </div>
         </form>
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <a onClick={nextPageHandler}>
-            <BsArrowRightShort />
-          </a>
-        </button>
       </div>
       {isOQ && (
         <OpportunityList

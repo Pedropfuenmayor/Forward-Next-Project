@@ -10,7 +10,7 @@ const ScaleList: React.FC<{
       {list.map(({id, name}) => {
         return (
           <li
-            className="my-4 mx-0 bg-gray-100 rounded p-3 shadow hover:shadow-md transition duration-300"
+            className="my-4 mx-0 bg-gray-100 rounded p-1 shadow hover:shadow-md transition duration-300 sm:p-2"
             key={Math.random()}
           >
             <div className="flex justify-between items-center">

@@ -165,7 +165,7 @@ const logOut = ()=>{
 
   return (
     <section>
-      <div className="m-auto mb-3 text-center w-80 border rounded-md shadow-sm md:w-[28rem]">
+      <div className="m-auto mb-3 text-center w-80 border rounded-md shadow-sm md:w-[25rem]">
         <h1 className="mt-4">User Profile</h1>
         <p className="text-gray-300 text-sm">{userEmailParagraph}</p>
         <form onSubmit={submitHandler}>

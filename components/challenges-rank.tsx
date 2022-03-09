@@ -159,11 +159,11 @@ const ChallengesRank: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl text-center">Rank your Challenges<span className="text-blue-600">.</span></h1>
-      <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
+      <h1 className="text-4xl text-center sm:text-5xl w-11/12">Rank your Challenges<span className="text-blue-600">.</span></h1>
+      <p className="text-xl mt-7 text-gray-300 hover:text-black transition duration-300 sm:text-2xl">
         {projectData.getProjectById.name} Project
       </p>
-      <div className="mt-3 text-gray-200 w-44 flex justify-center">
+      <div className="mt-3 text-gray-300 w-44 flex justify-center">
         <button
           className="hover:text-blue-600 transition duration-300"
           type="button"
@@ -171,22 +171,24 @@ const ChallengesRank: React.FC<{}> = () => {
         >
           Help Text
         </button>
-        {/* <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showIdeasExampleHandler}
-        >
-          Examples
-        </button> */}
       </div>
-      <div className="mt-3 text-gray-200 w-44 flex justify-center">
-        {/* <button
-          className="hover:text-blue-600 transition duration-300"
-          type="button"
-          onClick={showHelpTextHandler}
-        >
-          Help Text
-        </button> */}
+      <div className='flex justify-center'>
+      <div className="pr-8 sm:pr-10">
+      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+        <BsArrowLeftShort className="text-3xl" />
+          <Link href={`/${projectId}/collect/hold_back`} passHref>
+            <a className="text-xl">
+              Prev
+            </a>
+          </Link>
+        </div>
+        </div>
+        <div className="pl-8 sm:pl-10">
+            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+                <a onClick={nextPageHandler} className="text-xl cursor-pointer">Next</a>
+              <BsArrowRightShort className="text-3xl" />
+            </div>
+          </div>
       </div>
       {helpText && (
         <HelpTextModal
@@ -195,30 +197,9 @@ const ChallengesRank: React.FC<{}> = () => {
           onConfirm={hideHelpTextHandler}
         />
       )}
-      {/* {ideasExample && (
-        <IdeasExamplesModal
-          sampleProjectName={ideasExample.sampleProjectName}
-          type={ideasExample.type}
-          examples={ideasExample.examples}
-          onConfirm={hideIdeasExampleHandler}
-        />
-      )} */}
-      <div className="flex justify-around items-center w-full">
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link href={`/${projectId}/collect/hold_back`} passHref>
-            <a>
-              <BsArrowLeftShort />
-            </a>
-          </Link>
-        </button>
-        
+      <div className="w-full">
        {isChallenges && <ChallengesDragAndDropList challenges={challengesList} onOpen={opendModal}/>}
        {!isChallenges && <p className="text-center text-2xl">You need to write at least one challenge ❗️</p>}
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <a onClick={nextPageHandler}>
-            <BsArrowRightShort />
-          </a>
-        </button>
       </div>
       <DeleteModal
         onClose={closeModal}

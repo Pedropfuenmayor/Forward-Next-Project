@@ -18,7 +18,7 @@ const IdeasExampleModal: React.FC<{
         className="fixed top-0 left-0 w-full h-full z-10 bg-black bg-opacity-80"
         onClick={onConfirm}
       />
-      <div className="fixed left-1/4 top-2/4  bg-white -mt-52 z-50 max-w-full w-6/12 rounded-xl">
+      <div className="fixed top-2/4 bg-white -mt-52 z-50 w-10/12 rounded-xl md:w-6/12 md:left-1/4">
         <h2 className="p-6 text-center text-black">
           <span className="text-blue-600">{ItemName}:</span> {sampleItem}
         </h2>

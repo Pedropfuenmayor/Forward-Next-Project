@@ -59,49 +59,46 @@ const IdeasImpactEffort: React.FC<{}> = () => {
 
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-6xl w-8/12  text-center">
+      <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
         What is the level of <span className="text-blue-600">{ideaType}</span>{" "}
         each Idea?
       </h1>
-      <p className="text-2xl mt-7 text-gray-200 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>
-      <div className=" text-gray-200 w-44 flex justify-between">
-      </div>
-      <div className="flex justify-around items-center w-full">
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link
-            href={
+      <div className='flex justify-center'>
+      <div className="pr-8 sm:pr-10">
+      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+        <BsArrowLeftShort className="text-3xl" />
+          <Link href={
               ideaType === 'impact'?
               `/${projectId}/opportunity_question/${challengeId}/actions`:
               `/${projectId}/opportunity_question/${challengeId}/actions/impact`
-            }
-            passHref
-          >
-            <a>
-              <BsArrowLeftShort />
+            }  passHref>
+            <a className="text-xl">
+              Prev
             </a>
           </Link>
-        </button>
+        </div>
+        </div>
+        <div className="pl-8 sm:pl-10">
+            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+              <Link href={
+              ideaType === 'impact'?
+              `/${projectId}/opportunity_question/${challengeId}/actions/effort`:
+              `/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`
+            }passHref>
+                <a className="text-xl">Next</a>
+              </Link>
+              <BsArrowRightShort className="text-3xl" />
+            </div>
+          </div>
+      </div>
+      <div className="w-full">
         <ImpactEffortIdeaList
           type={ideaType as string}
           ideas={selectedIdea}
         />
-
-        <button className="text-gray-200 text-5xl hover:text-blue-600 transition duration-300 m-10">
-          <Link
-            href={
-              ideaType === 'impact'?
-              `/${projectId}/opportunity_question/${challengeId}/actions/effort`:
-              `/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`
-            }
-            passHref
-          >
-            <a>
-              <BsArrowRightShort />
-            </a>
-          </Link>
-        </button>
       </div>
     </section>
   );

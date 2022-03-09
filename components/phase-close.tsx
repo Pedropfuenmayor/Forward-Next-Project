@@ -8,11 +8,11 @@ const PhaseClose: React.FC<{
   return (
     <section className="flex flex-col justify-center items-center">
         <div className="flex items-center">
-          <h1 className='mt-10 text-center text-6xl text-black max-w-xl'>
+          <h1 className='mt-10 text-center text-3xl text-black max-w-xl sm:text-6xl'>
              {text}
              <span className="text-blue-600">!</span>
           </h1>
-          <span className="pl-5 text-5xl">🚀</span>
+          {/* <span className="pl-2 text-lg sm:text-5xl ">🚀</span> */}
         </div>
      
     </section>
