@@ -15,7 +15,7 @@ const IdeasExampleModal: React.FC<{
   return (
     <Fragment>
       <div
-        className="fixed top-0 left-0 w-full h-full z-10 bg-black bg-opacity-80"
+        className="fixed top-0 left-0 w-full h-full z-40 bg-black bg-opacity-80"
         onClick={onConfirm}
       />
       <div className="fixed top-2/4 bg-white -mt-52 z-50 w-10/12 rounded-xl md:w-6/12 md:left-1/4">

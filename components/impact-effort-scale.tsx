@@ -71,10 +71,10 @@ const ImpactEffortScale: React.FC<{}> = () => {
   const isLowImpactHighEffort = lowImpactHighEffort.length > 0;
 
   const isIdeas =
-    !isHighImpactLowEffort &&
-    !isHighImpactLowEffort &&
+    (!isHighImpactLowEffort &&
+    !isHighImpactHighEffort &&
     !isLowImpactLowEffort &&
-    !isLowImpactHighEffort;
+    !isLowImpactHighEffort);
 
   return (
     <section className="flex flex-col justify-center items-center">
