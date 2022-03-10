@@ -74,7 +74,7 @@ const CreateAction: React.FC<{}> = () => {
     submisionTextDateValidation: submisionSuccesCriteriaValidation,
   } = useInput(textValidation);
 
-  const { loading: loadingIdeas, data: ideasData } = useQuery<
+  const { loading: loadingIdeas, error:ideasError, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
@@ -83,7 +83,7 @@ const CreateAction: React.FC<{}> = () => {
     },
   });
 
-  const { loading: loadingAction, data: actionData } = useQuery<
+  const { loading: loadingAction, error: actionError, data: actionData } = useQuery<
     getActionByIdeaId,
     getActionByIdeaIdVars
   >(GET_ACTION_BY_IDEA_ID, {
@@ -126,6 +126,14 @@ const CreateAction: React.FC<{}> = () => {
 
   if (loadingIdeas || loadingAction)
     return <p className="text-center">Loading...</p>;
+    if (ideasError)
+    return <p className="text-center">`Error❗️${ideasError.message}`</p>;
+  if (actionError)
+    return <p className="text-center">`Error❗️${actionError.message}`</p>;
+    if (createError)
+    return <p className="text-center">`Error❗️${createError.message}`</p>;
+  if (updateError)
+    return <p className="text-center">`Error❗️${updateError.message}`</p>;
 
 
   const idea = ideasData.getIdeasByChallenge.find(
@@ -213,7 +221,7 @@ const CreateAction: React.FC<{}> = () => {
       <h1 className="text-4xl text-center sm:text-5xl">
         Action <span className="text-blue-600">Creation</span>.
       </h1>
-      <p className="text-2xl mt-4 text-gray-300 hover:text-black transition duration-300">
+      <p className="text-2xl mt-4 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
         {idea.name}
       </p>
       
@@ -234,7 +242,7 @@ const CreateAction: React.FC<{}> = () => {
         />
         <div className="flex justify-between mt-10">
           <label className="block font-bold mb-2" htmlFor="date">
-            When will be done?
+            Due Date
           </label>
           {dateError && (
             <p className="text-red-500">Please enter a valid date</p>
@@ -250,7 +258,7 @@ const CreateAction: React.FC<{}> = () => {
         />
         <div className="flex justify-between mt-10">
           <label className="block font-bold mb-2" htmlFor="criteria">
-            What is the succes criteria
+           Success Criteria
           </label>
           {SuccesCriteriaError && (
             <p className="text-red-500">Please enter a succes criteria</p>

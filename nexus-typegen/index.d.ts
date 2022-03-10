@@ -182,7 +182,7 @@ export interface NexusGenFieldTypes {
     getActionsByUserId: Array<NexusGenRootTypes['Action'] | null>; // [Action]!
     getChallengesByProject: Array<NexusGenRootTypes['Challenge'] | null>; // [Challenge]!
     getIdeasByChallenge: Array<NexusGenRootTypes['Idea'] | null>; // [Idea]!
-    getOQ: NexusGenRootTypes['OQ']; // OQ!
+    getOQ: NexusGenRootTypes['OQ'] | null; // OQ
     getProjectById: NexusGenRootTypes['Project'] | null; // Project
     getProjectByUserId: Array<NexusGenRootTypes['Project'] | null> | null; // [Project]
     ideas: Array<NexusGenRootTypes['Idea'] | null>; // [Idea]!

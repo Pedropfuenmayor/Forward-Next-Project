@@ -40,7 +40,7 @@ const ChallengesRank: React.FC<{}> = () => {
   const { projectId } = router.query;
   
 
-  const { loading: loadingChallenges, data: challengesData } = useQuery<
+  const { loading: loadingChallenges,error: challengesError, data: challengesData } = useQuery<
     getChallengesByProject,
     getChallengesByProjectVars
   >(GET_CHALLENGES_BY_PROJECT, {
@@ -49,7 +49,7 @@ const ChallengesRank: React.FC<{}> = () => {
     },
   });
 
-  const { loading: loadingProject, data: projectData } = useQuery<
+  const { loading: loadingProject, error: projectError, data: projectData } = useQuery<
     getProjectById,
     getProjectByIdVars
   >(GET_PROJECT_BY_ID, {
@@ -88,6 +88,13 @@ const ChallengesRank: React.FC<{}> = () => {
   if (loadingProject || loadingChallenges)
     return <p className="text-center">Loading...</p>;
 
+    if (challengesError)
+    return <p className="text-center">`Error❗️${challengesError.message}`</p>;
+  if (projectError)
+    return <p className="text-center">`Error❗️${projectError.message}`</p>;
+  if (deleteError)
+    return <p className="text-center">`Error❗️${deleteError.message}`</p>;
+
   const challengesList = challengesData.getChallengesByProject;
 
   const isChallenges = challengesData && (challengesData.getChallengesByProject.length > 0)
@@ -95,7 +102,7 @@ const ChallengesRank: React.FC<{}> = () => {
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Rank your challenges",
-      text: "Once you finish we will go to the next phase with the top 4 challanges. The most importat point of this phase is to be relatively fast in choosing what to work on, you can always come back and iterate with a different rank constellation, but the most important is you go forward.",
+      text: "Once you finish, we will go to the next phase with the top 4 challenges. The most important point of this phase is to be relatively fast in choosing what to work on, you can always come back and iterate with a different rank constellation, but the most important is you go forward.",
     });
   };
 
@@ -155,7 +162,7 @@ const ChallengesRank: React.FC<{}> = () => {
       setTimeout(() => {
         router.push(`/${projectId}/opportunity_question`);
       }, 1000);
-    }
+  } 
 
   return (
     <section className="flex flex-col justify-center items-center">
@@ -199,7 +206,7 @@ const ChallengesRank: React.FC<{}> = () => {
       )}
       <div className="w-full">
        {isChallenges && <ChallengesDragAndDropList challenges={challengesList} onOpen={opendModal}/>}
-       {!isChallenges && <p className="text-center text-2xl">You need to write at least one challenge ❗️</p>}
+       {!isChallenges && <p className="text-center mt-10 text-2xl">You need to write at least one challenge ❗️</p>}
       </div>
       <DeleteModal
         onClose={closeModal}

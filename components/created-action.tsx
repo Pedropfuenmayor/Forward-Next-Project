@@ -11,7 +11,7 @@ const ActionCreated: React.FC<{}> = (props) => {
   const router = useRouter();
   const { projectId, challengeId, ideaId, actionId } = router.query;
 
-  const { loading: loadingIdeas, data: ideasData } = useQuery<
+  const { loading: loadingIdeas,error:ideasError, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
@@ -20,7 +20,7 @@ const ActionCreated: React.FC<{}> = (props) => {
     },
   });
 
-  const { loading: loadingAction, data: actionData } = useQuery<
+  const { loading: loadingAction,error:actionError, data: actionData } = useQuery<
     getActionByIdeaId,
     getActionByIdeaIdVars
   >(GET_ACTION_BY_IDEA_ID, {
@@ -37,6 +37,10 @@ const ActionCreated: React.FC<{}> = (props) => {
 
 if (loadingIdeas || loadingAction)
 return <p className="text-center">Loading...</p>;
+if (ideasError)
+    return <p className="text-center">`Error❗️${ideasError.message}`</p>;
+  if (actionError)
+    return <p className="text-center">`Error❗️${actionError.message}`</p>;
 
 const idea = ideasData.getIdeasByChallenge.find(
     (idea) => idea.id === +ideaId
@@ -60,9 +64,9 @@ const idea = ideasData.getIdeasByChallenge.find(
       <section className="mt-2">
         <p className="font-bold text-1xl">Action</p>
         <p className="my-2 pl-10 text-1xl">{actionData.getActionByIdeaId.what}</p>
-        <p className="font-bold my-2 text-1xl">When will be done?</p>
+        <p className="font-bold my-2 text-1xl">Due Date</p>
         <p className="my-2 pl-10 text-1xl">{actionData.getActionByIdeaId.due_date}</p>
-        <p className="font-bold m2-2 text-1xl">Succes Criteria</p>
+        <p className="font-bold m2-2 text-1xl">Success Criteria</p>
         <p className="my-2 pl-10 text-1xl">{actionData.getActionByIdeaId.succes_criteria}</p>
         <div className="text-blue-600 mt-2 w-68 flex items-center transition ease-in-out delay-15 hover:translate-x-2 duration-300">
           <Link href={nextPage} passHref>

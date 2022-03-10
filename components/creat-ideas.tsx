@@ -3,10 +3,6 @@ import {
   Error,
   HelpText,
   IdeasExample,
-  getProjectById,
-  getProjectByIdVars,
-  getChallengesByProject,
-  getChallengesByProjectVars,
   getOQ,
   getOQVars,
   getIdeasByChallenge,
@@ -26,17 +22,13 @@ import DeleteModal from "./ui/delete-modal";
 import { uid } from "../helper/functions";
 import { useMutation, useQuery } from "@apollo/client";
 import {
-  
   CREATE_IDEA,
-  
   DELETE_IDEA,
-  GET_CHALLENGES_BY_PROJECT,
   GET_IDEAS_BY_CHALLENGE_ID,
   GET_OQ_BY_CHALLENGE_ID,
-  GET_PROJECT_BY_ID,
 } from "../graphql/querys";
 import { useRouter } from "next/router";
-import PhaseClose from "./phase-close";
+
 
 const CreateIdeas: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
@@ -52,41 +44,28 @@ const CreateIdeas: React.FC<{}> = () => {
   const { projectId } = router.query;
   const { challengeId } = router.query;
 
-  const { loading: loadingChallenges, data: challengesData } = useQuery<
-    getChallengesByProject,
-    getChallengesByProjectVars
-  >(GET_CHALLENGES_BY_PROJECT, {
-    variables: {
-      projectId: +projectId,
-    },
-  });
-
-  const { loading: loadingProject, data: projectData } = useQuery<
-    getProjectById,
-    getProjectByIdVars
-  >(GET_PROJECT_BY_ID, {
-    variables: {
-      projectId: +projectId,
-    },
-  });
-
-  const { loading: loadingIdeas, data: ideasData } = useQuery<
-    getIdeasByChallenge,
-    getIdeasByChallengeVars
-  >(GET_IDEAS_BY_CHALLENGE_ID, {
-    variables: {
-      challengeId: +challengeId,
-    },
-  });
-
-  const { loading: loadingOQ, data: OQData } = useQuery<getOQ, getOQVars>(
-    GET_OQ_BY_CHALLENGE_ID,
+  const {
+    loading: loadingIdeas,
+    error: ideasError,
+    data: ideasData,
+  } = useQuery<getIdeasByChallenge, getIdeasByChallengeVars>(
+    GET_IDEAS_BY_CHALLENGE_ID,
     {
       variables: {
         challengeId: +challengeId,
       },
     }
   );
+
+  const {
+    loading: loadingOQ,
+    error: OQError,
+    data: OQData,
+  } = useQuery<getOQ, getOQVars>(GET_OQ_BY_CHALLENGE_ID, {
+    variables: {
+      challengeId: +challengeId,
+    },
+  });
 
   const [
     createIdea,
@@ -134,6 +113,14 @@ const CreateIdeas: React.FC<{}> = () => {
 
   if (loadingOQ || loadingIdeas)
     return <p className="text-center">Loading...</p>;
+  if (ideasError)
+    return <p className="text-center">`Error❗️${ideasError.message}`</p>;
+  if (OQError)
+    return <p className="text-center">`Error❗️${OQError.message}`</p>;
+  if (createError)
+    return <p className="text-center">`Error❗️${createError.message}`</p>;
+  if (deleteError)
+    return <p className="text-center">`Error❗️${deleteError.message}`</p>;
 
   const isOQ = OQData && OQData.getOQ.id !== 0;
 
@@ -147,7 +134,7 @@ const CreateIdeas: React.FC<{}> = () => {
     if (enteredText.trim().length === 0) {
       setError({
         title: "Invalid idea name",
-        message: "Please fill the idea name field",
+        message: "Please fill out the field.",
       });
       return;
     }
@@ -185,18 +172,14 @@ const CreateIdeas: React.FC<{}> = () => {
         "How might We reduce noise in the office for those who need quiet?",
       ItemName: "Sample Challenge",
       type: "Ideas Creation",
-      examples: [
-        "Sound Proofing",
-        "Quiet Rooms",
-        "No talk days",
-      ],
+      examples: ["Sound Proofing", "Quiet Rooms", "No talk days"],
     });
   };
 
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Ideas Creation",
-      text: "“The best way to have a good idea is to have lots of ideas.” Putting Linus Pauling, American chemist, biochemist, peace activist, author, educator and Novel Prize in Chemistry.",
+      text: "“The best way to have a good idea is to have lots of ideas.” Putting Linus Pauling, American chemist, biochemist, peace activist, author, educator, and Novel Prize in Chemistry.",
     });
   };
 
@@ -240,7 +223,7 @@ const CreateIdeas: React.FC<{}> = () => {
 
       deleteIdea({
         variables: {
-            deleteIdeaId: id as number,
+          deleteIdeaId: id as number,
         },
         optimisticResponse: {
           deleteIdea: {
@@ -254,34 +237,39 @@ const CreateIdeas: React.FC<{}> = () => {
             __typename,
           },
         },
-      }).then((re) => re)
-      .catch((err) => console.log(err.networkError.result.errors))
+      })
+        .then((re) => re)
+        .catch((err) => console.log(err.networkError.result.errors));
       setIsOpen(false);
     }
   };
 
   const nextPageHandler = () => {
-    if(!isIdeas){
+    if (!isIdeas) {
       setError({
         title: "Invalid OQ Name",
-        message: "Please fill the ideas field.",
+        message: "Please fill out the field.",
       });
       return;
     }
     setIsDoneIdeas(true);
     setTimeout(() => {
-      router.push(`/${projectId}/opportunity_question/${challengeId}/ideas/rank`);
+      router.push(
+        `/${projectId}/opportunity_question/${challengeId}/ideas/rank`
+      );
     }, 1000);
   };
 
   const projectNameFieldClasses = error
-  ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
-  : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
+    ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
+    : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
 
   return (
     <section className="flex flex-col justify-center items-center">
       {isOQ && (
-        <h1 className="text-4xl w-8/12 text-center sm:text-5xl">{OQData.getOQ.name}</h1>
+        <h1 className="text-4xl w-8/12 text-center sm:text-5xl">
+          {OQData.getOQ.name}
+        </h1>
       )}
       <div className="mt-3 text-gray-300 w-44 flex justify-between">
         <button
@@ -315,26 +303,29 @@ const CreateIdeas: React.FC<{}> = () => {
           onConfirm={hideIdeasExampleHandler}
         />
       )}
-      <div className='flex justify-center'>
-      <div className="pr-8 sm:pr-10">
-      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
-        <BsArrowLeftShort className="text-3xl" />
-          <Link href={`/${projectId}/opportunity_question/${challengeId}/ideas`}   passHref>
-            <a className="text-xl">
-              Prev
-            </a>
-          </Link>
-        </div>
+      <div className="flex justify-center">
+        <div className="pr-8 sm:pr-10">
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+            <BsArrowLeftShort className="text-3xl" />
+            <Link
+              href={`/${projectId}/opportunity_question/${challengeId}/ideas`}
+              passHref
+            >
+              <a className="text-xl">Prev</a>
+            </Link>
+          </div>
         </div>
         <div className="pl-8 sm:pl-10">
-            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
-                <a onClick={nextPageHandler} className="text-xl cursor-pointer">Next</a>
-              <BsArrowRightShort className="text-3xl" />
-            </div>
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+            <a onClick={nextPageHandler} className="text-xl cursor-pointer">
+              Next
+            </a>
+            <BsArrowRightShort className="text-3xl" />
           </div>
+        </div>
       </div>
       <div className=" w-full">
-          {/* {`/${projectId}/opportunity_question/${challengeId}/ideas`}  */}     
+        {/* {`/${projectId}/opportunity_question/${challengeId}/ideas`}  */}
         <form
           onSubmit={submitHandler}
           className="max-w-full w-10/12 my-8 mx-auto sm:w-7/12"
@@ -365,7 +356,7 @@ const CreateIdeas: React.FC<{}> = () => {
       />
       {!isOQ && (
         <p className="text-center text-2xl">
-          You need to write a opportunity question for this Challenge ❗️
+          You need to write an opportunity question for this Challenge ❗️
         </p>
       )}
     </section>

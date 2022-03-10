@@ -21,7 +21,7 @@ export const OQ = objectType({
 export const OQsQuery = extendType({
   type: "Query",
   definition(t) {
-    t.nonNull.field("getOQ", {
+    t.field("getOQ", {
       type: "OQ",
       args: {
         challenge_id: nonNull(intArg()),

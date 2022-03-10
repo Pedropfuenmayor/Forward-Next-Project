@@ -1,4 +1,4 @@
-import { ChallengeType } from "../models/models";
+import { getOQ } from "../models/models";
 
 export const fetcher = async (url) => {
   const res = await fetch(url);
@@ -25,3 +25,14 @@ export const sqlQuery = (challenges) => {
   return sql;
 };
 
+export const validateOQ = (oq: getOQ) => {
+  if (oq.getOQ) {
+    if (oq.getOQ.id !== 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};

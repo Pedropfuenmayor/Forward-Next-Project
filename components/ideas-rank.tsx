@@ -30,17 +30,15 @@ import IdeasDragAndDropList from "./ui/ideas-drag-droo-list";
 
 const IdeasRank: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
-  const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [isDoneChallenges, setIsDoneChallenges] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteChallange, setDeleteChallange] = useState<
     number | string | false
   >(false);
   const router = useRouter();
-  const { projectId } = router.query;
-  const { challengeId } = router.query;
+  const { projectId, challengeId } = router.query;
 
-  const { loading: loadingIdeas, data: ideasData } = useQuery<
+  const { loading: loadingIdeas, error: ideasError, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
@@ -49,7 +47,7 @@ const IdeasRank: React.FC<{}> = () => {
     },
   });
 
-  const { loading: loadingOQ, data: OQData } = useQuery<getOQ, getOQVars>(
+  const { loading: loadingOQ, error:OQError, data: OQData } = useQuery<getOQ, getOQVars>(
     GET_OQ_BY_CHALLENGE_ID,
     {
       variables: {
@@ -85,6 +83,12 @@ const IdeasRank: React.FC<{}> = () => {
 
   if (loadingIdeas || loadingOQ)
     return <p className="text-center">Loading...</p>;
+    if (ideasError)
+    return <p className="text-center">`Error❗️${ideasError.message}`</p>;
+  if (OQError)
+    return <p className="text-center">`Error❗️${OQError.message}`</p>;
+  if (deleteError)
+    return <p className="text-center">`Error❗️${deleteError.message}`</p>;
 
   const ideasList = ideasData.getIdeasByChallenge;
 
@@ -93,16 +97,12 @@ const IdeasRank: React.FC<{}> = () => {
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Rank your ideas",
-      text: "Once you finish we will go to the next phase with the top 4 ideas. The most importat point of this phase is to be relatively fast in choosing what to work on, you can always come back and iterate with a different rank constellation, but the most important is you go forward.",
+      text: "Once you finish, we will go to the next phase with the top 4 ideas. The most important point of this phase is to be relatively fast in choosing what to work on, you can always come back and iterate with a different rank constellation, but the most important is you go forward.",
     });
   };
 
   const hideHelpTextHandler = () => {
     setHelpText(false);
-  };
-
-  const hideIdeasExampleHandler = () => {
-    setIdeasExample(false);
   };
 
   const closeModal = () => {
@@ -168,7 +168,7 @@ const IdeasRank: React.FC<{}> = () => {
       <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
         Rank your Ideas<span className="text-blue-600">.</span>
       </h1>
-      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>
       <div className="mt-3 text-gray-300 w-44 flex justify-center">

@@ -32,6 +32,7 @@ import {
 } from "../graphql/querys";
 import PhaseClose from "./phase-close";
 import { uid } from "../helper/functions";
+import { validateOQ } from "../helper/functions";
 
 const CreateOpportunityQuestion: React.FC<{}> = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
@@ -45,23 +46,28 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const { projectId } = router.query;
   const { challengeId } = router.query;
 
-  const { loading: loadingChallenges, data: challengesData } = useQuery<
-    getChallengesByProject,
-    getChallengesByProjectVars
-  >(GET_CHALLENGES_BY_PROJECT, {
-    variables: {
-      projectId: +projectId,
-    },
-  });
-
-  const { loading: loadingOQ, data: OQData } = useQuery<getOQ, getOQVars>(
-    GET_OQ_BY_CHALLENGE_ID,
+  const {
+    loading: loadingChallenges,
+    error: challengesError,
+    data: challengesData,
+  } = useQuery<getChallengesByProject, getChallengesByProjectVars>(
+    GET_CHALLENGES_BY_PROJECT,
     {
       variables: {
-        challengeId: +challengeId,
+        projectId: +projectId,
       },
     }
   );
+
+  const {
+    loading: loadingOQ,
+    error: OQError,
+    data: OQData,
+  } = useQuery<getOQ, getOQVars>(GET_OQ_BY_CHALLENGE_ID, {
+    variables: {
+      challengeId: +challengeId,
+    },
+  });
 
   const [
     createOQ,
@@ -88,7 +94,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
 
   const [
     deleteOQ,
-    { loading: loadingDeletedOQ, reset: resetDeleteddOQ, error: deletedError },
+    { loading: loadingDeletedOQ, reset: resetDeleteddOQ, error: deleteError },
   ] = useMutation<deleteOQ, deleteOQVars>(DELETE_OQ_BY_ID, {
     update(cache, { data }) {
       cache.writeQuery({
@@ -96,8 +102,8 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
         data: {
           getOQ: {
             id: 0,
-            name: 'OQ for this challenges was deleted',
-            challenge_id:0
+            name: "OQ for this challenges was deleted",
+            challenge_id: 0,
           },
         },
         variables: {
@@ -110,12 +116,23 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   if (loadingOQ || loadingChallenges)
     return <p className="text-center">Loading...</p>;
 
+  if (challengesError)
+    return <p className="text-center">`Error❗️${challengesError.message}`</p>;
+  if (OQError)
+    return <p className="text-center">`Error❗️${OQError.message}`</p>;
+  if (updateError)
+    return <p className="text-center">`Error❗️${updateError.message}`</p>;
+  if (createError)
+    return <p className="text-center">`Error❗️${createError.message}`</p>;
+  if (deleteError)
+    return <p className="text-center">`Error❗️${deleteError.message}`</p>;
+
   const challenge = challengesData.getChallengesByProject.find((challenge) => {
     return challenge.id == challengeId;
   });
 
-  const isOQ = OQData && (OQData.getOQ.id !==0)
-  
+  const isOQ = validateOQ(OQData)
+
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -125,7 +142,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     if (enteredText.trim().length === 0) {
       setError({
         title: "Invalid OQ Name",
-        message: "Please fill the opportunity question field.",
+        message: "Please fill out the field.",
       });
       return;
     }
@@ -175,19 +192,19 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Opportunity Question",
-      text: "Take your selected challenge and reframe it, use questions like: How that can be done? How it can be imporve? What can improve it? What is important for...? Use what ever other question that makes you think in terms of solutions.",
+      text: "Take your selected challenge and reframe it. Use questions like How can that be done? How can it be improved? What can improve it? What is important for...? Use whatever other question that makes you think about solutions.",
     });
   };
 
   const showIdeasExampleHandler = () => {
     setIdeasExample({
-      sampleItem: "Solve team biggest issues.",
-      ItemName: 'Sample Project Name',
+      sampleItem: "Solve team's biggest issues.",
+      ItemName: "Sample Project Name",
       type: "Opportunity Question",
       examples: [
-        "How ight we reduce noise in the office for those who need quiet?",
-        "How stay we up to date with our tech stack?",
-        "How can we communicate  better?",
+        "How might we reduce noise in the office for those who need quiet?",
+        "How can we improve the atmosphere in the office?",
+        "How can we communicate better?",
       ],
     });
   };
@@ -237,14 +254,14 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     }
   };
   if (isDoneOQ) {
-    return <PhaseClose text="Oppportunity Question Phase done" />;
+    return <PhaseClose text="Opportunity Question Phase done" />;
   }
 
   const nextPageHandler = () => {
-    if(!isOQ){
+    if (!isOQ) {
       setError({
         title: "Invalid OQ Name",
-        message: "Please fill the opportunity question field.",
+        message: "Please fill out the field.",
       });
       return;
     }
@@ -255,16 +272,16 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   };
 
   const projectNameFieldClasses = error
-  ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
-  : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
+    ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
+    : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
 
   return (
     <section className="flex flex-col justify-center items-center">
       <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
-        Write a opportunity question<span className="text-blue-600">.</span>{" "}
+        Write an opportunity question<span className="text-blue-600">.</span>{" "}
         <span className="text-gray-400 text-2xl">(only one)</span>
       </h1>
-      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
         Challenge: {challenge.name}
       </p>
       <div className="mt-3 text-gray-300 w-44 flex justify-between">
@@ -292,30 +309,30 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
       )}
       {ideasExample && (
         <IdeasExamplesModal
-        sampleItem={ideasExample.sampleItem}
-        ItemName={ideasExample.ItemName}
-        type={ideasExample.type}
-        examples={ideasExample.examples}
-        onConfirm={hideIdeasExampleHandler}
-      />
+          sampleItem={ideasExample.sampleItem}
+          ItemName={ideasExample.ItemName}
+          type={ideasExample.type}
+          examples={ideasExample.examples}
+          onConfirm={hideIdeasExampleHandler}
+        />
       )}
-       <div className='flex justify-center'>
-      <div className="pr-8 sm:pr-10">
-      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
-        <BsArrowLeftShort className="text-3xl" />
-          <Link href={`/${projectId}/opportunity_question/select`}  passHref>
-            <a className="text-xl">
-              Prev
-            </a>
-          </Link>
-        </div>
+      <div className="flex justify-center">
+        <div className="pr-8 sm:pr-10">
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+            <BsArrowLeftShort className="text-3xl" />
+            <Link href={`/${projectId}/opportunity_question/select`} passHref>
+              <a className="text-xl">Prev</a>
+            </Link>
+          </div>
         </div>
         <div className="pl-8 sm:pl-10">
-            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
-                <a onClick={nextPageHandler} className="text-xl cursor-pointer">Next</a>
-              <BsArrowRightShort className="text-3xl" />
-            </div>
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+            <a onClick={nextPageHandler} className="text-xl cursor-pointer">
+              Next
+            </a>
+            <BsArrowRightShort className="text-3xl" />
           </div>
+        </div>
       </div>
       <div className="w-full">
         <form

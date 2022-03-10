@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 const Dashboard: React.FC<{}> = (props) => {
   const { data: session, status } = useSession();
   const { id: userId } = session;
-  const { loading: loadingProjects, data: projectsData } = useQuery<
+  const { loading: loadingProjects, error: projectsError, data: projectsData } = useQuery<
     getProjectByUserId,
     getProjectByUserIdVars
   >(GET_PROJECT_BY_USER_ID, {
@@ -27,6 +27,9 @@ const Dashboard: React.FC<{}> = (props) => {
 
   if (loadingProjects)
   return <p className="text-center">Loading...</p>;
+  if (projectsError)
+    return <p className="text-center">`Error❗️${projectsError.message}`</p>;
+
 
   return (
     <section className="flex flex-col items-center mb-40">

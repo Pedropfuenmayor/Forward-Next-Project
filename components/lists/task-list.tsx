@@ -21,6 +21,7 @@ const TaskList: React.FC<{
   const {
     loading: loadingAction,
     data: actionData,
+    error: actionsError,
     refetch,
   } = useQuery<getActionsByUserId, getActionsByUserIdVars>(
     GET_ACTIONS_BY_USER_ID,
@@ -38,6 +39,9 @@ const TaskList: React.FC<{
   }, [projects, refetch]);
 
   if (loadingAction) return <p className="text-center">Loading...</p>;
+
+  if (actionsError)
+  return <p className="text-center">`Error❗️${actionsError.message}`</p>;
 
   if (
     !actionData.getActionsByUserId ||

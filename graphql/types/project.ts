@@ -101,15 +101,15 @@ export const ProjectMutation = extendType({
           throw Error("Empty project name.");
         }
 
-        const existingProject = await ctx.prisma.projects.findFirst({
-          where: {
-            name,
-          },
-        });
+        // const existingProject = await ctx.prisma.projects.findFirst({
+        //   where: {
+        //     name,
+        //   },
+        // });
 
-        if (existingProject) {
-          throw Error("Project already exist");
-        }
+        // if (existingProject) {
+        //   throw Error("Project already exist");
+        // }
 
         const project: ProjectType = {
           name,

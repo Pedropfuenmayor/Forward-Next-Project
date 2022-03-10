@@ -43,19 +43,24 @@ const Challenges: React.FC<{}> = () => {
   const { challengeType } = router.query;
   const isDriveforward = challengeType === "drive_forward";
 
-  const { loading: loadingChallenges, data: challengesData } = useQuery<
-    getChallengesByProject,
-    getChallengesByProjectVars
-  >(GET_CHALLENGES_BY_PROJECT, {
-    variables: {
-      projectId: +projectId,
-    },
-  });
+  const {
+    loading: loadingChallenges,
+    error: challengesError,
+    data: challengesData,
+  } = useQuery<getChallengesByProject, getChallengesByProjectVars>(
+    GET_CHALLENGES_BY_PROJECT,
+    {
+      variables: {
+        projectId: +projectId,
+      },
+    }
+  );
 
-  const { loading: loadingProject, data: projectData } = useQuery<
-    getProjectById,
-    getProjectByIdVars
-  >(GET_PROJECT_BY_ID, {
+  const {
+    loading: loadingProject,
+    error: projectError,
+    data: projectData,
+  } = useQuery<getProjectById, getProjectByIdVars>(GET_PROJECT_BY_ID, {
     variables: {
       projectId: +projectId,
     },
@@ -88,8 +93,8 @@ const Challenges: React.FC<{}> = () => {
       error: deleteError,
     },
   ] = useMutation<deleteChallengeById, deleteChallengeVars>(
-    DELETE_CHALLENGE_BY_ID
-    ,{
+    DELETE_CHALLENGE_BY_ID,
+    {
       update(cache, { data }) {
         const { deleteChallenge } = data;
         const { getChallengesByProject } = challengesData;
@@ -113,6 +118,15 @@ const Challenges: React.FC<{}> = () => {
   if (loadingProject || loadingChallenges)
     return <p className="text-center">Loading...</p>;
 
+  if (challengesError)
+    return <p className="text-center">`Error❗️${challengesError.message}`</p>;
+  if (projectError)
+    return <p className="text-center">`Error❗️${projectError.message}`</p>;
+  if (createError)
+    return <p className="text-center">`Error❗️${createError.message}`</p>;
+  if (deleteError)
+    return <p className="text-center">`Error❗️${deleteError.message}`</p>;
+
   const challengesList = challengesData.getChallengesByProject;
 
   const challengesListByType = challengesList.filter(
@@ -127,7 +141,7 @@ const Challenges: React.FC<{}> = () => {
     if (enteredText.trim().length === 0) {
       setError({
         title: "Invalid  challenge name",
-        message: "Please fill the challenge field.",
+        message: "Please fill out the field.",
       });
       return;
     }
@@ -150,7 +164,9 @@ const Challenges: React.FC<{}> = () => {
           __typename: "Challenge",
         },
       },
-    }).then(re=>re).catch(err=>console.log(err.networkError.result.errors))
+    })
+      .then((re) => re)
+      .catch((err) => console.log(err.networkError.result.errors));
 
     challangeDescriptionInputRef.current!.value = "";
 
@@ -160,19 +176,19 @@ const Challenges: React.FC<{}> = () => {
   const showIdeasExampleHandler = () => {
     if (isDriveforward) {
       setIdeasExample({
-        sampleItem: "Solve team biggest issues.",
-        ItemName: 'Sample Project Name',
+        sampleItem: "Solve team's biggest issues.",
+        ItemName: "Sample Project Name",
         type: "Drive Forward Challenges",
         examples: [
-          "Good comunication",
+          "Good communication",
           "Education program",
-          "State of the art tech stack",
+          "Bulletproof tech stack",
         ],
       });
     } else {
       setIdeasExample({
         sampleItem: "Solve team biggest issues.",
-        ItemName: 'Sample Project Name',
+        ItemName: "Sample Project Name",
         type: "Hold Back Challenges",
         examples: [
           "Office is to loud",
@@ -255,8 +271,8 @@ const Challenges: React.FC<{}> = () => {
     : `/${projectId}/collect/drive_forward`;
 
   const projectNameFieldClasses = error
-  ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
-  : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
+    ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
+    : "block w-full text-2xl p-0.5 rounded bg-gray-200 mb-2 sm:p-1";
 
   return (
     <section className="flex flex-col justify-center items-center">
@@ -303,23 +319,23 @@ const Challenges: React.FC<{}> = () => {
           onConfirm={hideIdeasExampleHandler}
         />
       )}
-      <div className='flex justify-center'>
-      <div className="pr-8 sm:pr-10">
-      <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
-        <BsArrowLeftShort className="text-3xl" />
-          <Link href={previousPage} passHref>
-            <a className="text-xl">
-              Prev
-            </a>
-          </Link>
-        </div>
+      <div className="flex justify-center">
+        <div className="pr-8 sm:pr-10">
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
+            <BsArrowLeftShort className="text-3xl" />
+            <Link href={previousPage} passHref>
+              <a className="text-xl">Prev</a>
+            </Link>
+          </div>
         </div>
         <div className="pl-8 sm:pl-10">
-            <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
-                <a onClick={nextPageHandler} className="text-xl cursor-pointer">Next</a>
-              <BsArrowRightShort className="text-3xl" />
-            </div>
+          <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
+            <a onClick={nextPageHandler} className="text-xl cursor-pointer">
+              Next
+            </a>
+            <BsArrowRightShort className="text-3xl" />
           </div>
+        </div>
       </div>
       <div className=" w-full">
         <form

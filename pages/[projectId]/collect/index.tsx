@@ -33,7 +33,7 @@ const { status } = useSession();
         nextPage={nextPage}
         phaseName="Collect"
         subTitle="What is the Collect Phase?"
-        descriptionText="The goal of the Collect phase is to collect challenges, and listing them so you can decide exactly what to work on, in a more organize way. Collect as much relevant information as possible."
+        descriptionText="The goal of the Collect phase is to collect challenges and list them so you can decide what to work on in an organized way. Collect as much relevant information as possible."
       />
   );
 };

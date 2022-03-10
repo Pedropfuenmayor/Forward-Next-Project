@@ -98,7 +98,7 @@ type Query {
   getActionsByUserId(user_id: Int!): [Action]!
   getChallengesByProject(project_id: Int!): [Challenge]!
   getIdeasByChallenge(challenge_id: Int!): [Idea]!
-  getOQ(challenge_id: Int!): OQ!
+  getOQ(challenge_id: Int!): OQ
   getProjectById(id: Int!): Project
   getProjectByUserId(userId: Int!): [Project]
   ideas: [Idea]!

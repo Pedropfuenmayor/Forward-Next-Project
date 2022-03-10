@@ -33,7 +33,7 @@ const IdeasIntroPage: NextPage = () => {
       nextPage={nextPage}
       phaseName="Ideas Creation"
       subTitle="What is the Opportunity Question Phase?"
-      descriptionText="The goal of the Ideas Creation phase  is to generate lots of solutions to the prioritized problem. Solutions don’t need to be final, or even well thought-out – at this point it’s more about creating a mass of solutions.
+      descriptionText="The goal of the Ideas Creation phase is to generate a lot of solutions to the prioritized problem. Ideas don’t need to be final or even well-thought-out – at this point, it’s more about creating possibilities.
       ​"
     />
   );

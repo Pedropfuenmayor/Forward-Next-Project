@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { CREATE_PROJECT } from "../graphql/querys";
 import { useMutation } from "@apollo/client";
 import PhaseClose from "./phase-close";
+import { errorMonitor } from "node:events";
 
 const ProjectNameForm = () => {
   const [helpText, setHelpText] = useState<HelpText | false>(false);
@@ -39,7 +40,7 @@ const ProjectNameForm = () => {
     if (name.trim().length === 0) {
       setError({
         title: "Invalid Project Name",
-        message: "Please enter a project.",
+        message: "Please fill out the field.",
       });
       return;
     }
@@ -50,7 +51,8 @@ const ProjectNameForm = () => {
         name,
         userId: Number(session.id),
       },
-    });
+    }).then((res) => res)
+    .catch((err) =>console.log(err));
     setTimeout(() => {
       router.push(`/${id}/collect`);
     }, 1000);
@@ -61,7 +63,7 @@ const ProjectNameForm = () => {
 
     setProjectNameExample({
       examples: [
-        "Solve team biggest issues",
+        "Solve team's biggest issues",
         "Improve the house interior",
         "Make more quality time",
       ],
@@ -79,7 +81,7 @@ const ProjectNameForm = () => {
   const showHelpTextHandler = () => {
     setHelpText({
       title: "Project Name",
-      text: "Name you project in a way it describes the problem from a wide/general perspective. Try to use from 2-6 words",
+      text: "Name your project to describe the problem from a broad perspective. Try to use from 2-6 words.",
     });
   };
 

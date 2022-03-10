@@ -21,8 +21,8 @@ const Navbar = () => {
   const navigation = [
     { name: "Intro", href: "/intro" },
     { name: "New Project", href: "/new_project" },
-    { name: "Projects-Actions", href: "projects_actions" },
-    { name: "Logout", href: "#", handler:logoutHandler},
+    { name: "Projects-Actions", href: "/projects_actions" },
+    { name: "Logout", href: "#", handler: logoutHandler },
     { name: "Profile", href: "/profile" },
   ];
 
@@ -38,16 +38,6 @@ const Navbar = () => {
         session ? "justify-center" : ""
       }`}
     >
-      {/* {isIndex &&
-      <div className='ml-11 mt-10 lg:ml-32 '>
-      <Image
-        src="/../public/Forward-logos_black.png"
-        alt="Forward Logo"
-        width={150}
-        height={150}
-        priority
-      />
-      </div>} */}
       {session && !isIndex && (
         <Disclosure as="nav" className="bg-white">
           {({ open }) => (
@@ -56,7 +46,7 @@ const Navbar = () => {
                 <div className="flex items-center h-16">
                   <div className="sm:hidden">
                     {/* Mobile menu button*/}
-                    <Disclosure.Button className="fixed top-7 right-[10%]">
+                    <Disclosure.Button className="bg-white fixed top-7 z-30 right-[10%]">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
                         <BiX className="text-2xl text-black" />
@@ -70,10 +60,10 @@ const Navbar = () => {
                   <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="hidden sm:block sm:ml-6">
                       <div className="flex space-x-4">
-                        {navigation.map(({name, href, handler}, i) => (
+                        {navigation.map(({ name, href, handler }, i) => (
                           <Link key={i} href={href}>
                             <a
-                            onClick={handler? handler: null}
+                              onClick={handler ? handler : null}
                               className={classNames(
                                 "text-gray-300 hover:text-black transition duration-300",
                                 "px-3 py-2 "
@@ -90,17 +80,17 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <Disclosure.Panel className="sm:hidden bg-white fixed z-10 top-15 left-0 w-full h-full">
+              <Disclosure.Panel className="sm:hidden bg-white fixed z-20 top-0 left-0 w-full h-full">
                 <div className="px-2 pt-2 pb-3 space-y-1">
-                  {navigation.map((item, i) => (
+                  {navigation.map(({ name, href, handler }, i) => (
                     <Disclosure.Button
                       as="div"
                       key={i}
-                      className={classNames(
-                        "text-black block px-10 py-3 text-base"
-                      )}
+                      className={classNames("px-10 py-3")}
                     >
-                      <Link href={item.href}>{item.name}</Link>
+                      <Link href={href}>
+                        <a className='text-black text-base hover:text-blue-600 transition duration-300' onClick={handler ? handler : null}>{name}</a>
+                      </Link>
                     </Disclosure.Button>
                   ))}
                 </div>

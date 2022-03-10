@@ -19,7 +19,7 @@ const ImpactEffortScale: React.FC<{}> = () => {
   const router = useRouter();
   const { projectId, challengeId } = router.query;
 
-  const { loading: loadingIdeas, data: ideasData } = useQuery<
+  const { loading: loadingIdeas, error:ideasError, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
@@ -28,7 +28,7 @@ const ImpactEffortScale: React.FC<{}> = () => {
     },
   });
 
-  const { loading: loadingOQ, data: OQData } = useQuery<getOQ, getOQVars>(
+  const { loading: loadingOQ, error:OQError, data: OQData } = useQuery<getOQ, getOQVars>(
     GET_OQ_BY_CHALLENGE_ID,
     {
       variables: {
@@ -39,6 +39,11 @@ const ImpactEffortScale: React.FC<{}> = () => {
 
   if (loadingOQ || loadingIdeas)
     return <p className="text-center">Loading...</p>;
+
+    if (ideasError)
+    return <p className="text-center">`Error❗️${ideasError.message}`</p>;
+  if (OQError)
+    return <p className="text-center">`Error❗️${OQError.message}`</p>;
 
   const selectedIdea = ideasData.getIdeasByChallenge.filter((idea) => {
     return idea.index <= 3;
@@ -65,21 +70,34 @@ const ImpactEffortScale: React.FC<{}> = () => {
   const isLowImpactLowEffort = lowImpactLowEffort.length > 0;
   const isLowImpactHighEffort = lowImpactHighEffort.length > 0;
 
+  const isIdeas =
+    !isHighImpactLowEffort &&
+    !isHighImpactLowEffort &&
+    !isLowImpactLowEffort &&
+    !isLowImpactHighEffort;
+
   return (
     <section className="flex flex-col justify-center items-center">
-      <h1 className="text-4xl text-center w-11/12 sm:text-5xl">Create Actions<span className="text-blue-600">.</span></h1>
-      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
+      <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
+        Create Actions<span className="text-blue-600">.</span>
+      </h1>
+      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
         {OQData.getOQ.name}
       </p>
       <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
-            <BsArrowLeftShort className="text-3xl" />
-            <Link
-              href={`/${projectId}/opportunity_question/${challengeId}/actions/effort`}
-              passHref
-            >
-              <a className="text-xl">Prev</a>
-            </Link>
-          </div>
+        <BsArrowLeftShort className="text-3xl" />
+        <Link
+          href={`/${projectId}/opportunity_question/${challengeId}/actions/effort`}
+          passHref
+        >
+          <a className="text-xl">Prev</a>
+        </Link>
+      </div>
+      {isIdeas &&
+        <p className=" w-11/12 mt-10 text-center text-2xl">
+          At least one idea needs to have both: level of impact and effort ❗️
+        </p>
+      }
       <div className="flex justify-around items-center w-full">
         <div className="flex flex-col w-5/6 sm:w-3/6">
           {isHighImpactLowEffort && (
