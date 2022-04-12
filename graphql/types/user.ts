@@ -148,12 +148,7 @@ export const UserMutation = extendType({
 
         const { email, password } = args;
 
-        const isGuest = /^guestUser/.test(email)
-
-        if(isGuest){
-           console.log(session)
-           return;
-        }
+       
 
         const existingUser = await ctx.prisma.users.findFirst({
           where: { email },
