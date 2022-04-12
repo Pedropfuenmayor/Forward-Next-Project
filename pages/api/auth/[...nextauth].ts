@@ -17,27 +17,36 @@ export default NextAuth({
       },
       authorize: async ({ email, password }) => {
 
-        const user = await prisma.users.findFirst({ where: { email } });
+        const isGuest = /^guestUser/.test(email)
+      
+        if (!isGuest) {
+          const user = await prisma.users.findFirst({ where: { email } });
 
+          if (!user) {
+            throw new Error("No user found!");
+          }
 
-        if (!user) {
-          throw new Error("No user found!");
-        }
+          const isValid = await verifyPassword(password, user.password);
 
-        const isValid = await verifyPassword(password, user.password);
-
-        if (!isValid) {
-          throw new Error("Invalid password!");
-        }
-
+          if (!isValid) {
+            throw new Error("Invalid password!");
+          }
 
           return {
             id: user.id,
             email: user.email,
           };
-        
+        } else {
+          const user = await prisma.users.create({
+            data: { email, password, id: +password },
+          });
+
+          return {
+            id: user.id,
+            email: user.email,
+          };
+        }
       },
-      
     }),
   ],
   callbacks: {
@@ -57,7 +66,5 @@ export default NextAuth({
       return session;
     },
   },
-  jwt: {
-    
-  },
+  jwt: {},
 });

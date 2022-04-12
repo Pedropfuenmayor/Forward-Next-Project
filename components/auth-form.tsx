@@ -213,7 +213,7 @@ function AuthForm() {
               {isLogin
                 ? signinLoading
                   ? "Submitting..."
-                  : "Login"
+                  : "Log in"
                 : loading
                 ? "Submitting..."
                 : "Create Account"}
@@ -223,7 +223,7 @@ function AuthForm() {
               type="button"
               onClick={switchAuthModeHandler}
             >
-              {isLogin ? "Create new account" : "Login with existing account"}
+              {isLogin ? "Create new account" : "Log in with existing account"}
             </button>
           </div>
         </form>
