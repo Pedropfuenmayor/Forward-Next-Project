@@ -210,12 +210,16 @@ getSession().then((session) => {
               <div className="py-6 px-5 space-y-6">
                 <div>
                   <Popover.Button
-                    as="button"
-                    disabled={signinLoading}
-                    onClick={guestLogIn}
-                    className="w-full mb-2 flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
+                    as="div"
+                   
+                  >
+                  <button
+                   disabled={signinLoading}
+                   onClick={guestLogIn}
+                   className="w-full mb-2 flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
                   >
                     {signinLoading ? "Loading..." : "Try as a guest"}
+                    </button> 
                   </Popover.Button>
                   <Popover.Button
                     as="button"
