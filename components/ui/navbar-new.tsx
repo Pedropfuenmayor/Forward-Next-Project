@@ -26,18 +26,17 @@ export default function NavBarNew() {
   const isIndex = router.pathname === "/";
   const isUserType = router.pathname === "/user_type";
   const isLogin = router.pathname === "/login";
-  const [isGuest, setIsGuest] = useState(false)
+  const [isGuest, setIsGuest] = useState(false);
 
-
-getSession().then((session) => {
-  if (session) {
-    if (/^guestUser/.test(session.user.email) && !isGuest){
-      setIsGuest(true);
-    }else if(!/^guestUser/.test(session.user.email) && isGuest){
-      setIsGuest(false);
+  getSession().then((session) => {
+    if (session) {
+      if (/^guestUser/.test(session.user.email) && !isGuest) {
+        setIsGuest(true);
+      } else if (!/^guestUser/.test(session.user.email) && isGuest) {
+        setIsGuest(false);
+      }
     }
-  }
-});
+  });
 
   function logoutHandler() {
     signOut({ redirect: false, callbackUrl: "/" });
@@ -210,18 +209,22 @@ getSession().then((session) => {
               <div className="py-6 px-5 space-y-6">
                 <div>
                   <button
-                   disabled={signinLoading}
-                   onClick={guestLogIn}
-                   className="w-full mb-2 flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
+                    disabled={signinLoading}
+                    onClick={guestLogIn}
+                    className="w-full mb-2 flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
                   >
                     {signinLoading ? "Loading..." : "Try as a guest"}
-                    </button> 
-                  <Popover.Button
-                    as="button"
-                    className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-gray-800 bg-gray-300 hover:bg-gray-400"
-                  >
-                    <Link href="/login">Sign in / Sign up</Link>
-                  </Popover.Button>
+                  </button>
+                  <Link href="/login">
+                    <a>
+                      <Popover.Button
+                        as="button"
+                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-gray-800 bg-gray-300 hover:bg-gray-400"
+                      >
+                        Sign in / Sign up
+                      </Popover.Button>
+                    </a>
+                  </Link>
                 </div>
               </div>
             </div>
