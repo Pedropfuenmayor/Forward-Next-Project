@@ -53,11 +53,11 @@ const profileFilter = (isGuest)=>{
         session ? "justify-center" : ""
       }`}
     >
-      {/* {isIndex && 
-      <nav className='flex mt-10 mx-24 w-full justify-between items-center'>
-        <div><Image width={500} height={500} src='/public/Forward-logos_black.png'/></div>
+      {isIndex && 
+      <nav className='flex mt-10 mx-5 w-full justify-between items-center'>
+        <div><Image width={200} height={200} src='/../public/Forward-logos_black.png'/></div>
         <Link href='/login'>Login</Link>
-      </nav>} */}
+      </nav>}
       {session && !isIndex && (
         <Disclosure as="nav" className="bg-white">
           {({ open }) => (
