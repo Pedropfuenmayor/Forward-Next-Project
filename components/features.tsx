@@ -8,7 +8,7 @@ import {
 
 const Features:NextPage  = () => {
     return (
-<section className="bg-white -mt-10  sm:-mt-20">
+<section className="bg-white -mt-32 sm:-mt-20">
             <div className="container px-6 py-10 mx-auto">
                 <h1 className="text-3xl font-semibold text-center text-gray-800 lg:text-4xl">Enjoy a powerful <span className="text-blue-500">Framework</span></h1>
                 

@@ -6,7 +6,7 @@ import { useGuestUser } from "../hooks/useGuest";
 const Cta: NextPage = () => {
   const { guestLogIn, signinLoading } = useGuestUser();
   return (
-    <section className="bg-white -mt-10  sm:-mt-20">
+    <section className="bg-white sm:mt-10">
       <div className="container flex flex-col items-center px-4 py-12 mx-auto text-center">
         <h2 className="text-3xl font-semibold tracking-tight text-gray-700 sm:text-4xl ">
         Catch problems on the fly<br />  and generate solutions.
