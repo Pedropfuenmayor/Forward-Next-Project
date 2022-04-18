@@ -23,7 +23,7 @@ const Features:NextPage  = () => {
                         <h1 className="text-2xl font-semibold text-gray-700 capitalize">Stay focus</h1>
 
                         <p className="text-gray-500 ">
-                        In our application, you go through stages similar to those used in the design thinking process. By exposing you to the minimal amount of information needed in each stage, you can keep your attention on what is important. 
+                        By exposing you to the minimal amount of information needed in each stage of the process, you can keep your attention on what is important. 
                         </p>
 
                     </div>
@@ -38,7 +38,7 @@ const Features:NextPage  = () => {
                         <h1 className="text-2xl font-semibold text-gray-700 capitalize ">Generate Ideas</h1>
 
                         <p className="text-gray-500 ">
-                        You will be amazed at how creative you can be if you are provided with the right context. By helping you find a direction and stimulating the production of ideas, our tools will assist you in your solving problem journey.
+                        You will be amazed at how creative you can be if you are provided with the right context. By helping you find a direction and stimulating the production of ideas, we can assist you in your solving problem journey.
                         </p>
 
                     </div>
@@ -53,7 +53,7 @@ const Features:NextPage  = () => {
                         <h1 className="text-2xl font-semibold text-gray-700 capitalize ">Prioritize</h1>
 
                         <p className="text-gray-500 ">
-                        Because the most precious resource on earth is time, our application will guide you to find the optimal set of actions needed to solve your problem in the least amount of time. 
+                        Because the most precious resource on earth is time, we guide you to find the optimal set of actions needed to solve your problem in the least amount of time. 
                         </p>
 
                     </div>
@@ -68,7 +68,7 @@ const Features:NextPage  = () => {
                         <h1 className="text-2xl font-semibold text-gray-700 capitalize ">Learn by Doing</h1>
 
                         <p className="text-gray-500 ">
-                        The user interface is designed with the simplest mental model in mind. With no previous experience, you can jump right away and start to use our tools, and find the help you need in each stage to move forward.
+                        The user interface is designed with the simplest mental model in mind. With no previous experience, you can jump right away and start to use the framework and find the help you need in each stage to move forward.
                         </p>
 
                     </div>
