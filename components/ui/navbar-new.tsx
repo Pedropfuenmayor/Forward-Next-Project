@@ -97,7 +97,7 @@ export default function NavBarNew() {
             <Link href="/">
               <a>
                 <span className="sr-only">Workflow</span>
-                <Image width={240} height={40} src="/Logo.png" />
+                <Image width={240} height={40} src="https://i.postimg.cc/C5BgxyHG/Untitled.png" />
               </a>
             </Link>
           </div>
@@ -196,7 +196,7 @@ export default function NavBarNew() {
               <div className="pt-5 pb-6 px-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Image width={180} height={30} src="/Logo.png" />
+                    <Image width={180} height={30} src="https://i.postimg.cc/C5BgxyHG/Untitled.png" />
                   </div>
                   <div className="-mr-2">
                     <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600">

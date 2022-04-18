@@ -9,6 +9,9 @@ module.exports = (phase) => {
        URI: 'http://localhost:3000',
        NEXTAUTH_URL:'http://localhost:3000'
       },
+      images: {
+        domains: ['i.postimg.cc'],
+      },
     };
   }
 
@@ -16,6 +19,9 @@ module.exports = (phase) => {
     env: {
       URI: 'https://forward-next-project.vercel.app',
       NEXTAUTH_URL:'https://forward-next-project.vercel.app'
+    },
+    images: {
+      domains: ['i.postimg.cc'],
     },
   };
 };
