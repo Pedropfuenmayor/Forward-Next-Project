@@ -10,7 +10,7 @@ export default function Layout({ children }) {
         <meta name="description" content="Framework for generating ideas." />
         <meta name="title" property="og:title" content="Forward" />
         <meta property="og:type" content="Website" />
-        <meta name="image" property="og:image" content="https://i.postimg.cc/C5BgxyHG/Untitled.png" />
+        <meta name="image" property="og:image" content="https://i.postimg.cc/7Y1hK70Z/Forward-logos-black.png" />
         <meta name="description" property="og:description" content="Framework for generating ideas." />
         <meta name="author" content="Pedro Fuenmayor" />
       </Head>
