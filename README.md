@@ -2,9 +2,9 @@
 
 
 
-## Getting Started
+## Framework for generating ideas.
 
-First, run the development server:
+Generates ideas fast and prioritizes what matters to your project with minimal distraction.
 
 ```bash
 npm run dev
