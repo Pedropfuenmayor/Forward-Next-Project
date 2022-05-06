@@ -1,4 +1,4 @@
-![GitHub Logo](https://i.postimg.cc/C5BgxyHG/Untitled.png)
+![Forward Logo](https://i.postimg.cc/C5BgxyHG/Untitled.png)
 
 
 
@@ -6,13 +6,7 @@
 
 Generates ideas fast and prioritizes what matters to your project with minimal distraction.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Projject page [https://forward-next-project.vercel.app/](https://forward-next-project.vercel.app/)
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
