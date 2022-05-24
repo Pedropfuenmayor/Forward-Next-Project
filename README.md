@@ -6,7 +6,7 @@
 
 Generates ideas fast and prioritizes what matters to your project with minimal distraction.
 
-Project page [https://forward-next-project.vercel.app/](https://forward-next-project.vercel.app/)
+Project page [https://forward-next-project.vercel.app/](https://forward-next-project.vercel.app)
 
 ## ⚙️ Tech stack
 
