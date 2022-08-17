@@ -10,7 +10,7 @@ Generates ideas fast and prioritizes what matters to your project with minimal d
 
 ## ⚙️ Tech stack
 
-React | Next.js | Tailwind | NextAuth.js | PostgreSQL | GraphQL | Apollo Client | Apollo Server Nexus | Prisma | Jest | React Testing Library
+React | Next.js | Tailwind | NextAuth.js | PostgreSQL | GraphQL | Apollo Client | Apollo Server Nexus | Prisma | Jest | React Testing Library | Cypress
 
 - Implemented Apollo Client cache functionality for achieving maximal reactivity on user input hidden latency through Optimistic UI.
 - Build a GraphQL server using the Nexus Code-First approach for type safety.
