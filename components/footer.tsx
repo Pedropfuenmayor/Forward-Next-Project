@@ -9,7 +9,7 @@ const Footer: NextPage = () => {
           {/* <div>Forward</div>
           <div>{` • `}</div> */}
           <div>Made with ❤️ by</div>
-          <Link href='https://www.linkedin.com/in/pedro-fuenmayor-a96a9715/'><span className='underline cursor-pointer hover:text-blue-600 transition duration-200'>Pedro Fuenmayor</span></Link>
+          <Link passHref href='https://www.linkedin.com/in/pedro-fuenmayor-a96a9715/'><span className='underline cursor-pointer hover:text-blue-600 transition duration-200'>Pedro Fuenmayor</span></Link>
           <div>{` • `}</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
         </div>
