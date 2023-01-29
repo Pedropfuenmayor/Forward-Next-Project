@@ -101,6 +101,7 @@ export default function NavBarNew() {
                   alt="forward logo"
                   width={240}
                   height={40}
+                  priority
                   src="https://i.postimg.cc/C5BgxyHG/Untitled.png"
                 />
               </a>

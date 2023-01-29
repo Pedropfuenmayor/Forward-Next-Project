@@ -16,6 +16,6 @@
     "incremental": true,
     "baseUrl": ".",
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.setup.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.setup.js", "cypress/integreation/routes.test.js"],
   "exclude": ["node_modules", "cypress", "cypress.config.ts"]
 }
