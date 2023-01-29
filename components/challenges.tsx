@@ -115,6 +115,8 @@ const Challenges: React.FC<{}> = () => {
     }
   );
 
+console.log(project)
+
   if (loadingProject || loadingChallenges)
     return <p className="text-center">Loading...</p>;
 

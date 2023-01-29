@@ -51,7 +51,7 @@ const ProjectNameForm = () => {
         name,
         userId: Number(session.id),
       },
-    }).then((res) => res)
+    }).then((res) => res )
     .catch((err) =>console.log(err));
     setTimeout(() => {
       router.push(`/collect-challenges?project=${id}`);
