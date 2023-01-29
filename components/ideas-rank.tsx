@@ -36,14 +36,14 @@ const IdeasRank: React.FC<{}> = () => {
     number | string | false
   >(false);
   const router = useRouter();
-  const { projectId, challengeId } = router.query;
+  const { project, challenge } = router.query;
 
   const { loading: loadingIdeas, error: ideasError, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 
@@ -51,7 +51,7 @@ const IdeasRank: React.FC<{}> = () => {
     GET_OQ_BY_CHALLENGE_ID,
     {
       variables: {
-        challengeId: +challengeId,
+        challengeId: +challenge,
       },
     }
   );
@@ -75,7 +75,7 @@ const IdeasRank: React.FC<{}> = () => {
           }),
         },
         variables: {
-          challengeId: +challengeId,
+          challengeId: +challenge,
         },
       });
     },
@@ -159,7 +159,7 @@ const IdeasRank: React.FC<{}> = () => {
   const nextPageHandler = () => {
     setIsDoneChallenges(true);
     setTimeout(() => {
-      router.push(`/${projectId}/opportunity_question/${challengeId}/actions`);
+      router.push(`/actions?project=${project}&challenge=${challenge}`);
     }, 1000);
   };
 
@@ -168,7 +168,7 @@ const IdeasRank: React.FC<{}> = () => {
       <h1 className="text-4xl text-center w-11/12 sm:text-5xl">
         Rank your Ideas<span className="text-blue-600">.</span>
       </h1>
-      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300 capitalize">
         {OQData.getOQ.name}
       </p>
       <div className="mt-3 text-gray-300 w-44 flex justify-center">
@@ -192,7 +192,7 @@ const IdeasRank: React.FC<{}> = () => {
           <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
             <BsArrowLeftShort className="text-3xl" />
             <Link
-              href={`/${projectId}/opportunity_question/${challengeId}/ideas/create`}
+              href={`/ideas/create?project=${project}challenge=${challenge}}`}
               passHref
             >
               <a className="text-xl">Prev</a>

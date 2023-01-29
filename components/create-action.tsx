@@ -46,7 +46,7 @@ const CreateAction: React.FC<{}> = () => {
   const { data: session, status } = useSession();
   const { id: userId } = session;
   const router = useRouter();
-  const { projectId, challengeId, ideaId } = router.query;
+  const { project , challenge, idea } = router.query;
   const taskInputRef = useRef<HTMLInputElement>(null);
   const dateInputRef = useRef<HTMLInputElement>(null);
   const succesCriteriaInputRef = useRef<HTMLInputElement>(null);
@@ -79,7 +79,7 @@ const CreateAction: React.FC<{}> = () => {
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 
@@ -88,7 +88,7 @@ const CreateAction: React.FC<{}> = () => {
     getActionByIdeaIdVars
   >(GET_ACTION_BY_IDEA_ID, {
     variables: {
-      ideaId: +ideaId,
+      ideaId: +idea,
     },
   });
 
@@ -104,7 +104,7 @@ const CreateAction: React.FC<{}> = () => {
           getActionByIdeaId: createAction,
         },
         variables: {
-          ideaId: +ideaId,
+          ideaId: +idea,
         },
       });
     },
@@ -136,8 +136,8 @@ const CreateAction: React.FC<{}> = () => {
     return <p className="text-center">`Error❗️${updateError.message}`</p>;
 
 
-  const idea = ideasData.getIdeasByChallenge.find(
-    (idea) => idea.id === +ideaId
+  const selectedIdea = ideasData.getIdeasByChallenge.find(
+    (selectIdea) => selectIdea.id === +idea
   );
 
   const submitHandler = (event: React.FormEvent) => {
@@ -165,7 +165,7 @@ const CreateAction: React.FC<{}> = () => {
       createAction({
         variables: {
           createActionId: id,
-          ideaId: +ideaId,
+          ideaId: +idea,
           userId: +userId,
           what,
           succesCriteria,
@@ -174,7 +174,7 @@ const CreateAction: React.FC<{}> = () => {
         optimisticResponse: {
           createAction: {
             id: "temp-id",
-            idea_id: +ideaId,
+            idea_id: +idea,
             user_id: +userId,
             what,
             succes_criteria: succesCriteria,
@@ -186,7 +186,7 @@ const CreateAction: React.FC<{}> = () => {
         .then((res) => res)
         .catch((err) => console.log(err));
       router.push(
-        `/${projectId}/opportunity_question/${challengeId}/actions/created/${ideaId}/${id}`
+        `/actions/created?project=${project}&challenge=${challenge}&idea=${idea}&action=${id}`
       );
     } else {
       updateAction({
@@ -202,7 +202,7 @@ const CreateAction: React.FC<{}> = () => {
             what,
             succes_criteria: succesCriteria,
             due_date: dueDate,
-            idea_id: +ideaId,
+            idea_id: +idea,
             user_id: +userId,
             __typename: "Action",
           },
@@ -211,7 +211,7 @@ const CreateAction: React.FC<{}> = () => {
         .then((res) => res)
         .catch((err) => console.log(err.networkError.result.errors));
       router.push(
-        `/${projectId}/opportunity_question/${challengeId}/actions/created/${ideaId}/${actionData.getActionByIdeaId.id}`
+        `/actions/created?project=${project}&challenge=${challenge}&idea=${idea}&action=${actionData.getActionByIdeaId.id}`
       );
     }
   };
@@ -221,8 +221,8 @@ const CreateAction: React.FC<{}> = () => {
       <h1 className="text-4xl text-center sm:text-5xl">
         Action <span className="text-blue-600">Creation</span>.
       </h1>
-      <p className="text-2xl mt-4 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
-        {idea.name}
+      <p className="text-2xl mt-4 text-center w-11/12 text-gray-300 hover:text-black transition duration-300 capitalize">
+        {selectedIdea.name}
       </p>
       
       <form onSubmit={submitHandler} className="max-w-full w-10/12 mx-auto sm:w-6/12">

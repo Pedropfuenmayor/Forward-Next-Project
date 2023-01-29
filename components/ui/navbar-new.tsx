@@ -76,7 +76,7 @@ export default function NavBarNew() {
         name: "Logout",
         description:
           "Build strategic funnels that will drive your customers to convert",
-        href: "#",
+        href: "/login",
         icon: LogoutIcon,
         handler: logoutHandler,
       },

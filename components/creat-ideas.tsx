@@ -41,8 +41,8 @@ const CreateIdeas: React.FC<{}> = () => {
   >(false);
   const challangeDescriptionInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const { projectId } = router.query;
-  const { challengeId } = router.query;
+  const { project, challenge } = router.query;
+  
 
   const {
     loading: loadingIdeas,
@@ -52,7 +52,7 @@ const CreateIdeas: React.FC<{}> = () => {
     GET_IDEAS_BY_CHALLENGE_ID,
     {
       variables: {
-        challengeId: +challengeId,
+        challengeId: +challenge,
       },
     }
   );
@@ -63,7 +63,7 @@ const CreateIdeas: React.FC<{}> = () => {
     data: OQData,
   } = useQuery<getOQ, getOQVars>(GET_OQ_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 
@@ -80,7 +80,7 @@ const CreateIdeas: React.FC<{}> = () => {
           getIdeasByChallenge: [...getIdeasByChallenge, createIdea],
         },
         variables: {
-          challengeId: +challengeId,
+          challengeId: +challenge,
         },
       });
     },
@@ -105,7 +105,7 @@ const CreateIdeas: React.FC<{}> = () => {
           }),
         },
         variables: {
-          challengeId: +challengeId,
+          challengeId: +challenge,
         },
       });
     },
@@ -141,7 +141,7 @@ const CreateIdeas: React.FC<{}> = () => {
 
     createIdea({
       variables: {
-        challengeId: +challengeId,
+        challengeId: +challenge,
         name: enteredText,
         createIdeaId: uid(),
       },
@@ -149,7 +149,7 @@ const CreateIdeas: React.FC<{}> = () => {
         createIdea: {
           id: "temp-id",
           name: enteredText,
-          challenge_id: +challengeId,
+          challenge_id: +challenge,
           index: null,
           is_selected: null,
           effort: null,
@@ -255,7 +255,7 @@ const CreateIdeas: React.FC<{}> = () => {
     setIsDoneIdeas(true);
     setTimeout(() => {
       router.push(
-        `/${projectId}/opportunity_question/${challengeId}/ideas/rank`
+        `/ideas/rank?project=${project}&challenge=${challenge}`
       );
     }, 1000);
   };
@@ -267,7 +267,7 @@ const CreateIdeas: React.FC<{}> = () => {
   return (
     <section className="flex flex-col justify-center items-center">
       {isOQ && (
-        <h1 className="text-4xl w-8/12 text-center sm:text-5xl">
+        <h1 className="text-4xl w-8/12 text-center sm:text-5xl capitalize">
           {OQData.getOQ.name}
         </h1>
       )}
@@ -308,7 +308,7 @@ const CreateIdeas: React.FC<{}> = () => {
           <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
             <BsArrowLeftShort className="text-3xl" />
             <Link
-              href={`/${projectId}/opportunity_question/${challengeId}/ideas`}
+              href={`/opportunity_question/create?project=${project}&challenge=${challenge}`}
               passHref
             >
               <a className="text-xl">Prev</a>

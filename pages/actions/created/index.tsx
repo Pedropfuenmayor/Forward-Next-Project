@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import CreateIdeas from "../../../../../components/creat-ideas";
+import ActionCreated from "../../../components/created-action";
 
-const IdeasCreatePage: NextPage = () => {
+const ActionCreatedPage: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
@@ -14,7 +14,7 @@ const IdeasCreatePage: NextPage = () => {
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
 
-  return <CreateIdeas /> ;
+  return <ActionCreated />
 };
 
-export default IdeasCreatePage;
+export default ActionCreatedPage;

@@ -18,7 +18,7 @@ import { useEffect } from "react";
 
 const IdeasImpactEffort: React.FC<{}> = () => {
   const router = useRouter();
-  const { projectId, challengeId, ideaType } = router.query;
+  const { project, challenge, ideaType } = router.query;
 
   const {
     loading: loadingIdeas,
@@ -28,7 +28,7 @@ const IdeasImpactEffort: React.FC<{}> = () => {
     GET_IDEAS_BY_CHALLENGE_ID,
     {
       variables: {
-        challengeId: +challengeId,
+        challengeId: +challenge,
       },
     }
   );
@@ -39,15 +39,15 @@ const IdeasImpactEffort: React.FC<{}> = () => {
     data: OQData,
   } = useQuery<getOQ, getOQVars>(GET_OQ_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 
   useEffect(() => {
     router.prefetch(
-      `/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`
+      `/actions/impact_effort_scale?project=${project}&challenge=${challenge}`
     );
-  }, [router, projectId, challengeId]);
+  }, [router, project, challenge]);
 
   if (loadingOQ || loadingIdeas)
     return <p className="text-center">Loading...</p>;
@@ -67,7 +67,7 @@ const IdeasImpactEffort: React.FC<{}> = () => {
         What is the level of <span className="text-blue-600">{ideaType}</span>{" "}
         of each Idea?
       </h1>
-      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300 capitalize">
         {OQData.getOQ.name}
       </p>
       <div className="flex justify-center">
@@ -77,8 +77,8 @@ const IdeasImpactEffort: React.FC<{}> = () => {
             <Link
               href={
                 ideaType === "impact"
-                  ? `/${projectId}/opportunity_question/${challengeId}/actions`
-                  : `/${projectId}/opportunity_question/${challengeId}/actions/impact`
+                  ? `/actions?project=${project}&challenge=${challenge}`
+                  : `/actions/impact?project=${project}&challenge=${challenge}`
               }
               passHref
             >
@@ -91,8 +91,8 @@ const IdeasImpactEffort: React.FC<{}> = () => {
             <Link
               href={
                 ideaType === "impact"
-                  ? `/${projectId}/opportunity_question/${challengeId}/actions/effort`
-                  : `/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`
+                  ? `/actions/effort?project=${project}&challenge=${challenge}`
+                  : `/actions/impact_effort_scale?project=${project}&challenge=${challenge}`
               }
               passHref
             >

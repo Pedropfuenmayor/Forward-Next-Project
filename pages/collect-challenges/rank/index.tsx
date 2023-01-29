@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import React from "react";
-import ChallengesRank from "../../../../components/challenges-rank";
+import ChallengesRank from "../../../components/challenges-rank";
 
 
 const ChooseIntroPage: NextPage = () => {

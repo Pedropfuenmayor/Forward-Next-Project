@@ -48,7 +48,7 @@ const SelectChallangeList: React.FC<{
                         <div className="text-sm">
                           <RadioGroup.Label
                             as="p"
-                            className={`font-medium  ${
+                            className={`font-medium ${
                               checked ? "text-white" : "text-gray-900"
                             }`}
                           >

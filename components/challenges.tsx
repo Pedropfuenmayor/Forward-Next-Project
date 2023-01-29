@@ -39,7 +39,7 @@ const Challenges: React.FC<{}> = () => {
   >(false);
   const challangeDescriptionInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const { projectId } = router.query;
+  const { project } = router.query;
   const { challengeType } = router.query;
   const isDriveforward = challengeType === "drive_forward";
 
@@ -51,7 +51,7 @@ const Challenges: React.FC<{}> = () => {
     GET_CHALLENGES_BY_PROJECT,
     {
       variables: {
-        projectId: +projectId,
+        projectId: +project,
       },
     }
   );
@@ -62,7 +62,7 @@ const Challenges: React.FC<{}> = () => {
     data: projectData,
   } = useQuery<getProjectById, getProjectByIdVars>(GET_PROJECT_BY_ID, {
     variables: {
-      projectId: +projectId,
+      projectId: +project,
     },
   });
 
@@ -79,7 +79,7 @@ const Challenges: React.FC<{}> = () => {
           getChallengesByProject: [...getChallengesByProject, createChallenge],
         },
         variables: {
-          projectId: +projectId,
+          projectId: +project,
         },
       });
     },
@@ -108,7 +108,7 @@ const Challenges: React.FC<{}> = () => {
             ),
           },
           variables: {
-            projectId: +projectId,
+            projectId: +project,
           },
         });
       },
@@ -150,7 +150,7 @@ const Challenges: React.FC<{}> = () => {
       variables: {
         challengeId: uid(),
         name: enteredText,
-        projectId: +projectId,
+        projectId: +project,
         challengeType: challengeType as string,
       },
       optimisticResponse: {
@@ -158,7 +158,7 @@ const Challenges: React.FC<{}> = () => {
           id: "temp-id",
           name: enteredText,
           challenge_type: challengeType as string,
-          project_id: +projectId,
+          project_id: +project,
           index: null,
           is_selected: null,
           __typename: "Challenge",
@@ -258,17 +258,19 @@ const Challenges: React.FC<{}> = () => {
 
   const nextPageHandler = () => {
     if (isDriveforward) {
-      router.push(`/${projectId}/collect/hold_back`);
+      router.push(`/collect-challenges/hold_back?project=${project}`);
+      
+
     } else {
       setTimeout(() => {
-        router.push(`/${projectId}/collect/rank`);
+        router.push(`/collect-challenges/rank?project=${project}`);
       }, 1000);
     }
   };
 
   const previousPage = isDriveforward
-    ? `/${projectId}/collect`
-    : `/${projectId}/collect/drive_forward`;
+    ? `/collect-challenges/?project=${project}`
+    : `/collect-challenges/drive_forward?project=${project}`;
 
   const projectNameFieldClasses = error
     ? "block w-full text-2xl p-0.5 mb-2 rounded border-red-300 bg-red-100 sm:p-1 "
@@ -279,7 +281,7 @@ const Challenges: React.FC<{}> = () => {
       {isDriveforward && (
         <h1 className="text-4xl w-8/12 text-center">
           What will drive the project{" "}
-          <span className="text-blue-600">
+          <span className="text-blue-600 capitalize">
             {projectData.getProjectById.name}
           </span>{" "}
           forward?
@@ -288,7 +290,7 @@ const Challenges: React.FC<{}> = () => {
       {!isDriveforward && (
         <h1 className="text-4xl w-8/12 text-center">
           What is holding the project{" "}
-          <span className="text-blue-600">
+          <span className="text-blue-600 capitalize">
             {projectData.getProjectById.name}
           </span>{" "}
           back?

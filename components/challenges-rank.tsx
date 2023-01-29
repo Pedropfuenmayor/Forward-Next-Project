@@ -37,7 +37,7 @@ const ChallengesRank: React.FC<{}> = () => {
     number | string | false
   >(false);
   const router = useRouter();
-  const { projectId } = router.query;
+  const { project } = router.query;
   
 
   const { loading: loadingChallenges,error: challengesError, data: challengesData } = useQuery<
@@ -45,7 +45,7 @@ const ChallengesRank: React.FC<{}> = () => {
     getChallengesByProjectVars
   >(GET_CHALLENGES_BY_PROJECT, {
     variables: {
-      projectId: +projectId,
+      projectId: +project,
     },
   });
 
@@ -54,7 +54,7 @@ const ChallengesRank: React.FC<{}> = () => {
     getProjectByIdVars
   >(GET_PROJECT_BY_ID, {
     variables: {
-      projectId: +projectId,
+      projectId: +project,
     },
   });
 
@@ -78,7 +78,7 @@ const ChallengesRank: React.FC<{}> = () => {
           }),
         },
         variables: {
-          projectId: +projectId,
+          projectId: +project,
         },
       });
     },
@@ -160,14 +160,14 @@ const ChallengesRank: React.FC<{}> = () => {
   const nextPageHandler = () => {
       setIsDoneChallenges(true);
       setTimeout(() => {
-        router.push(`/${projectId}/opportunity_question`);
+        router.push(`/opportunity_question?project=${project}`);
       }, 1000);
   } 
 
   return (
     <section className="flex flex-col justify-center items-center">
       <h1 className="text-4xl text-center sm:text-5xl w-11/12">Rank your Challenges<span className="text-blue-600">.</span></h1>
-      <p className="text-xl mt-7 text-gray-300 hover:text-black transition duration-300 sm:text-2xl">
+      <p className="text-xl mt-7 text-gray-300 hover:text-black transition duration-300 sm:text-2xl capitalize">
         {projectData.getProjectById.name} Project
       </p>
       <div className="mt-3 text-gray-300 w-44 flex justify-center">
@@ -183,7 +183,7 @@ const ChallengesRank: React.FC<{}> = () => {
       <div className="pr-8 sm:pr-10">
       <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
         <BsArrowLeftShort className="text-3xl" />
-          <Link href={`/${projectId}/collect/hold_back`} passHref>
+          <Link href={`/collect-challenges/hold_back?project=${project}`} passHref>
             <a className="text-xl">
               Prev
             </a>

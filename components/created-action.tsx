@@ -9,14 +9,14 @@ import { useEffect } from "react";
 
 const ActionCreated: React.FC<{}> = (props) => {
   const router = useRouter();
-  const { projectId, challengeId, ideaId, actionId } = router.query;
+  const { project, challenge, idea, actionId } = router.query;
 
   const { loading: loadingIdeas,error:ideasError, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 
@@ -25,7 +25,7 @@ const ActionCreated: React.FC<{}> = (props) => {
     getActionByIdeaIdVars
   >(GET_ACTION_BY_IDEA_ID, {
     variables: {
-      ideaId: +ideaId,
+      ideaId: +idea,
     },
   });
 
@@ -42,11 +42,11 @@ if (ideasError)
   if (actionError)
     return <p className="text-center">`Error❗️${actionError.message}`</p>;
 
-const idea = ideasData.getIdeasByChallenge.find(
-    (idea) => idea.id === +ideaId
+const selectedIdea = ideasData.getIdeasByChallenge.find(
+    (selectIdea) => selectIdea.id === +idea
   );
 
-  const nextPage = `/${projectId}/opportunity_question/${challengeId}/actions/impact_effort_scale`;
+  const nextPage = `/actions/impact_effort_scale?project=${project}&challenge=${challenge}`;
 
   return (
     <section className="flex flex-col justify-center items-center">
@@ -57,8 +57,8 @@ const idea = ideasData.getIdeasByChallenge.find(
           </h1>
           <span className="text-2xl pl-7 sm:text-3xl">🚀</span>
         </div>
-        <p className="text-2xl mt-4 text-gray-200 hover:text-black transition duration-300">
-          {idea.name}
+        <p className="text-2xl mt-4 text-gray-200 hover:text-black transition duration-300 capitalize">
+          {selectedIdea.name}
         </p>
       </header>
       <section className="mt-2">

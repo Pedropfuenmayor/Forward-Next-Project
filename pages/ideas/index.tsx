@@ -2,19 +2,19 @@ import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import PhaseIntro from "../../../../../components/phase-intro";
+import PhaseIntro from "../../components/phase-intro";
 
 const IdeasIntroPage: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
-  const { projectId, challengeId  } = router.query;
+  const { project, challenge  } = router.query;
   
 
   useEffect(() => {
     
-    router.prefetch(`/${projectId}/opportunity_question/${challengeId}/ideas/create`)
+    router.prefetch(`/ideas/create/?project=${project}&challenge=${challenge}`)
     
-  }, [router,projectId,challengeId ])
+  }, [router,project,challenge ])
 
   if (status === "unauthenticated") {
     router.push("./login");
@@ -23,9 +23,9 @@ const IdeasIntroPage: NextPage = () => {
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
 
-  const prevPage = `/${projectId}/opportunity_question/${challengeId}/create`;
+  const prevPage = `/opportunity_question/create?project=${project}&challenge=${challenge}}`;
 
-  const nextPage = `/${projectId}/opportunity_question/${challengeId}/ideas/create`;
+  const nextPage = `/ideas/create/?project=${project}&challenge=${challenge}`;
 
   return (
     <PhaseIntro

@@ -2,18 +2,18 @@ import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Challenges from "../../../components/challenges";
+import Challenges from "../../components/challenges";
 
 const ChallengesPage: NextPage = () => {
 const { status } = useSession();
   const router = useRouter();
-  const { projectId } = router.query;
+  const { project } = router.query;
 
   useEffect(() => {
     
-    router.prefetch(`/${projectId}/collect/rank`)
+    router.prefetch(`/collect-challenges/rank?project=${project}`)
     
-  }, [router,projectId])
+  }, [router,project])
 
   if (status === "unauthenticated") {
     router.push("./login");

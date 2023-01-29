@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import IdeasImpactEffort from "../../../../../components/ideas-impact-effort";
+import IdeasImpactEffort from "../../components/ideas-impact-effort";
 
 const IdeasCreatePage: NextPage = () => {
   const { status } = useSession();

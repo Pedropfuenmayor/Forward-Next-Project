@@ -60,9 +60,9 @@ const ProjectPanel: React.FC<{
     }
   };
 
-  const collectLink = `/${project.id}/collect`;
+  const collectLink = `/collect-challenges?project=${project.id}`;
 
-  const opportunityLink = `/${project.id}/opportunity_question`;
+  const opportunityLink = `/opportunity_question?project=${project.id}`;
 
   const isChallenge = project.challenges.length !== 0;
 

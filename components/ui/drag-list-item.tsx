@@ -16,7 +16,7 @@ const ListItem: React.FC<{
       key={id}
     >
       <div className="flex justify-between">
-        <div className="pl-4">{name}</div>
+        <div className="pl-4 ">{name}</div>
         <div className="my-0 mx-4 flex items-center text-lg text-gray-300 hover:text-red-600 cursor-pointer transition duration-300 sm:text-xl">
           <ListButton
             onRemoveHandler={onRemoveHandler}

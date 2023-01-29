@@ -1,11 +1,15 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import ImpactEffortScale from "../../../../../components/impact-effort-scale";
+import CreateOpportunityQuestion from "../../../components/create-oq";
 
-const ImpactEffortScalePage: NextPage = () => {
-  const { status } = useSession();
+
+
+const OQCreatePage: NextPage = () => {
+const { status } = useSession();
   const router = useRouter();
+  
+
 
   if (status === "unauthenticated") {
     router.push("./login");
@@ -13,8 +17,11 @@ const ImpactEffortScalePage: NextPage = () => {
   }
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
+  
 
-  return <ImpactEffortScale/>
+  return (
+     <CreateOpportunityQuestion />
+  );
 };
 
-export default ImpactEffortScalePage;
+export default OQCreatePage;

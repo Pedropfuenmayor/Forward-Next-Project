@@ -1,15 +1,11 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import CreateOpportunityQuestion from "../../../../components/create-oq";
+import CreateIdeas from "../../components/creat-ideas";
 
-
-
-const OQCreatePage: NextPage = () => {
-const { status } = useSession();
+const IdeasCreatePage: NextPage = () => {
+  const { status } = useSession();
   const router = useRouter();
-  
-
 
   if (status === "unauthenticated") {
     router.push("./login");
@@ -17,11 +13,8 @@ const { status } = useSession();
   }
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
-  
 
-  return (
-     <CreateOpportunityQuestion />
-  );
+  return <CreateIdeas /> ;
 };
 
-export default OQCreatePage;
+export default IdeasCreatePage;

@@ -1,12 +1,14 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import CreateIdeas from "../../../../../../components/creat-ideas";
-import CreateAction from "../../../../../../components/create-action";
+import SelectChallange from "../../components/select-challenges";
 
-const ImpactEffortScalePage: NextPage = () => {
-  const { status } = useSession();
+
+const OQSelectPage: NextPage = () => {
+const { status } = useSession();
   const router = useRouter();
+
+
 
   if (status === "unauthenticated") {
     router.push("./login");
@@ -15,7 +17,10 @@ const ImpactEffortScalePage: NextPage = () => {
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
 
-  return <CreateAction />
+
+  return (
+      <SelectChallange />
+  );
 };
 
-export default ImpactEffortScalePage;
+export default OQSelectPage;

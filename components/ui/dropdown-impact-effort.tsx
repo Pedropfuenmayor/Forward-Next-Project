@@ -26,14 +26,14 @@ const DropdownImpactEffort: React.FC<{
   type: string;
 }> = ({ ideaId, type }) => {
   const router = useRouter();
-  const { challengeId } = router.query;
+  const { challenge } = router.query;
 
   const { loading: loadingIdeas, data: ideasData } = useQuery<
     getIdeasByChallenge,
     getIdeasByChallengeVars
   >(GET_IDEAS_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 

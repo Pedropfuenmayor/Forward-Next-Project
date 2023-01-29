@@ -2,19 +2,19 @@ import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import PhaseIntro from "../../../components/phase-intro";
+import PhaseIntro from "../../components/phase-intro";
 
 
 const OQIntroPage: NextPage = () => {
 const { status } = useSession();
   const router = useRouter();
-  const { projectId } = router.query;
+  const { project } = router.query;
 
   useEffect(() => {
     
-    router.prefetch(`/${projectId}/opportunity_question/select`)
+    router.prefetch(`/opportunity_question/select?project=${project}`)
     
-  }, [router,projectId])
+  }, [router,project])
 
 
   if (status === "unauthenticated") {
@@ -24,9 +24,9 @@ const { status } = useSession();
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
   
-  const prevPage = `/${projectId}/collect/rank`;
+  const prevPage = `/collect-challenges/rank?project=${project}`;
 
-  const nextPage = `/${projectId}/opportunity_question/select`;
+  const nextPage = `/opportunity_question/select?project=${project}`;
 
   return (
       <PhaseIntro

@@ -25,13 +25,13 @@ const SelectChallange: React.FC<{}> = () => {
   // const [ideasExample, setIdeasExample] = useState<IdeasExample | false>(false);
   const [selectedChallangeId, setSelectedChallangeId] = useState<string>("");
   const router = useRouter();
-  const { projectId } = router.query;
+  const { project} = router.query;
   const { loading: loadingProject, data: projectData } = useQuery<
     getProjectById,
     getProjectByIdVars
   >(GET_PROJECT_BY_ID, {
     variables: {
-      projectId: +projectId,
+      projectId: +project,
     },
   });
 
@@ -40,7 +40,7 @@ const SelectChallange: React.FC<{}> = () => {
     getChallengesByProjectVars
   >(GET_CHALLENGES_BY_PROJECT, {
     variables: {
-      projectId: +projectId,
+      projectId: +project,
     },
   });
 
@@ -84,21 +84,21 @@ const SelectChallange: React.FC<{}> = () => {
   return (
     <section className="flex flex-col justify-center items-center">
       <h1 className="text-4xl text-center sm:text-5xl">Select a Challenge<span className="text-blue-600">.</span></h1>
-      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300">
+      <p className="text-2xl mt-7 text-gray-300 hover:text-black transition duration-300 capitalize">
         {projectData.getProjectById.name} Project
       </p>
       <div className="flex justify-center">
           <div className="pr-8 sm:pr-10">
             <div className="flex items-center mt-6 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
               <BsArrowLeftShort className="text-3xl" />
-              <Link href={`/${projectId}/opportunity_question`} passHref>
+              <Link href={`/opportunity_question?project=${project}`} passHref>
                 <a className="text-xl">Prev</a>
               </Link>
             </div>
           </div>
           <div className="pl-8 sm:pl-10">
             <div className="flex items-center mt-6 text-lg text-blue-600 transition ease-in-out delay-15 hover:translate-x-1 duration-300">
-              <Link href={selectedChallangeId?`/${projectId}/opportunity_question/${selectedChallangeId}/create`: '/projects_actions'} passHref>
+              <Link href={selectedChallangeId?`/opportunity_question/create?project=${project}&challenge=${selectedChallangeId}`: '/projects_actions'} passHref>
                 <a className="text-xl">Next</a>
               </Link>
               <BsArrowRightShort className="text-3xl" />

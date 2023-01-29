@@ -43,8 +43,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   const [deleteIdOQ, setDeleteIdOQ] = useState<number | false>(false);
   const OpportunityQuestionInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const { projectId } = router.query;
-  const { challengeId } = router.query;
+  const { project, challenge } = router.query;
 
   const {
     loading: loadingChallenges,
@@ -54,7 +53,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     GET_CHALLENGES_BY_PROJECT,
     {
       variables: {
-        projectId: +projectId,
+        projectId: +project,
       },
     }
   );
@@ -65,7 +64,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     data: OQData,
   } = useQuery<getOQ, getOQVars>(GET_OQ_BY_CHALLENGE_ID, {
     variables: {
-      challengeId: +challengeId,
+      challengeId: +challenge,
     },
   });
 
@@ -81,7 +80,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
           getOQ: createOQ,
         },
         variables: {
-          challengeId: +challengeId,
+          challengeId: +challenge,
         },
       });
     },
@@ -107,7 +106,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
           },
         },
         variables: {
-          challengeId: +challengeId,
+          challengeId: +challenge,
         },
       });
     },
@@ -127,12 +126,13 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
   if (deleteError)
     return <p className="text-center">`Error❗️${deleteError.message}`</p>;
 
-  const challenge = challengesData.getChallengesByProject.find((challenge) => {
-    return challenge.id == challengeId;
-  });
+  const selectedChallenge = challengesData.getChallengesByProject.find(
+    (challengeSelec) => {
+      return challengeSelec.id == challenge;
+    }
+  );
 
-  const isOQ = validateOQ(OQData)
-
+  const isOQ = validateOQ(OQData);
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -154,7 +154,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     if (!isOQ) {
       createOQ({
         variables: {
-          challengeId: +challengeId,
+          challengeId: +challenge,
           name: enteredText,
           createOqId: uid(),
         },
@@ -162,7 +162,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
           createOQ: {
             id: "temp-id",
             name: enteredText,
-            challenge_id: +challengeId,
+            challenge_id: +challenge,
             __typename: "OQ",
           },
         },
@@ -179,7 +179,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
           updateOQ: {
             id: OQData.getOQ.id,
             name: enteredText,
-            challenge_id: +challengeId,
+            challenge_id: +challenge,
             __typename: "OQ",
           },
         },
@@ -267,7 +267,7 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
     }
     setIsDoneOQ(true);
     setTimeout(() => {
-      router.push(`/${projectId}/opportunity_question/${challengeId}/ideas`);
+      router.push(`/ideas?project=${project}&challenge=${challenge}`);
     }, 1000);
   };
 
@@ -281,8 +281,8 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
         Write an opportunity question<span className="text-blue-600">.</span>{" "}
         <span className="text-gray-400 text-2xl">(only one)</span>
       </h1>
-      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300">
-        Challenge: {challenge.name}
+      <p className="text-2xl mt-7 text-center w-11/12 text-gray-300 hover:text-black transition duration-300 capitalize">
+        Challenge: {selectedChallenge.name}
       </p>
       <div className="mt-3 text-gray-300 w-44 flex justify-between">
         <button
@@ -320,7 +320,10 @@ const CreateOpportunityQuestion: React.FC<{}> = () => {
         <div className="pr-8 sm:pr-10">
           <div className="flex items-center mt-5 text-lg text-blue-600 transition ease-in-out delay-15 hover:-translate-x-1 duration-300">
             <BsArrowLeftShort className="text-3xl" />
-            <Link href={`/${projectId}/opportunity_question/select`} passHref>
+            <Link
+              href={`/opportunity_question/select?project=${project}`}
+              passHref
+            >
               <a className="text-xl">Prev</a>
             </Link>
           </div>

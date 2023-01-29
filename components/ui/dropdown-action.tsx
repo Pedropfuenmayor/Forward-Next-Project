@@ -10,9 +10,9 @@ function classNames(...classes) {
 
 const DropdownAction: React.FC<{ ideaId: number }> = ({ideaId}) => {
   const router = useRouter();
-  const { projectId, challengeId } = router.query;
+  const { project, challenge } = router.query;
 
-  const nextPage = `/${projectId}/opportunity_question/${challengeId}/actions/create/${ideaId}`;
+  const nextPage = `/actions/create?project=${project}&challenge=${challenge}&idea=${ideaId}`;
 
   const createActionHandler = () => {
     router.push(nextPage);

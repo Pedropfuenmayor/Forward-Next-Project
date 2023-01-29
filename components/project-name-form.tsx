@@ -54,7 +54,7 @@ const ProjectNameForm = () => {
     }).then((res) => res)
     .catch((err) =>console.log(err));
     setTimeout(() => {
-      router.push(`/${id}/collect`);
+      router.push(`/collect-challenges?project=${id}`);
     }, 1000);
     setIsProject(true);
   };

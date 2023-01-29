@@ -1,10 +1,9 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Ideas from "../../../../../components/creat-ideas";
-import IdeasRank from "../../../../../components/ideas-rank";
+import ImpactEffortScale from "../../components/impact-effort-scale";
 
-const IdeasRankPage: NextPage = () => {
+const ImpactEffortScalePage: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
@@ -15,7 +14,7 @@ const IdeasRankPage: NextPage = () => {
 
   if (status === "loading") return <p className="text-center">Loading...</p>;
 
-  return <IdeasRank />
+  return <ImpactEffortScale/>
 };
 
-export default IdeasRankPage;
+export default ImpactEffortScalePage;
