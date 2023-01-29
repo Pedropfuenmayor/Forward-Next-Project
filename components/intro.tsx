@@ -5,8 +5,8 @@ import { BsArrowRightShort } from "react-icons/bs";
 const Intro: React.FC = () => {
   return (
     <section className="bg-white">
-      <h1 className="text-5xl text-center md:te xt-6xl">
-        Phases<span className="text-blue-600">.</span>
+      <h1 className="w-6/12 mx-auto text-5xl ">
+        Phases<span className="text-blue-600">:</span>
       </h1>
       <div className="container w-6/12 py-6 mx-auto md:py-10">
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-7">
