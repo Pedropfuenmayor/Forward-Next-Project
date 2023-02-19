@@ -90,7 +90,9 @@ const IdeasRank: React.FC<{}> = () => {
   if (deleteError)
     return <p className="text-center">`Error❗️${deleteError.message}`</p>;
 
-  const ideasList = ideasData.getIdeasByChallenge;
+  const ideasList = [...ideasData.getIdeasByChallenge].sort((a, b) => {
+    return a.index - b.index;
+  });
 
   const isIdeas = ideasData && ideasData.getIdeasByChallenge.length > 0;
 

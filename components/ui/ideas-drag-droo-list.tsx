@@ -39,17 +39,24 @@ const IdeasDragAndDropList: React.FC<{
     const arr = [...ideas];
     arr.splice(desI, 0, arr.splice(srcI, 1)[0]);
 
+    const newIdeas = arr.map((idea, index) => {
+      return {
+        ...idea,
+        index,
+      };
+    })
+
     client.writeQuery({
       query: GET_IDEAS_BY_CHALLENGE_ID,
       data: {
-        getIdeasByChallenge: [...arr],
+        getIdeasByChallenge: newIdeas,
       },
       variables: {
         challengeId: +challengeId,
       },
     });
 
-    const mutartionArray = arr.map(
+    const mutartionArray = newIdeas.map(
       ({ id, challenge_id, name, index, is_selected, impact, effort}) => ({
         id,
         challenge_id,

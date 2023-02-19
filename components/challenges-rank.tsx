@@ -95,7 +95,9 @@ const ChallengesRank: React.FC<{}> = () => {
   if (deleteError)
     return <p className="text-center">`Error❗️${deleteError.message}`</p>;
 
-  const challengesList = challengesData.getChallengesByProject;
+  const challengesList = [...challengesData.getChallengesByProject].sort((a, b) => {
+    return a.index - b.index;
+  });
 
   const isChallenges = challengesData && (challengesData.getChallengesByProject.length > 0)
 

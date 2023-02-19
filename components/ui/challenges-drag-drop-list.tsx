@@ -34,19 +34,27 @@ const ChallengesDragAndDropList: React.FC<{
 
   const onTesting = (srcI, desI) => {
     const arr = [...challenges];
-    arr.splice(desI, 0, arr.splice(srcI, 1)[0]);
+    const [reorderedItem] = arr.splice(srcI, 1);
+    arr.splice(desI, 0, reorderedItem);
+
+    const newChallenges = arr.map((challenge, index) => {
+      return {
+        ...challenge,
+        index,
+      };
+    })
 
     client.writeQuery({
       query: GET_CHALLENGES_BY_PROJECT,
       data: {
-        getChallengesByProject: [...arr],
+        getChallengesByProject: newChallenges,
       },
       variables: {
         projectId: +projectId,
       },
     });
 
-    const mutartionArray = arr.map(
+    const mutartionArray = newChallenges.map(
       ({ id, project_id, name, index, challenge_type, is_selected }) => ({
         id,
         project_id,
@@ -62,7 +70,7 @@ const ChallengesDragAndDropList: React.FC<{
         challenges: mutartionArray as [ChallengeInputType],
       },
     })
-      .then((res) => res)
+      .then((res) => console.log(res))
       .catch((error) => console.log(error.networkError.result.errors));
   };
 
